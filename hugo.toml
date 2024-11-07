@@ -1,0 +1,11 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Managing APIs with Service Infrastructure'
+
+[[module.mounts]]
+source = 'static'
+target = 'static'
+
+[[module.mounts]]
+source = 'screenshots'
+target = 'static/screenshots'
