@@ -4,7 +4,7 @@ title: Deploy a Sample Service
 ---
 # Demo: Deploy a Sample Service
 
-Here's an easy way to explore the Service Infrastructure APIs. We'll use `q` in the Google Cloud Shell to set up a managed service on Google Cloud Run. We'll be running the [Boba Dojo Stores](/docs/details/demo) API, and you can go read about that now or just jump right in.
+Here's an easy way to explore the Service Infrastructure APIs. We'll use `q` in the [Google Cloud Shell](https://cloud.google.com/shell/docs) to set up a managed service on [Google Cloud Run](https://cloud.google.com/run). We'll be running the [Boba Dojo Stores](/docs/details/demo#the-boba-dojo-stores-api) API, and you can go read about that now or just jump right in.
 
 This quickstart assumes that you have a Google Cloud account with a project created and access to the Google Cloud Shell. You don't have to start with a fresh project, but we recommend it! It's a good way to keep everything associated with your demo in one easy-to-find place.
 

@@ -5,7 +5,8 @@ bookToC: false
 ---
 
 # Managing APIs with Service Infrastructure
-### (The Service Infrastructure Book)
+
+**The Service Infrastructure Book**
 
 This website describes a way to manage APIs that is inexpensive, high-performing, and surprisingly easy to use.
 
@@ -15,7 +16,7 @@ We start with a review of [API Management](/docs/intro) and then discuss what's 
 
 We fill a few gaps with [q](/docs/quickstart/q), a command-line tool that helps us configure and demonstrate Service Infrastructure-based API management. `q` supports a [demo](/docs/quickstart/demo) that Google Cloud users can use to quickly get a sample managed service running on Cloud Run. Try it!
 
-Thanks for joining us, and please post any feedback to [our issues page](https://github.com/serviceinfra/serviceinfra.github.io/issues).
+Thanks for joining us, and please post any feedback to [our issues page](https://github.com/agentio/serviceinfrastructure/issues).
 
 ---
 

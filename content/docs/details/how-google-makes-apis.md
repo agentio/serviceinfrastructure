@@ -55,17 +55,21 @@ Another file that you'll find for each API in the `googleapis` repo is what the 
 
 https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_grpc_service_config.json
 
-### Methodology 
-
-Notes on good practice:
-- proto files are best defined in a directory hierarchy because they are rarely in isolation (proto files often include other files).
-- version names are in the proto path
-
-services and messages
-
-support code is almost always generated
+### Methodology: A Protos Repo
 
 The googleapis repository contains public protos for Google APIs. It's effectively a monorepo of API descriptions.
+
+We can make some important observations:
+- Proto files are best defined in a directory hierarchy because they are rarely used in isolation. Proto files often include other proto files, and the compiler needs to know where to find them.
+- API version names are the last segment of the proto path.
+
+See [github.com/bobadojo/apis](https://github.com/bobadojo/apis) for an example of how an organization outside Google might organize their protos.
+
+### Methodology: Generated Code
+
+Protobuf and gRPC support code is almost always generated (actually, we've never seen a counterexample).
+
+See [github.com/bobadojo/go](https://github.com/bobadojo/go) for an example repo containing code generated from a repo of protos.
 
 ### gRPC
 
@@ -111,6 +115,8 @@ https://cloud.google.com/apis/design
 
 https://aip.dev
 
+https://linter.aip.dev/
+
 To see the value of AIPs, consider pagination, as described in [AIP-158](https://google.aip.dev/158).
 
-For more, see [API Design Patterns](https://www.manning.com/books/api-design-patterns) by JJ Geewax.
+For more on "the Google school" of API design, see [API Design Patterns](https://www.manning.com/books/api-design-patterns) by JJ Geewax.

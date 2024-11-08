@@ -10,3 +10,6 @@ deploy:
 
 clean:
 	rm -rf public resources
+
+update:
+	git submodule update --init
