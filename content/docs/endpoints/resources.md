@@ -4,6 +4,10 @@ title: Endpoints Resources
 ---
 # Endpoints Resources
 
+## Endpoints Documentation
+
+- [Transcoding Support](https://cloud.google.com/endpoints/docs/grpc/transcoding)
+
 ## Endpoints on YouTube
 
 {{<html>}}

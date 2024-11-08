@@ -1,16 +1,12 @@
 ---
-weight: 1
+weight: 2
 title: The Service Management API
 ---
 # The Service Management API
 
 API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic.
 
-The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage. Service Configuration is the central format of Service Management, and arose from Google internal API practice. It consists of the [Service](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/service.proto#L47) proto and the messages that it contains. API developers provide it in YAML files that match the Protocol Buffer schema. Often developers only provide fragments of the full "service config" and tools fill in the rest.
-
-## What's in the Service Configuration
-
-An example full service config is in [stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json](/examples/stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json). Clearly this is not something that a developer would want to manually create! In practice, the service config is an intermediate internal format used by Cloud Endpoints. Developers instead provide fragments, like the one in [api_config.yaml](/docs/quickstart/files#api_configyaml), which contain only the parts of service config that can't be automatically derived from other known things.
+The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
 
 ## The Service Management API methods
 

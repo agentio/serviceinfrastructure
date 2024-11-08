@@ -73,7 +73,7 @@ token = ya29.[REDACTED]
 Everything looks good!
 ```
 
-## Prepare and run the demo instance.
+## Use `q` to create a demo instance.
 
 Next run `q demo`. This generates a directory of files that you'll use to set up your service. They will be customized to the project and run region that you configured for `gcloud`, so you won't need to edit any of these files.
 

@@ -1,5 +1,5 @@
 ---
-weight: 4
+weight: 5
 title: The Cloud Logging API
 ---
 # The Cloud Logging API

@@ -1,5 +1,5 @@
 ---
-weight: 2
+weight: 3
 title: The Service Control API
 ---
 # The Service Control API

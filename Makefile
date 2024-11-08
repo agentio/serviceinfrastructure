@@ -5,7 +5,7 @@ local:
 build:
 	hugo --minify --theme hugo-book
 
-deploy:
+deploy: build
 	gcloud app deploy
 
 clean:

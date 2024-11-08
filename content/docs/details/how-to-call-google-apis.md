@@ -8,13 +8,15 @@ Since the systems that we are using are provided as APIs, working with them will
 
 ### Calling Google APIs with gcloud
 
-The [gcloud](https://cloud.google.com/cli) tool allows us to perform many GCP-related tasks, and these often include calling underlying APIs. This can get the job done, but can't help us if we want to do something with an API that's not supported by `gcloud`.
+The [gcloud](https://cloud.google.com/cli) tool allows us to perform many GCP-related tasks, and these often include calling underlying APIs. This can't help us if we want to do something with an API that's not supported by `gcloud`, but that's actually pretty rare.
 
-But getting set up with `gcloud` is still a good place to start. Get `gcloud` and configure it. We'll use this for many of the steps that follow, and if you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll find it installed and ready.
+Getting `gcloud` configured and running is almost always a good way to start (we're assuming you are already a GCP user, if not, [sign up for a free trial here](https://cloud.google.com/free?hl=en)). It gives us something to compare against, it can solve problems in a pinch, and we can even use it to easily get auth tokens to send with our own API calls. 
+
+If you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll find `gcloud` installed and ready. Otherwise, use [Google's instructions for installing gcloud](https://cloud.google.com/sdk/docs/install) and get set up. We use it throughout our discussions, starting with the [quickstart demo](/docs/quickstart/demo).
 
 ### Calling Google HTTP/JSON APIs with the APIs Explorer
 
-Many Google APIs are available as HTTP/JSON APIs that we can easily call with the [Google APIs Explorer](https://developers.google.com/apis-explorer), a tool that you'll often find alongside Google API documentation.
+Many Google APIs are available as HTTP/JSON APIs that we can easily call with the [Google APIs Explorer](https://developers.google.com/apis-explorer), a web-based tool that you'll often find alongside Google API documentation.
 
 As an example, let's call the [Google Cloud Translation API](https://cloud.google.com/translate/docs/reference/rest). We'll focus on the [translateText](https://cloud.google.com/translate/docs/reference/rest/v3/projects/translateText) method, and we can start by using the APIs Explorer on the right hand side of the documentation page. This will automatically get credentials for us, so we'll just need to figure out what we need to put in our request.
 
@@ -139,7 +141,6 @@ go: downloading github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe
 go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20231106174013-bbf56f31fb17
 go: downloading golang.org/x/oauth2 v0.14.0
 go: downloading cloud.google.com/go/compute v1.23.3
-
 
 $ git clone https://github.com/googleapis/googleapis
 

@@ -1,5 +1,5 @@
 ---
-weight: 6
+weight: 7
 title: The Service Usage API
 ---
 # The Service Usage API

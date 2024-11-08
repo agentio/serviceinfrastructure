@@ -1,5 +1,5 @@
 ---
-weight: 5
+weight: 6
 title: The Cloud Monitoring API
 ---
 # The Cloud Monitoring API

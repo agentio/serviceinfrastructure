@@ -4,18 +4,17 @@ title: "Managing gRPC APIs"
 ---
 # Managing gRPC APIs
 
-[gRPC](https://en.wikipedia.org/wiki/GRPC) is an open source API framework that was created at Google and released in 2016.
-It makes it easier to produce and use high-performing APIs at scale, primarily by constraining API designs to follow a certain style that allow them to use highly-optimized tooling.
+[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). It makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allow API clients and servers to use highly-optimized tooling.
 
 ## What's different about gRPC?
 
 ### API Description
 
-gRPC APIs are usually described with the Protocol Buffers language, and request and response messages use the Protocol Buffer binary encoding. API designs are often expected to conform to style guides like Google's [API Improvement Proposals](https://google.aip.dev/), which increases their consistency and ability to be supported by tools and automation.
+gRPC APIs are usually described with the [Protocol Buffers](https://protobuf.dev/) language, and request and response messages use the Protocol Buffer binary encoding. API designs are often expected to conform to style guides like Google's [API Improvement Proposals](https://google.aip.dev/), which increases their consistency and ability to be supported by tools and automation.
 
 ### API Implementation
 
-gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are usually open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports "transcoding", which provides a simpler HTTP/JSON interface to gRPC APIs that have appropriate annotations and follow style guidelines.
+gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are usually open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports [transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding), which provides a simpler HTTP/JSON interface to gRPC APIs when their API descriptions have appropriate annotations and conform to style guidelines like [AIP-127](https://google.aip.dev/127).
 
 ## What do we want from gRPC API Management?
 
@@ -31,11 +30,11 @@ Protocol Buffer encoding isn't self-describing, so API management systems can ma
 
 ### Documentation
 
-gRPC APIs are well-defined by their Protocol Buffer descriptions, so API management systems can easily provide generated documentation and even API client code.
+gRPC APIs are precisely and accurately described by their Protocol Buffer descriptions, so API management systems can easily provide generated documentation and even API client code.
 
 ### Transcoding
 
-HTTP/JSON transcoding is also well-defined (see [AIP-127](https://google.aip.dev/127)), so API management systems can provide transcoded versions of gRPC APIs that they manage.
+HTTP/JSON transcoding is well-defined (see [AIP-127](https://google.aip.dev/127)), so API management systems can provide transcoded versions of gRPC APIs that they manage.
 
 ### Transformation
 
