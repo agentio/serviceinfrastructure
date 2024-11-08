@@ -203,3 +203,30 @@ etag: BwYmbJiRfHM=
 version: 1
 
 ```
+
+We could do this from the `gcloud` with
+```
+gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+```
+
+Let's remove the binding:
+
+```
+$ gcloud endpoints services remove-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+Updated IAM policy for service [stores.endpoints.bobadojo.cloud.goog].
+etag: BwYmbUpFFGg=
+version: 1
+```
+
+and now let's add it back:
+
+```
+$ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+Updated IAM policy for service [stores.endpoints.bobadojo.cloud.goog].
+bindings:
+- members:
+  - user:tim@mitra.so
+  role: roles/servicemanagement.serviceConsumer
+etag: BwYmbUvc2zk=
+version: 1
+```

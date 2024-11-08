@@ -1,5 +1,5 @@
 ---
-weight: 2
+weight: 3
 title: The API Keys API
 ---
 # The API Keys API
@@ -40,3 +40,20 @@ alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 
 When they search for the service, they won't find it. It is only visible in the organization that created it.
 ![alt text](/screenshots/service-not-found.png)
+
+
+Delete the key and you'll get this response:
+```
+$ !curl
+curl 'https://stores-1046800315646.us-west1.run.app/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI'  -i
+HTTP/2 400 
+content-type: application/json
+x-envoy-decorator-operation: ingress GetStore
+x-cloud-trace-context: 0efb7df218e906bf48255cfd072af922;o=1
+date: Fri, 08 Nov 2024 15:58:13 GMT
+server: Google Frontend
+content-length: 91
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+{"code":400,"message":"INVALID_ARGUMENT: API key not found. Please pass a valid API key."}
+```
