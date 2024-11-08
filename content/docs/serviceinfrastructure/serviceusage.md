@@ -28,10 +28,20 @@ Exercise:
 
 create a new project
 
+![alt text](/screenshots/serviceusage-createproject.png)
+
+view the project in the cloud console
+
+![alt text](/screenshots/serviceusage-newproject.png)
+
+![alt text](/screenshots/serviceusage-enableapis.png)
+![alt text](/screenshots/serviceusage-enabledapis.png)
+
+look at the project with gcloud
+
 ```
 gcloud config set project dauntless-glow-441118-p5
 ```
-
 
 ```
 $ gcloud services list --enabled
@@ -57,6 +67,8 @@ storage-api.googleapis.com          Google Cloud Storage JSON API
 storage-component.googleapis.com    Cloud Storage
 storage.googleapis.com              Cloud Storage API
 ```
+
+get the enabled services with `q`
 
 ```
 q service-usage list-services projects/dauntless-glow-441118-p5 > services.json
@@ -90,6 +102,10 @@ projects/51662343665/services/storage-api.googleapis.com
 projects/51662343665/services/storage-component.googleapis.com
 projects/51662343665/services/storage.googleapis.com
 ```
+
+disable all of the services with a script
+
+![alt text](/screenshots/serviceusage-disableservices.png)
 
 ```
 $ sh DISABLE.sh 
@@ -135,5 +151,55 @@ $ q service-usage list-services projects/51662343665 | jq
     "state": "ENABLED"
   }
 ]
+
+```
+disable the usage service
+
+enable the bobadojo service
+
+![alt text](/screenshots/serviceusage-singleservice.png)
+
+now the project has just a single service
+
+```
+$ gcloud auth application-default set-quota-project dauntless-glow-441118-p5
+API [cloudresourcemanager.googleapis.com] not enabled on project [dauntless-glow-441118-p5]. Would you like to enable and retry (this will take a 
+few minutes)? (y/N)?  y
+
+Enabling service [cloudresourcemanager.googleapis.com] on project [dauntless-glow-441118-p5]...
+ERROR: (gcloud.auth.application-default.set-quota-project) PERMISSION_DENIED: Service Usage API has not been used in project dauntless-glow-441118-p5 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=dauntless-glow-441118-p5 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. This command is authenticated as None using the credentials in /home/tim/.config/gcloud/application_default_credentials.json, specified by the [auth/credential_file_override] property.
+Google developers console API activation
+https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=dauntless-glow-441118-p5
+- '@type': type.googleapis.com/google.rpc.ErrorInfo
+  domain: googleapis.com
+  metadata:
+    consumer: projects/dauntless-glow-441118-p5
+    service: serviceusage.googleapis.com
+  reason: SERVICE_DISABLED
+```
+
+### How to grant access to the API to other users
+
+Begin by giving the user the IAM role of "Service Consumer"
+
+![alt text](/screenshots/serviceusage-grant.png)
+
+The user can then look up your API in the Cloud Console
+
+![alt text](/screenshots/serviceusage-granted.png)
+
+The user can then enable your API and create API keys to use it.
+
+![alt text](/screenshots/serviceusage-granted-detail.png)
+
+What just happened? We set an iam policy on the service. View it with this `gcloud` command:
+```
+$ gcloud endpoints services get-iam-policy stores.endpoints.bobadojo.cloud.goog
+bindings:
+- members:
+  - user:tim@mitra.so
+  role: roles/servicemanagement.serviceConsumer
+etag: BwYmbJiRfHM=
+version: 1
 
 ```
