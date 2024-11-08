@@ -1,5 +1,5 @@
 ---
-weight: 3
+weight: 4
 title: The API Keys API
 ---
 # The API Keys API

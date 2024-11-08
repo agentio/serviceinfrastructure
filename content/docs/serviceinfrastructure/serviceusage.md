@@ -229,4 +229,25 @@ bindings:
   role: roles/servicemanagement.serviceConsumer
 etag: BwYmbUvc2zk=
 version: 1
+$ gcloud services list --project dauntless-glow-441118-p5
+NAME                         TITLE
+serviceusage.googleapis.com  Service Usage API
+```
+
+```
+$ q service-usage disable-service projects/51662343665/services/serviceusage.googleapis.com
+{}
+
+$ gcloud services list --project dauntless-glow-441118-p5
+Listed 0 items.
+
+q service-usage list-services projects/51662343665 
+[]
+
+$ q service-usage enable-service projects/51662343665/services/stores.endpoints.bobadojo.cloud.goog 
+
+$ gcloud services list --project dauntless-glow-441118-p5
+NAME                                  TITLE
+stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
+
 ```
