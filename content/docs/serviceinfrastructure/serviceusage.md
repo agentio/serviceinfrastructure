@@ -18,3 +18,8 @@ The methods of the Service Usage API are defined in the [googleapis](/googleapis
 | ListServices | List all services available to the specified project and the current state of those services with respect to the project |
 | BatchEnableServices | Enable multiple services on a project |
 | BatchGetServices | Returns the service configurations and enabled states for a given list of services |
+
+Exercise:
+- Look at the default set of APIs that are enabled for a new project
+- Disable all of them
+- What happens with the project?
