@@ -2,7 +2,7 @@
 weight: 3
 title: "Get the Picture?"
 ---
-# Get the Picture
+# Get the Picture!
 
 Here's a picture that puts everything in context:
 
