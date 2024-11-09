@@ -4,7 +4,7 @@ title: "Managing gRPC APIs"
 ---
 # Managing gRPC APIs
 
-[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). It makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allow API clients and servers to use highly-optimized tooling.
+[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). It makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allows API clients and servers to use highly-optimized tooling.
 
 ## What's different about gRPC?
 
@@ -14,7 +14,7 @@ gRPC APIs are usually described with the [Protocol Buffers](https://protobuf.dev
 
 ### API Implementation
 
-gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are usually open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports [transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding), which provides a simpler HTTP/JSON interface to gRPC APIs when their API descriptions have appropriate annotations and conform to style guidelines like [AIP-127](https://google.aip.dev/127).
+gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are often open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports [transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding), which provides a simpler HTTP/JSON interface to gRPC APIs when their API descriptions have appropriate annotations and conform to style guidelines like [AIP-127](https://google.aip.dev/127).
 
 ## What do we want from gRPC API Management?
 

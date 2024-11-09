@@ -12,3 +12,37 @@ Cloud Endpoints is based on tools and practices that Google developed over many 
 For more information, see:
 * [Endpoints Resources](/docs/endpoints/resources)
 * [Endpoints Costs](/docs/endpoints/costs)
+
+```goat
+
+                                                   .------------------------------------------.
+                                                   |                                          |
+  .------------.                                   |    .--------------.     .------------.   |
+  |            |                                   |    |  Extensible  |     |            |   |
+  | API client +-----------------------------------+--->|   Service    +---->| API server |   |
+  |            |             API Request           |    |    Proxy     |     |            |   |
+  .------------.                                   |    .------+-------.     .------------.   |
+                                                   |           |                              |
+                                                   .-----------+------------------------------.
+                                                               |             Service Deployment
+                                                               |
+                                                               |
+                                                               |
+---------------------------------------------------------------+---------------------------------
+                                                               |         Service Infrastructure
+                                                               v
+          .--------------------.                      .-----------------.
+          |                    |                      |                 |
+          | Service Management |<---------------------+ Service Control |
+          |                    |                      |                 |
+          .---------+----------.                      .-----------------.
+                    ^
+--------------------+------------------------------------------+---------------------------------
+                    |
+                    | Service
+                    | Configuration
+             o      |
+            -+- Service Owner
+            / \
+
+```

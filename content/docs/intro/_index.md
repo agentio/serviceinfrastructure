@@ -6,7 +6,7 @@ type: docs
 ---
 # Managing APIs
 
-**API management** is a thriving industry with many vendors, marketers, analysts, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
+**API management** is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
 
 ## Common concerns
 
@@ -25,5 +25,13 @@ These are _common concerns_ because nearly all API producers and consumers have 
 ## API proxies and gateways
 
 Most frequently, the "out-of-process" part of the solution is called an _API proxy_. It is a "proxy" because it represents someone else. If it represents someone who is calling an API, it is called a _forward proxy_. If it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
+
+```goat
+.------------.     .---------------.                  .---------------.     .------------.
+|            |     |               |                  |               |     |            |
+| API client +---->| forward proxy +----------------->| reverse proxy +---->| API server |
+|            |     |               |   API Request    |               |     |            |
+.------------.     .---------------.                  .---------------.     .------------.
+```
 
 Most of the API management industry has focused on providing reverse proxies to organizations that make and offer APIs. Reverse proxies have evolved into _API gateways_ that provide powerful and sometimes sophisticated features including authentication, rate limiting, and monitoring. This is the focus of Service Infrastructure and our discussion here.
