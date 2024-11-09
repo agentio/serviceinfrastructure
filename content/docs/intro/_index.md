@@ -24,7 +24,7 @@ These are _common concerns_ because nearly all API producers and consumers have 
 
 ## API proxies and gateways
 
-Most frequently, the "out-of-process" part of the solution is called an _API proxy_. It is a "proxy" because it represents someone else. If it represents someone who is calling an API, it is called a _forward proxy_. If it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
+Most frequently, the out-of-process part of the solution is called an _API proxy_. It is a _proxy_ because it represents someone else. If it represents someone who is calling an API, it is called a _forward proxy_. If it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
 
 ```goat
 .------------.     .---------------.                  .---------------.     .------------.

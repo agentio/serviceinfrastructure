@@ -55,7 +55,7 @@ We've deployed the Stores server to Kubernetes using the YAML below. It has thre
 ### ingress.yaml
 
 Here's the ingress. Note that we're using [microk8s](https://microk8s.io/) and the [NGINX Ingress Addon](https://microk8s.io/docs/addon-ingress), which we need to configure specially for gRPC. We're also using the [Cert Manager Addon](https://microk8s.io/docs/addon-cert-manager) to generate SSL certs from [Lets Encrypt](https://letsencrypt.org/), and we're serving the API on two domains:
-- stores.timbx.me, domain that we personally control and manage
+- stores.timbx.me, a domain that we personally control and manage
 - stores.endpoints.bobadojo.cloud.goog, a domain that Google manages for us using information that we put in our service config.
 
 ```

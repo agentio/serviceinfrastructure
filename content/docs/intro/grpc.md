@@ -4,7 +4,7 @@ title: "Managing gRPC APIs"
 ---
 # Managing gRPC APIs
 
-[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). It makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allows API clients and servers to use highly-optimized tooling.
+[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). gRPC makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allows API clients and servers to use highly-optimized tooling.
 
 ## What's different about gRPC?
 
