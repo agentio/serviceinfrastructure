@@ -22,7 +22,7 @@ Here's a picture that puts everything in context:
                                                              |    |
                                                              |    | Proxy Operation:
                               Proxy Configuration            |    | - Check
-                    +----------------------------------------+    | - Allocate Quota,                
+                    +----------------------------------------+    | - Allocate Quota
                     |                                             | - Report
                     |                                             |
                     |                                             |
@@ -39,7 +39,7 @@ Here's a picture that puts everything in context:
   |                 |                          |                  |                   |           |
   |                 |                          |                  v                   v           |
   |                 |                    .-----+-----.       .---------.        .------------.    |
-  |                 |                    |  API Keys |       |  Cloud  |        |   Cloud    |    |
+  |                 |                    | API Keys  |       |  Cloud  |        |   Cloud    |    |
   |                 |                    |           |       | Logging |        | Monitoring |    |
   |                 |                    .-----------.       .----+----.        .-----+------.    |
   |                 |                          ^                  |                   |           |
