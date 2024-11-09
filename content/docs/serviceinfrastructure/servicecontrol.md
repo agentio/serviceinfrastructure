@@ -18,6 +18,14 @@ The methods of the Service Control API are defined in the [googleapis](/googleap
 | AllocateQuota | Attempts to allocate quota for the specified consumer |
 | Report | Reports operation results to Google Service Control, such as logs and metrics |
 
+### Check
+
+### AllocateQuota
+
+### Report
+
+## Usage Notes
+
 Instead of calling these APIs individually, we'll set up a subcommand of `q` that "pretends" to be an API proxy and makes the Service Infrastructure calls for a sample API call. Our subcommand is called `q service-control mock`. Its key arguments are a service name, an operation name, and an API key that is being used to make our mock request.
 
 We call it like this:

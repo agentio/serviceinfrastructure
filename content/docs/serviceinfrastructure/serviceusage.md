@@ -19,12 +19,25 @@ The methods of the Service Usage API are defined in the [googleapis](/googleapis
 | BatchEnableServices | Enable multiple services on a project |
 | BatchGetServices | Returns the service configurations and enabled states for a given list of services |
 
-Exercise:
+### EnableService
+
+### DisableService
+
+### GetService
+
+### ListServices
+
+### BatchEnableServices
+
+### BatchGetServices
+
+## Usage Notes
+
+### Disabling all of the APIs for a project
+
 - Look at the default set of APIs that are enabled for a new project
 - Disable all of them
 - What happens with the project?
-
-
 
 create a new project
 
@@ -155,7 +168,34 @@ $ q service-usage list-services projects/51662343665 | jq
 ```
 disable the usage service
 
+```
+$ gcloud services list --project dauntless-glow-441118-p5
+NAME                         TITLE
+serviceusage.googleapis.com  Service Usage API
+```
+
+```
+$ q service-usage disable-service projects/51662343665/services/serviceusage.googleapis.com
+{}
+
+$ gcloud services list --project dauntless-glow-441118-p5
+Listed 0 items.
+
+q service-usage list-services projects/51662343665 
+[]
+```
+
 enable the bobadojo service
+
+```
+$ q service-usage enable-service projects/51662343665/services/stores.endpoints.bobadojo.cloud.goog 
+
+$ gcloud services list --project dauntless-glow-441118-p5
+NAME                                  TITLE
+stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
+
+```
+
 
 ![alt text](/screenshots/serviceusage-singleservice.png)
 
@@ -178,7 +218,7 @@ https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overv
   reason: SERVICE_DISABLED
 ```
 
-### How to grant access to the API to other users
+### Granting access to an API to other users
 
 Begin by giving the user the IAM role of "Service Consumer"
 
@@ -229,25 +269,4 @@ bindings:
   role: roles/servicemanagement.serviceConsumer
 etag: BwYmbUvc2zk=
 version: 1
-$ gcloud services list --project dauntless-glow-441118-p5
-NAME                         TITLE
-serviceusage.googleapis.com  Service Usage API
-```
-
-```
-$ q service-usage disable-service projects/51662343665/services/serviceusage.googleapis.com
-{}
-
-$ gcloud services list --project dauntless-glow-441118-p5
-Listed 0 items.
-
-q service-usage list-services projects/51662343665 
-[]
-
-$ q service-usage enable-service projects/51662343665/services/stores.endpoints.bobadojo.cloud.goog 
-
-$ gcloud services list --project dauntless-glow-441118-p5
-NAME                                  TITLE
-stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
-
 ```

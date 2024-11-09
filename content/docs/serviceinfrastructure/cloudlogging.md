@@ -18,3 +18,15 @@ The methods of the Cloud Logging API are defined in the [googleapis](/googleapis
 | ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
 | ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
 | TailLogEntries | Streaming read of log entries as they are ingested |
+
+### DeleteLog
+
+### WriteLogEntries
+
+### ListLogEntries
+
+### ListMonitoredResourceDescriptors
+
+### ListLogs
+
+### TailLogEntries

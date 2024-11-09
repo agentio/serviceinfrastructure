@@ -21,3 +21,21 @@ The methods of the Cloud Monitoring API are defined in the [googleapis](/googlea
 | ListTimeSeries | Lists time series that match a filter |
 | CreateTimeSeries | Creates or adds data to one or more time series |
 | CreateServiceTimeSeries | Creates or adds data to one or more service time series |
+
+### ListMonitoredResourceDescriptors
+ 
+### GetMonitoredResourceDescriptor
+
+### ListMetricDescriptors
+
+### GetMetricDescriptor
+
+### CreateMetricDescriptor
+
+### DeleteMetricDescriptor
+
+### ListTimeSeries
+
+### CreateTimeSeries
+
+### CreateServiceTimeSeries

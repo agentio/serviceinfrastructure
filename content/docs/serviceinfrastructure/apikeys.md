@@ -21,7 +21,27 @@ The methods of the API Keys API are defined in the [googleapis](/googleapis) rep
 | UndeleteKey | Undeletes an API key which was deleted within 30 days |
 | LookupKey | Find the parent project and resource name of the API key that matches the key string in the request |
 
-What happens if someone uses an invalid key?
+### CreateKey
+
+### ListKeys
+
+### GetKey
+
+### GetKeyString
+
+### UpdateKey
+
+### DeleteKey
+
+### UndeleteKey
+
+### LookupKey
+
+
+## Usage Notes
+
+### What happens if someone uses an invalid key?
+
 We can test this by creating an API key with another GCP account and using that key to call our API.
 
 ```
