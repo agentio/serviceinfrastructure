@@ -21,7 +21,3 @@ Thanks for joining us, and please post any feedback to [our issues page](https:/
 ---
 
 This is an expanded version of a [talk that was presented on October 28](https://timburks.me/2024/10/28/managing-grpc-apis). If you'd like to see it with your team, [get in touch!](https://linkedin.com/in/timburks)
-
-{{<html>}}
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRF4EXerJrfV6zlXCAiv_H_nnyUVWbZPkmIof_SRrSpudEihsKM4K6-qGEwmYIPV1AKk552Gf-wlgfm/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-{{</html>}}

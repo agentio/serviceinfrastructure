@@ -33,7 +33,7 @@ These methods can be divided into three groups:
 2. Managing Service Configurations. These APIs handle Service Configurations and allow multiple revisions of configurations to be tracked for each service.
 3. Managing Service Rollouts. Rollouts are used to control how service configurations are deployed. New configurations can be rolled out all at once or fractionally.
 
-To get to know these methods, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/quickstart).
+To get to know these methods, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/docs/quickstart/demo).
 
 ## Managing Services
 
@@ -223,7 +223,7 @@ For more about domain verification, see [Verifying a domain name](https://cloud.
 
 The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API gives keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
 
-To see this, let's first call the API that we set up in the [quickstart](\quickstart). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
+To see this, let's first call the API that we set up in the [quickstart](/docs/quickstart/demo). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
 ```
 $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 {
