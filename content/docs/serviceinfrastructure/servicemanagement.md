@@ -37,7 +37,7 @@ To get to know these methods, we'll call them with [q](/the-q-tool) for the exam
 
 ## Managing Services
 
-This first group of APIs operate on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
+This first group of APIs operates on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
 
 ### List services
 

@@ -34,8 +34,8 @@ Here we run through a list of terms that are used in our discussion and provide 
 
 ### Reverse Proxy
 
-### Service Consumer
-
 ### Service Infrastructure
 
 ### Service Owner
+
+### Service User

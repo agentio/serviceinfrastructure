@@ -8,6 +8,10 @@ type: docs
 
 **API management** is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
 
+## Networked APIs
+
+Networked APIs are APIs that operate across computer network. Networked APIs communicate using protocols including HTTP, and are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
+
 ## Common concerns
 
 For people making APIs (API producers), these concerns usually include:
@@ -24,7 +28,7 @@ These are _common concerns_ because nearly all API producers and consumers have 
 
 ## API proxies and gateways
 
-Most frequently, the out-of-process part of the solution is called an _API proxy_. It is a _proxy_ because it represents someone else. If it represents someone who is calling an API, it is called a _forward proxy_. If it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
+Most frequently, the out-of-process part of the solution is called an _API proxy_. It is a _proxy_ because it represents someone else. When it represents someone who is calling an API, it is called a _forward proxy_. When it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
 
 ```goat
 .------------.     .---------------.                  .---------------.     .------------.
