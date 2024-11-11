@@ -37,6 +37,8 @@ To get to know these methods, we'll call them with [q](/the-q-tool) for the exam
 
 ## Managing Services
 
+This first group of APIs operate on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
+
 ### List services
 
 **ListServices** lists the services that have been created within a project.
@@ -296,7 +298,12 @@ How did this respond so quickly? Our endpoints proxy is configured to use the "m
 
 ## Managing Service Configurations
 
-The Managed Service records that we saw in the previous section don't contain much: just the name of a service and the owning project id. We actually configure our services with a separate resource, the "Service Configuration", and this is the "Service Config" that we saw earlier.
+The Managed Service records that we saw in the previous section don't contain much: just the name of a service and the owning project id. We actually configure our services with a separate resource, the "Service Configuration", and this is the "Service Config" that we disccused in the [Service Config](/docs/serviceinfrastructure/serviceconfig) section.
+
+Separating `Service` from `ManagedService` has a few benefits:
+- We can keep several revisions of `Service`; in fact, the API keeps the entire revision history.
+- We can deploy multiple configurations of a service at once. The next group of methods manages rollouts, and rollouts can divide services between multiple configurations.
+- We can (and do) have tighter access controls on `Service` configuration. We can list `ManagedService` resources outside of our control, but we can only see the `Service` resources that we own or have been explicitly granted access.
 
 ### List service configurations
 
@@ -432,11 +439,11 @@ q service-management generate-config-report services/$SERVICE/configs/2024-10-14
 
 ## Managing Service Rollouts
 
-The last few methods in the Service Management API handle rollouts. Rollouts put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the Service Management API, we need to create rollouts explicitly.
+The last few methods in the Service Management API handle rollouts. [Rollout](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L187) resources put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the Service Management API, we need to create rollouts explicitly.
 
 ### List service rollouts
 
-First let's list them. The results below are truncated. This is the full history of rollouts for a service.
+First let's list them. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
 
 ```
 $ q service-management list-service-rollouts $SERVICE | jq

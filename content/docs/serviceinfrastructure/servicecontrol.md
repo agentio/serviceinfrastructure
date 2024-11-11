@@ -51,3 +51,6 @@ In a minute or so, the results will show up in the log viewer.
 Compare this with logs from calls through our proxy and you'll see this is a pretty good match! Only the specific details vary because some of them are fake. But this demonstrates that we know how to call the Service Control APIs.
 
 See the source code for [q service-control mock](https://github.com/agentio/q/blob/main/cmd/servicecontrol/mock.go) for details.
+
+References:
+- https://cloud.google.com/service-infrastructure/docs/service-control/getting-started
