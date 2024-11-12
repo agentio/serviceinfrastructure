@@ -10,13 +10,19 @@ The Service Control API is used to check API requests from consumers and to moni
 
 ## The Service Control API methods
 
-The methods of the Service Control API are defined in the [googleapis](/googleapis) repo in [google/api/servicecontrol/v1/service_controller.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicecontrol/v1/service_controller.proto#L39) and [google/api/servicecontrol/v1/quota_controller.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicecontrol/v1/quota_controller.proto#L37).
+The Service Control API is defined in the [googleapis](/docs/details/googleapis) repo in [servicecontrol.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/servicecontrol.yaml).
+The methods specific to the API are defined 
+by the [ServiceController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto#L39) and
+[QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) services
+in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto).
+
+Method names below are prefixed with `google.api.servicecontrol.v1.`
 
 | Method | Description |
 | ------ | ----------- |
-| Check | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
-| AllocateQuota | Attempts to allocate quota for the specified consumer |
-| Report | Reports operation results to Google Service Control, such as logs and metrics |
+| ServiceController.Check | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
+| QuotaController.AllocateQuota | Attempts to allocate quota for the specified consumer |
+| ServiceController.Report | Reports operation results to Google Service Control, such as logs and metrics |
 
 ### Check
 

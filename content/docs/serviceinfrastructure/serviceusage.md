@@ -8,7 +8,10 @@ The Service Usage API is used to control access to Google APIs within Google Clo
 
 ## The Service Usage API methods
 
-The methods of the Service Usage API are defined in the [googleapis](/googleapis) repo in [google/api/serviceusage/v1/serviceusage.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/serviceusage/v1/serviceusage.proto#L37).
+The Service Usage API is defined in the [googleapis](/docs/details/googleapis) repo in [serviceusage.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage_v1.yaml).
+The methods specific to the API are defined by the [ServiceUsage](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto#L37) service in [serviceusage.proto](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto).
+
+Method names below are prefixed with `google.api.serviceusage.v1.ServiceUsage.`
 
 | Method | Description |
 | ------ | ----------- |

@@ -10,7 +10,10 @@ The Service Management API manages descriptions of APIs, focusing on the service
 
 ## The Service Management API methods
 
-The methods of the Service Management API are defined in the [googleapis](/googleapis) repo in [google/api/servicemanagement/v1/servicemanager.proto](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L39).
+The Service Management API is defined in the [googleapis](/docs/details/googleapis) repo in [servicemanagement_v1.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanagement_v1.yaml).
+The methods specific to the API are defined by the [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto).
+
+Method names below are prefixed with `google.api.servicemanagement.v1.ServiceManager.`
 
 | Method | Description |
 | ------ | ----------- |

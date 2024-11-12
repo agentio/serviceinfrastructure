@@ -8,7 +8,21 @@ The Cloud Monitoring API allows applications to read metrics describing API traf
 
 ## The Cloud Monitoring API Methods
 
-The methods of the Cloud Monitoring API are defined in the [googleapis](/googleapis) repo in [google/monitoring/v3/metric_service.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/monitoring/v3/metric_service.proto#L67).
+The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml).
+The methods specific to the API are defined 
+by the 
+[AlertPolicyService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/alert_service.proto#L44),
+[GroupService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/group_service.proto#L48),
+[MetricService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto#L67),
+[NotificationChannelService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/notification_service.proto#L38),
+[QueryService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/query_service.proto#L34),
+[ServiceMonitoringService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/service_service.proto#L39),
+[SnoozeService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/snooze_service.proto#L37), and
+[UptimeCheckService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/uptime_service.proto#L43).
+
+This is a large API. Our discussion will be limited to the `MetricService`.
+
+Method names below are prefixed with `google.monitoring.v3.MetricService.`
 
 | Method | Description |
 | ------ | ----------- |

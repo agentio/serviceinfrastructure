@@ -8,16 +8,26 @@ The Cloud Logging API allows applications to read logs describing API traffic.
 
 ## The Cloud Logging API methods
 
-The methods of the Cloud Logging API are defined in the [googleapis](/googleapis) repo in [google/logging/v2/logging.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/logging/v2/logging.proto#L39).
+The Cloud Logging API is defined in the [googleapis](/docs/details/googleapis) repo in [logging_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_v2.yaml).
+The methods specific to the API are defined 
+by the 
+[ConfigServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_config.proto#L50),
+[LoggingServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto#L39), and
+[MetricsServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_metrics.proto#L38) in 
+[logging_config.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_config.proto),
+[logging.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto), and
+[logging_metrics.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_metrics.proto).
+
+Method names below are prefixed with `google.logging.v2.`
 
 | Method | Description |
 | ------ | ----------- |
-| DeleteLog | Deletes all the log entries in a log for the _Default Log Bucket |
-| WriteLogEntries | Writes log entries to Logging |
-| ListLogEntries | Lists log entries |
-| ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
-| ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
-| TailLogEntries | Streaming read of log entries as they are ingested |
+| LoggingServiceV2.DeleteLog | Deletes all the log entries in a log for the _Default Log Bucket |
+| LoggingServiceV2.WriteLogEntries | Writes log entries to Logging |
+| LoggingServiceV2.ListLogEntries | Lists log entries |
+| LoggingServiceV2.ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
+| LoggingServiceV2.ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
+| LoggingServiceV2.TailLogEntries | Streaming read of log entries as they are ingested |
 
 ### DeleteLog
 

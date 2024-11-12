@@ -8,7 +8,12 @@ The API Keys API generates and manages API keys that consumers use to call APIs.
 
 ## The API Keys API methods
 
-The methods of the API Keys API are defined in the [googleapis](/googleapis) repo in [google/api/apikeys/v2/apikeys.proto](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/apikeys/v2/apikeys.proto#L37).
+The API Keys API is defined in the [googleapis](/docs/details/googleapis) repo in [apikeys_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys_v2.yaml).
+The methods specific to the API are defined
+by the [ApiKeys](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto#L37) service
+in [apikeys.proto](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto).
+
+Method names below are prefixed with `google.api.apikeys.v2.ApiKeys.`
 
 | Method | Description |
 | ------ | ----------- |
