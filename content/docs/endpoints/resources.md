@@ -6,6 +6,10 @@ title: Endpoints Resources
 
 ## Endpoints Documentation
 
+Here's the [Official Google Documentation for Endpoints](https://cloud.google.com/endpoints/docs).
+
+Some highlights:
+
 - [Transcoding Support](https://cloud.google.com/endpoints/docs/grpc/transcoding)
 
 ## Endpoints on YouTube

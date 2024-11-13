@@ -4,7 +4,7 @@ title: The Cloud Logging API
 ---
 # The Cloud Logging API
 
-The Cloud Logging API allows applications to read logs describing API traffic.
+[Cloud Logging](https://cloud.google.com/logging) is a Google service that provides centralized storage and analytics for application logs. Service Infrastructure users use it indirectly when Service Control API handlers write logs using the Cloud Logging API. This allows Service Infrastructure users to use the [Logs Explorer](https://cloud.google.com/logging/docs/view/logs-explorer-interface) to view their APIs and the Cloud Logging API to programmatically access their logs.
 
 ## The Cloud Logging API methods
 
@@ -18,16 +18,71 @@ by the
 [logging.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto), and
 [logging_metrics.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_metrics.proto).
 
-Method names below are prefixed with `google.logging.v2.`
+This is a large API with many uses beyond Service Infrastructure. Here we list all of the available methods but focus on the ones most relevant to Service Infrastructure users.
+
+### ConfigServiceV2
+
+Method names below are prefixed with `google.logging.v2.ConfigServiceV2.`
 
 | Method | Description |
 | ------ | ----------- |
-| LoggingServiceV2.DeleteLog | Deletes all the log entries in a log for the _Default Log Bucket |
-| LoggingServiceV2.WriteLogEntries | Writes log entries to Logging |
-| LoggingServiceV2.ListLogEntries | Lists log entries |
-| LoggingServiceV2.ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
-| LoggingServiceV2.ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
-| LoggingServiceV2.TailLogEntries | Streaming read of log entries as they are ingested |
+| ListBuckets | Lists log buckets |
+| GetBucket | Gets a log bucket |
+| CreateBucketAsync | Creates a log bucket asynchronously that can be used to store log entries |
+| UpdateBucketAsync | Updates a log bucket asynchronously |
+| CreateBucket | Creates a log bucket that can be used to store log entries |
+| UpdateBucket | Updates a log bucket |
+| DeleteBucket | Deletes a log bucket |
+| UndeleteBucket | Undeletes a log bucket |
+| ListViews | Lists views on a log bucket |
+| GetView | Gets a view on a log bucket |
+| CreateView | Creates a view over log entries in a log bucket |
+| UpdateView | Updates a view on a log bucket |
+| DeleteView | Deletes a view on a log bucket |
+| ListSinks | Lists sinks |
+| GetSink | Gets a sink |
+| CreateSink | Creates a sink that exports specified log entries to a destination |
+| UpdateSink | Updates a sink |
+| DeleteSink | Deletes a sink |
+| CreateLink | Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket |
+| DeleteLink | Deletes a link |
+| ListLinks | Lists links |
+| GetLink | Gets a link |
+| ListExclusions | Lists all the exclusions on the _Default sink in a parent resource |
+| GetExclusion | Gets the description of an exclusion in the _Default sink |
+| CreateExclusion | Creates a new exclusion in the _Default sink in a specified parent resource |
+| UpdateExclusion | Changes one or more properties of an existing exclusion in the _Default sink |
+| DeleteExclusion | Deletes an exclusion in the _Default sink |
+| GetCmekSettings | Gets the Logging CMEK settings for the given resource |
+| UpdateCmekSettings | Updates the Log Router CMEK settings for the given resource |
+| GetSettings | Gets the Log Router settings for the given resource |
+| UpdateSettings | Updates the Log Router settings for the given resource |
+| CopyLogEntries | Copies a set of log entries from a log bucket to a Cloud Storage bucket |
+
+### LoggingServiceV2
+
+Method names below are prefixed with `google.logging.v2.LoggingServiceV2.`
+
+| Method | Description |
+| ------ | ----------- |
+| DeleteLog | Deletes all the log entries in a log for the _Default Log Bucket |
+| WriteLogEntries | Writes log entries to Logging |
+| ListLogEntries | Lists log entries |
+| ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
+| ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
+| TailLogEntries | Streaming read of log entries as they are ingested |
+
+### MetricsServiceV2
+
+Method names below are prefixed with `google.logging.v2.MetricsServiceV2.`
+
+| Method | Description |
+| ------ | ----------- |
+| ListLogMetrics | Lists logs-based metrics |
+| GetLogMetric | Gets a logs-based metric |
+| CreateLogMetric | Creates a logs-based metric |
+| UpdateLogMetric | Creates or updates a logs-based metric |
+| DeleteLogMetric | Deletes a logs-based metric |
 
 ### DeleteLog
 
