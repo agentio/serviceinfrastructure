@@ -16,19 +16,28 @@ by the [ServiceController](https://github.com/googleapis/googleapis/blob/master/
 [QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) services
 in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto).
 
-Method names below are prefixed with `google.api.servicecontrol.v1.`
+## ServiceController
+
+Method names below are prefixed with `google.api.servicecontrol.v1.ServiceController`
 
 | Method | Description |
 | ------ | ----------- |
-| ServiceController.Check | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
-| QuotaController.AllocateQuota | Attempts to allocate quota for the specified consumer |
-| ServiceController.Report | Reports operation results to Google Service Control, such as logs and metrics |
+| Check | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
+| Report | Reports operation results to Google Service Control, such as logs and metrics |
 
 ### Check
 
-### AllocateQuota
-
 ### Report
+
+## QuotaController
+
+Method names below are prefixed with `google.api.servicecontrol.v1.QuotaController`
+
+| Method | Description |
+| ------ | ----------- |
+| AllocateQuota | Attempts to allocate quota for the specified consumer |
+
+### AllocateQuota
 
 ## Usage Notes
 

@@ -18,6 +18,4 @@ We fill a few gaps with [q](/docs/quickstart/q), a command-line tool that helps 
 
 Thanks for joining us, and please post any feedback to [our issues page](https://github.com/agentio/serviceinfrastructure/issues).
 
----
-
 This is an expanded version of a [talk that was presented on October 28](https://timburks.me/2024/10/28/managing-grpc-apis). If you'd like to see it with your team, [get in touch!](https://linkedin.com/in/timburks)

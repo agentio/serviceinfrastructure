@@ -22,6 +22,8 @@ by the
 
 This is a large API. Our discussion will be limited to the `MetricService`.
 
+## MetricService
+
 Method names below are prefixed with `google.monitoring.v3.MetricService.`
 
 | Method | Description |

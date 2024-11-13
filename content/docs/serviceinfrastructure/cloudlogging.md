@@ -20,7 +20,9 @@ by the
 
 This is a large API with many uses beyond Service Infrastructure. Here we list all of the available methods but focus on the ones most relevant to Service Infrastructure users.
 
-### ConfigServiceV2
+## ConfigServiceV2
+
+Documented as a "service for configuring sinks used to route log entries", this service provides a rich set of capabilities for configuring log storage. Service Infrastructure users will find that these resources are automatically configured, so our survey of these methods will focus on listing the various resource types.
 
 Method names below are prefixed with `google.logging.v2.ConfigServiceV2.`
 
@@ -59,7 +61,9 @@ Method names below are prefixed with `google.logging.v2.ConfigServiceV2.`
 | UpdateSettings | Updates the Log Router settings for the given resource |
 | CopyLogEntries | Copies a set of log entries from a log bucket to a Cloud Storage bucket |
 
-### LoggingServiceV2
+## LoggingServiceV2
+
+Documented as a "service for ingesting and querying logs," this will be a close focus for us as we look at how we can programmatically read the logs written by Service Infrastructure.
 
 Method names below are prefixed with `google.logging.v2.LoggingServiceV2.`
 
@@ -71,18 +75,6 @@ Method names below are prefixed with `google.logging.v2.LoggingServiceV2.`
 | ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
 | ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
 | TailLogEntries | Streaming read of log entries as they are ingested |
-
-### MetricsServiceV2
-
-Method names below are prefixed with `google.logging.v2.MetricsServiceV2.`
-
-| Method | Description |
-| ------ | ----------- |
-| ListLogMetrics | Lists logs-based metrics |
-| GetLogMetric | Gets a logs-based metric |
-| CreateLogMetric | Creates a logs-based metric |
-| UpdateLogMetric | Creates or updates a logs-based metric |
-| DeleteLogMetric | Deletes a logs-based metric |
 
 ### DeleteLog
 
@@ -250,3 +242,17 @@ $ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpo
 ### ListLogs
 
 ### TailLogEntries
+
+## MetricsServiceV2
+
+This service is documented as a "service for configuring logs-based metrics". We'll focus on the read-only methods for observing any automatically-defined metrics.
+
+Method names below are prefixed with `google.logging.v2.MetricsServiceV2.`
+
+| Method | Description |
+| ------ | ----------- |
+| ListLogMetrics | Lists logs-based metrics |
+| GetLogMetric | Gets a logs-based metric |
+| CreateLogMetric | Creates a logs-based metric |
+| UpdateLogMetric | Creates or updates a logs-based metric |
+| DeleteLogMetric | Deletes a logs-based metric |
