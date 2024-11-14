@@ -6,12 +6,10 @@ title: The Service Usage API
 
 The Service Usage API is used to control access to Google APIs within Google Cloud projects.
 
-## The Service Usage API methods
-
 The Service Usage API is defined in the [googleapis](/docs/details/googleapis) repo in [serviceusage.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage_v1.yaml).
 The methods specific to the API are defined by the [ServiceUsage](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto#L37) service in [serviceusage.proto](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto).
 
-## ServiceUsage
+## The ServiceUsage service
 
 Method names below are prefixed with `google.api.serviceusage.v1.ServiceUsage.`
 

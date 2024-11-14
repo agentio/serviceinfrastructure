@@ -6,8 +6,6 @@ title: The Cloud Monitoring API
 
 The Cloud Monitoring API allows applications to read metrics describing API traffic.
 
-## The Cloud Monitoring API Methods
-
 The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml).
 The methods specific to the API are defined 
 by the 
@@ -22,7 +20,7 @@ by the
 
 This is a large API. Our discussion will be limited to the `MetricService`.
 
-## MetricService
+## The MetricService service
 
 Method names below are prefixed with `google.monitoring.v3.MetricService.`
 

@@ -6,7 +6,7 @@ type: docs
 ---
 # Managing APIs
 
-**API management** is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
+[API management](/docs/glossary#api-management) is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
 
 ## Networked APIs
 
@@ -14,12 +14,12 @@ Networked APIs are APIs that operate across computer networks. Networked APIs co
 
 ## Common concerns
 
-For people making APIs (API producers), these concerns usually include:
+For people making APIs, these concerns usually include:
 * controlling who uses an API
 * controlling how much an API is used
 * monitoring the usage and performance of an API
 
-People using APIs (API consumers) have similar concerns from the other side:
+People using APIs have similar concerns from the other side:
 * getting access to an API, usually using credentials
 * using an API without exceeding limits set by the producer
 * monitoring the availability and performance of APIs that they are using

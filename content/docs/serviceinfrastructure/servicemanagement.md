@@ -4,16 +4,12 @@ title: The Service Management API
 ---
 # The Service Management API
 
-API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic.
-
-The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
-
-## The Service Management API methods
+API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic. The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
 
 The Service Management API is defined in the [googleapis](/docs/details/googleapis) repo in [servicemanagement_v1.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanagement_v1.yaml).
 The methods specific to the API are defined by the [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto).
 
-## ServiceManager
+## The ServiceManager service
 
 Method names below are prefixed with `google.api.servicemanagement.v1.ServiceManager.`
 

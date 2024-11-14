@@ -4,11 +4,7 @@ title: The Service Control API
 ---
 # The Service Control API
 
-The Service Control API is used by the proxies, so you probably won't call it directly, but we describe it here so that we know exactly what the proxies are doing in case we want to make changes to them or build something new.
-
-The Service Control API is used to check API requests from consumers and to monitor requests and responses.
-
-## The Service Control API methods
+The Service Control API is used by the proxies, so you probably won't call it directly, but we describe it here so that we know exactly what the proxies are doing in case we want to make changes to them or build something new. The Service Control API is used to check API requests from consumers and to monitor requests and responses.
 
 The Service Control API is defined in the [googleapis](/docs/details/googleapis) repo in [servicecontrol.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/servicecontrol.yaml).
 The methods specific to the API are defined 
@@ -16,7 +12,7 @@ by the [ServiceController](https://github.com/googleapis/googleapis/blob/master/
 [QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) services
 in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto).
 
-## ServiceController
+## The ServiceController service
 
 Method names below are prefixed with `google.api.servicecontrol.v1.ServiceController`
 
@@ -29,7 +25,7 @@ Method names below are prefixed with `google.api.servicecontrol.v1.ServiceContro
 
 ### Report
 
-## QuotaController
+## The QuotaController service
 
 Method names below are prefixed with `google.api.servicecontrol.v1.QuotaController`
 

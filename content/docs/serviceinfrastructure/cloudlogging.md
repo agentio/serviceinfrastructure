@@ -6,8 +6,6 @@ title: The Cloud Logging API
 
 [Cloud Logging](https://cloud.google.com/logging) is a Google service that provides centralized storage and analytics for application logs. Service Infrastructure users use it indirectly when Service Control API handlers write logs using the Cloud Logging API. This allows Service Infrastructure users to use the [Logs Explorer](https://cloud.google.com/logging/docs/view/logs-explorer-interface) to view their APIs and the Cloud Logging API to programmatically access their logs.
 
-## The Cloud Logging API methods
-
 The Cloud Logging API is defined in the [googleapis](/docs/details/googleapis) repo in [logging_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_v2.yaml).
 The methods specific to the API are defined 
 by the 
@@ -20,7 +18,7 @@ by the
 
 This is a large API with many uses beyond Service Infrastructure. Here we list all of the available methods but focus on the ones most relevant to Service Infrastructure users.
 
-## ConfigServiceV2
+## The ConfigServiceV2 service
 
 Documented as a "service for configuring sinks used to route log entries", this service provides a rich set of capabilities for configuring log storage. Service Infrastructure users will find that these resources are automatically configured, so our survey of these methods will focus on listing the various resource types.
 
@@ -61,7 +59,7 @@ Method names below are prefixed with `google.logging.v2.ConfigServiceV2.`
 | UpdateSettings | Updates the Log Router settings for the given resource |
 | CopyLogEntries | Copies a set of log entries from a log bucket to a Cloud Storage bucket |
 
-## LoggingServiceV2
+## The LoggingServiceV2 service
 
 Documented as a "service for ingesting and querying logs," this will be a close focus for us as we look at how we can programmatically read the logs written by Service Infrastructure.
 
@@ -243,7 +241,7 @@ $ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpo
 
 ### TailLogEntries
 
-## MetricsServiceV2
+## The MetricsServiceV2 service
 
 This service is documented as a "service for configuring logs-based metrics". We'll focus on the read-only methods for observing any automatically-defined metrics.
 
