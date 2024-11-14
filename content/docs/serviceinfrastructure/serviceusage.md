@@ -273,6 +273,7 @@ bindings:
 etag: BwYmbUvc2zk=
 version: 1
 ```
+
 ### log-http
 
 There's a nice trick that we can do with `gcloud`... add the `--log-http` flag to see what API calls it makes.
@@ -381,3 +382,10 @@ bindings:
 etag: BwYm2aDCKOY=
 version: 1
 ```
+
+### this isn't how you make an API public
+
+$ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=allUsers --role=roles/servicemanagement.serviceConsumer 
+ERROR: Policy modification failed. For a binding with condition, run "gcloud alpha iam policies lint-condition" to identify issues in condition.
+ERROR: (gcloud.endpoints.services.add-iam-policy-binding) INVALID_ARGUMENT: Member 'allUsers' is not allowed in role 'roles/servicemanagement.serviceConsumer'.
+
