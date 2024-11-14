@@ -389,3 +389,42 @@ $ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.clo
 ERROR: Policy modification failed. For a binding with condition, run "gcloud alpha iam policies lint-condition" to identify issues in condition.
 ERROR: (gcloud.endpoints.services.add-iam-policy-binding) INVALID_ARGUMENT: Member 'allUsers' is not allowed in role 'roles/servicemanagement.serviceConsumer'.
 
+https://groups.google.com/g/google-cloud-endpoints/c/-GrnDqyauiI
+
+
+```
+$ gcloud iam roles describe roles/servicemanagement.serviceConsumer
+description: Can enable the service.
+etag: AA==
+includedPermissions:
+- servicemanagement.services.bind
+name: roles/servicemanagement.serviceConsumer
+stage: GA
+title: Service Consumer
+```
+
+```
+$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.check
+{}
+
+$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.bind
+{"permissions":["servicemanagement.services.bind"]}
+```
+
+```
+$ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
+{
+  "version": 1,
+  "bindings": [
+    {
+      "role": "roles/servicemanagement.serviceConsumer",
+      "members": [
+        "user:tim@mitra.so",
+        "user:tim@radtastical.com"
+      ]
+    }
+  ],
+  "etag": "BwYm5Z23vKM="
+}
+```
+

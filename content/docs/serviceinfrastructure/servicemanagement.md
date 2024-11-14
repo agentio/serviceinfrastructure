@@ -36,7 +36,7 @@ These methods can be divided into three groups:
 
 To get to know these methods, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/docs/quickstart/demo).
 
-## Managing Services
+### Managed Services
 
 This first group of APIs operates on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
 
@@ -297,7 +297,7 @@ $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 
 How did this respond so quickly? Our endpoints proxy is configured to use the "managed" rollout strategy, which causes it to check the Service Management API once every minute to see if its configuration has changed. For more on this, see [Cloud Endpoints: Introducing a new way to manage API configuration rollout](https://cloud.google.com/blog/products/gcp/cloud-endpoints-introducing-a-new-way-to-manage-api-configuration-rollout).
 
-## Managing Service Configurations
+### Service Configurations
 
 The Managed Service records that we saw in the previous section don't contain much: just the name of a service and the owning project id. We actually configure our services with a separate resource, the "Service Configuration", and this is the "Service Config" that we disccused in the [Service Config](/docs/serviceinfrastructure/serviceconfig) section.
 
@@ -438,7 +438,7 @@ q service-management generate-config-report services/$SERVICE/configs/2024-10-14
 }
 ```
 
-## Managing Service Rollouts
+### Service Rollouts
 
 The last few methods in the Service Management API handle rollouts. [Rollout](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L187) resources put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the Service Management API, we need to create rollouts explicitly.
 
@@ -514,6 +514,24 @@ operations/rollouts.stores.endpoints.bobadojo.cloud.goog:20355192-1186-4f42-a267
 ```
 
 This creates a long running operation that will complete quickly, and Cloud Endpoints proxies will then start serving using the new configuraiton.
+
+## The IAMPolicyService
+
+Method names below are prefixed with `google.iam.v1.IamPolicyService.`
+
+| Method | Description |
+| ------ | ----------- |
+| GetIamPolicy | Gets the access control policy for a resource |
+| SetIamPolicy | Sets the access control policy on the specified resource |
+| TestIamPermissions | Returns permissions that a caller has on the specified resource |
+
+### Policies
+
+### GetIamPolicy
+
+### SetIamPolicy
+
+### TestIamPermissions
 
 ## Summarizing
 

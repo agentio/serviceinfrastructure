@@ -327,7 +327,7 @@ $ q monitoring list-time-series bobadojo custom.googleapis.com/stores/orders | j
 
 ### CreateServiceTimeSeries
 
-
+https://cloud.google.com/monitoring/api/metrics_gcp#gcp-serviceruntime
 
 ## Usage Notes
 
