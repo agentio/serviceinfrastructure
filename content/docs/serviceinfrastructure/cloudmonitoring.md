@@ -280,4 +280,153 @@ $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/reque
 ```
 ### CreateTimeSeries
 
+```
+$ q monitoring create-time-series bobadojo custom.googleapis.com/stores/orders 10
+Done writing time series data.
+
+$ q monitoring create-time-series bobadojo custom.googleapis.com/stores/orders 25
+Done writing time series data.
+
+$ q monitoring list-time-series bobadojo custom.googleapis.com/stores/orders | jq
+[
+  {
+    "metric": {
+      "type": "custom.googleapis.com/stores/orders"
+    },
+    "resource": {
+      "type": "global",
+      "labels": {
+        "project_id": "bobadojo"
+      }
+    },
+    "metricKind": "GAUGE",
+    "valueType": "DOUBLE",
+    "points": [
+      {
+        "interval": {
+          "endTime": "2024-11-14T04:58:15Z",
+          "startTime": "2024-11-14T04:58:15Z"
+        },
+        "value": {
+          "doubleValue": 25
+        }
+      },
+      {
+        "interval": {
+          "endTime": "2024-11-14T04:58:07Z",
+          "startTime": "2024-11-14T04:58:07Z"
+        },
+        "value": {
+          "doubleValue": 10
+        }
+      }
+    ]
+  }
+]
+```
+
 ### CreateServiceTimeSeries
+
+
+
+## Usage Notes
+
+```
+$ q monitoring list-metric-descriptors projects/bobadojo > descriptors.json
+$ jq < descriptors.json .[].name -r | grep serviceruntime
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_count
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_backend
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_overhead
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_sizes
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/response_sizes
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/allocation/usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/exceeded
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/limit
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/exceeded
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/limit
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/rate/net_usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/reserved/metric1
+
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/exceeded | jq | more
+[
+  {
+    "metric": {
+      "type": "serviceruntime.googleapis.com/quota/exceeded",
+      "labels": {
+        "limit_name": "DefaultRequestsPerMinutePerProject",
+        "quota_metric": "servicemanagement.googleapis.com/default_requests"
+      }
+    },
+    "resource": {
+      "type": "consumer_quota",
+      "labels": {
+        "location": "global",
+        "project_id": "bobadojo",
+        "service": "servicemanagement.googleapis.com"
+      }
+    },
+    "metricKind": "GAUGE",
+    "valueType": "BOOL",
+    "points": [
+      {
+        "interval": {
+          "endTime": "2024-11-14T04:25:47.717304Z",
+          "startTime": "2024-11-14T04:25:47.717304Z"
+        },
+        "value": {
+          "boolValue": true
+        }
+      }
+    ]
+  }
+]
+
+```
+
+https://cloud.google.com/monitoring/api/v3/filters
+
+```
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' | jq .[].resource.labels.method
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.ListStores"
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.ListStores"
+```
+
+```
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq .[].resource.labels.method -r
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.ListStores
+google.devtools.cloudtrace.v2.TraceService.BatchWriteSpans
+google.monitoring.v3.MetricService.ListMetricDescriptors
+google.monitoring.v3.MetricService.ListTimeSeries
+google.monitoring.v3.MetricService.ListTimeSeries
+google.monitoring.v3.MetricService.ListTimeSeries
+google.cloud.location.Locations.ListLocations
+google.cloud.run.v1.DomainMappings.ListDomainMappings
+google.cloud.run.v1.Revisions.ListRevisions
+google.cloud.run.v1.Routes.ListRoutes
+google.cloud.run.v1.Services.GetService
+google.cloud.run.v1.Services.ListServices
+google.cloud.run.v1.Services.TestIamPermissions
+google.api.servicecontrol.v1.ServiceController.Check
+google.api.servicecontrol.v1.ServiceController.Report
+google.api.servicecontrol.v1.ServiceController.Report
+google.api.servicemanagement.v1.ServiceManager.GetServiceConfig
+google.api.servicemanagement.v1.ServiceManager.ListServiceRollouts
+google.api.servicemanagement.v1.ServiceManager.ListServices
+google.api.servicemanagement.v1.ServiceManager.ListServices
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.ListStores
+
+```
