@@ -1,6 +1,6 @@
 ---
 weight: 1
-title: ESP, the Extensible Service Proxy
+title: ESP
 bookToC: false
 ---
 ## ESP

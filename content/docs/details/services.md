@@ -1,21 +1,21 @@
 ---
-title: Service Configurations for Google APIs
+title: googleapis Service Config
 bookHidden: true
 ---
-## Service Configurations for Google APIs
+# googleapis Service Configurations
 
 This page contains an extracted list of all of the service config files in the googleapis repo.
 ## Observations
-### Frequently used APIs
-Some APIs are used more than once. The APIs below are included in at least 3 services.
+### Frequently-included APIs
+Some APIs are included in more than one service. The APIs below are included in at least 3 services.
 
 Note that methods in these frequently-used APIs usually have corresponding http rules that associate them with paths specific to their containing services.
 | API | occurences |
 | --- | ---------- |
 | google.cloud.location.Locations | 127 |
-| google.iam.v1.IAMPolicy | 59 |
+| google.iam.v1.IAMPolicy | 60 |
 | google.longrunning.Operations | 170 |
-### Frequently specified fields
+### Frequently-specified fields
 Not all fields of service config are present in all files. This shows the number of times each top-level field is specified in the googleapis service configurations.
 | key | occurences |
 | --- | ---------- |
@@ -13217,6 +13217,7 @@ title: Contact Center AI Insights API
 
 apis:
 - name: google.cloud.contactcenterinsights.v1.ContactCenterInsights
+- name: google.iam.v1.IAMPolicy
 - name: google.longrunning.Operations
 
 types:
@@ -13224,6 +13225,8 @@ types:
 - name: google.cloud.contactcenterinsights.v1.BulkAnalyzeConversationsResponse
 - name: google.cloud.contactcenterinsights.v1.BulkDeleteConversationsMetadata
 - name: google.cloud.contactcenterinsights.v1.BulkDeleteConversationsResponse
+- name: google.cloud.contactcenterinsights.v1.BulkDownloadFeedbackLabelsMetadata
+- name: google.cloud.contactcenterinsights.v1.BulkDownloadFeedbackLabelsResponse
 - name: google.cloud.contactcenterinsights.v1.CreateAnalysisOperationMetadata
 - name: google.cloud.contactcenterinsights.v1.CreateIssueModelMetadata
 - name: google.cloud.contactcenterinsights.v1.DeleteIssueModelMetadata
@@ -13239,6 +13242,10 @@ types:
 - name: google.cloud.contactcenterinsights.v1.IngestConversationsResponse
 - name: google.cloud.contactcenterinsights.v1.InitializeEncryptionSpecMetadata
 - name: google.cloud.contactcenterinsights.v1.InitializeEncryptionSpecResponse
+- name: google.cloud.contactcenterinsights.v1.ListAllFeedbackLabelsResponse
+- name: google.cloud.contactcenterinsights.v1.ListFeedbackLabelsResponse
+- name: google.cloud.contactcenterinsights.v1.QueryMetricsMetadata
+- name: google.cloud.contactcenterinsights.v1.QueryMetricsResponse
 - name: google.cloud.contactcenterinsights.v1.UndeployIssueModelMetadata
 - name: google.cloud.contactcenterinsights.v1.UndeployIssueModelResponse
 - name: google.cloud.contactcenterinsights.v1.UploadConversationMetadata
@@ -14120,6 +14127,7 @@ types:
 - name: google.cloud.dataplex.v1.DataScanEvent
 - name: google.cloud.dataplex.v1.DiscoveryEvent
 - name: google.cloud.dataplex.v1.GovernanceEvent
+- name: google.cloud.dataplex.v1.ImportItem
 - name: google.cloud.dataplex.v1.JobEvent
 - name: google.cloud.dataplex.v1.OperationMetadata
 - name: google.cloud.dataplex.v1.SessionEvent
@@ -14174,9 +14182,14 @@ http:
     - get: '/v1/{resource=projects/*/locations/*/dataTaxonomies/*/attributes/*}:getIamPolicy'
     - get: '/v1/{resource=projects/*/locations/*/dataAttributeBindings/*}:getIamPolicy'
     - get: '/v1/{resource=projects/*/locations/*/entryTypes/*}:getIamPolicy'
+    - get: '/v1/{resource=projects/*/locations/*/entryLinkTypes/*}:getIamPolicy'
     - get: '/v1/{resource=projects/*/locations/*/aspectTypes/*}:getIamPolicy'
     - get: '/v1/{resource=projects/*/locations/*/entryGroups/*}:getIamPolicy'
     - get: '/v1/{resource=projects/*/locations/*/governanceRules/*}:getIamPolicy'
+    - get: '/v1/{resource=projects/*/locations/*/glossaries/*}:getIamPolicy'
+    - get: '/v1/{resource=projects/*/locations/*/glossaries/*/categories/*}:getIamPolicy'
+    - get: '/v1/{resource=projects/*/locations/*/glossaries/*/terms/*}:getIamPolicy'
+    - get: '/v1/{resource=organizations/*/locations/*/encryptionConfigs/*}:getIamPolicy'
   - selector: google.iam.v1.IAMPolicy.SetIamPolicy
     post: '/v1/{resource=projects/*/locations/*/lakes/*}:setIamPolicy'
     body: '*'
@@ -14199,11 +14212,21 @@ http:
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/entryTypes/*}:setIamPolicy'
       body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/entryLinkTypes/*}:setIamPolicy'
+      body: '*'
     - post: '/v1/{resource=projects/*/locations/*/aspectTypes/*}:setIamPolicy'
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/entryGroups/*}:setIamPolicy'
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/governanceRules/*}:setIamPolicy'
+      body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*}:setIamPolicy'
+      body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*/categories/*}:setIamPolicy'
+      body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*/terms/*}:setIamPolicy'
+      body: '*'
+    - post: '/v1/{resource=organizations/*/locations/*/encryptionConfigs/*}:setIamPolicy'
       body: '*'
   - selector: google.iam.v1.IAMPolicy.TestIamPermissions
     post: '/v1/{resource=projects/*/locations/*/lakes/*}:testIamPermissions'
@@ -14227,21 +14250,40 @@ http:
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/entryTypes/*}:testIamPermissions'
       body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/entryLinkTypes/*}:testIamPermissions'
+      body: '*'
     - post: '/v1/{resource=projects/*/locations/*/aspectTypes/*}:testIamPermissions'
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/entryGroups/*}:testIamPermissions'
       body: '*'
     - post: '/v1/{resource=projects/*/locations/*/governanceRules/*}:testIamPermissions'
       body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*}:testIamPermissions'
+      body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*/categories/*}:testIamPermissions'
+      body: '*'
+    - post: '/v1/{resource=projects/*/locations/*/glossaries/*/terms/*}:testIamPermissions'
+      body: '*'
+    - post: '/v1/{resource=organizations/*/locations/*/encryptionConfigs/*}:testIamPermissions'
+      body: '*'
   - selector: google.longrunning.Operations.CancelOperation
     post: '/v1/{name=projects/*/locations/*/operations/*}:cancel'
     body: '*'
+    additional_bindings:
+    - post: '/v1/{name=organizations/*/locations/*/operations/*}:cancel'
+      body: '*'
   - selector: google.longrunning.Operations.DeleteOperation
     delete: '/v1/{name=projects/*/locations/*/operations/*}'
+    additional_bindings:
+    - delete: '/v1/{name=organizations/*/locations/*/operations/*}'
   - selector: google.longrunning.Operations.GetOperation
     get: '/v1/{name=projects/*/locations/*/operations/*}'
+    additional_bindings:
+    - get: '/v1/{name=organizations/*/locations/*/operations/*}'
   - selector: google.longrunning.Operations.ListOperations
     get: '/v1/{name=projects/*/locations/*}/operations'
+    additional_bindings:
+    - get: '/v1/{name=organizations/*/locations/*/operations/*}'
 
 authentication:
   rules:
@@ -32609,7 +32651,7 @@ documentation:
     that starts exporting a large amount of data could take quite a while to
     complete and is therefore best represented as an LRO. A common rule of
     thumb is to think of LROs as "API promises" that represent the result of
-    some on-going action.
+    some ongoing action.
 
     For more information, see [AIP-151](https://google.aip.dev/151).
 
