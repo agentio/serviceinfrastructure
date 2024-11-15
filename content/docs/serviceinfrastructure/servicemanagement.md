@@ -515,7 +515,7 @@ operations/rollouts.stores.endpoints.bobadojo.cloud.goog:20355192-1186-4f42-a267
 
 This creates a long running operation that will complete quickly, and Cloud Endpoints proxies will then start serving using the new configuraiton.
 
-## The IAMPolicyService
+## The IAMPolicyService service
 
 Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 
@@ -532,6 +532,30 @@ Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 ### SetIamPolicy
 
 ### TestIamPermissions
+
+## The Operations service
+
+Method names below are prefixed with `google.longrunning.Operations.`
+
+| Method | Description |
+| ------ | ----------- |
+| ListOperations | Lists operations that match the specified filter in the request |
+| GetOperation | Gets the latest state of a long-running operation |
+| DeleteOperation | Deletes a long-running operation |
+| CancelOperation | Starts asynchronous cancellation on a long-running operation |
+| WaitOperation |  Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state |
+
+### Operations
+
+### ListOperations
+
+### GetOperation
+
+### DeleteOperation
+
+### CancelOperation
+
+### WaitOperation
 
 ## Summarizing
 
