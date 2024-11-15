@@ -1,8 +1,8 @@
 ---
-title: googleapis Service Config
+title: Service Configurations for Google APIs
 bookHidden: true
 ---
-# googleapis Service Configurations
+## Service Configurations for Google APIs
 
 This page contains an extracted list of all of the service config files in the googleapis repo.
 ## Observations
@@ -16,7 +16,7 @@ Note that methods in these frequently-used APIs usually have corresponding http 
 | google.iam.v1.IAMPolicy | 59 |
 | google.longrunning.Operations | 170 |
 ### Frequently specified fields
-Not all fields of service config are present in all files. This shows the number of times each used field is specified in the googleapis service configurations.
+Not all fields of service config are present in all files. This shows the number of times each top-level field is specified in the googleapis service configurations.
 | key | occurences |
 | --- | ---------- |
 | apis | 386 |

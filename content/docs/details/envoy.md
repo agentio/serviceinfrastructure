@@ -2,7 +2,7 @@
 weight: 5
 title: Envoy
 ---
-# Envoy
+## Envoy
 
 Envoy is an open source proxy that was designed for modern cloud-based applications. Envoy was created at Lyft and is widely used as both an **Edge Proxy** and a **Service Proxy**.
 

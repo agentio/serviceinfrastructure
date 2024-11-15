@@ -3,7 +3,7 @@ weight: 3
 title: Quickstart Files
 bookHidden: true
 ---
-# Demo Files
+## Demo Files
 
 These are the files that are automatically generated in the [quickstart demo](/docs/quickstart/demo) by `q demo`.
 

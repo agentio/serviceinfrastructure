@@ -2,7 +2,7 @@
 weight: 1
 title: Endpoints Resources
 ---
-# Endpoints Resources
+## Endpoints Resources
 
 ## Endpoints Documentation
 

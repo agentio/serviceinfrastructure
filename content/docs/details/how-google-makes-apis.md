@@ -2,7 +2,7 @@
 weight: 3
 title: How Google Makes APIs
 ---
-# How Google Makes APIs
+## How Google Makes APIs
 
 Looking at things that can be observed externally, we can learn a lot about how Google makes APIs and about large-scale API design in general. 
 

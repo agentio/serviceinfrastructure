@@ -2,7 +2,7 @@
 weight: 5
 title: The Cloud Logging API
 ---
-# The Cloud Logging API
+## The Cloud Logging API
 
 [Cloud Logging](https://cloud.google.com/logging) is a Google service that provides centralized storage and analytics for application logs. Service Infrastructure users use it indirectly when Service Control API handlers write logs using the Cloud Logging API. This allows Service Infrastructure users to use the [Logs Explorer](https://cloud.google.com/logging/docs/view/logs-explorer-interface) to view their APIs and the Cloud Logging API to programmatically access their logs.
 

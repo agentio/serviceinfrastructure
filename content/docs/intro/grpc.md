@@ -2,7 +2,7 @@
 weight: 2
 title: "Managing gRPC APIs"
 ---
-# Managing gRPC APIs
+## Managing gRPC APIs
 
 [gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). gRPC makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allows API clients and servers to use highly-optimized tooling.
 
@@ -14,23 +14,23 @@ gRPC APIs are usually described with the [Protocol Buffers](https://protobuf.dev
 
 ### API Implementation
 
-gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are often open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports [transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding), which provides a simpler HTTP/JSON interface to gRPC APIs when their API descriptions have appropriate annotations and conform to style guidelines like [AIP-127](https://google.aip.dev/127).
+gRPC clients and servers are more complex than other API implementations, so they are almost always built on generated code that is produced by tools that are usually open source. gRPC clients and server implementations are also complicated by using advanced networking technologies, including HTTP/2, streaming, and configurable automatic retry. To simplify API consumption, gRPC supports [transcoding](https://cloud.google.com/endpoints/docs/grpc/transcoding), which provides a simpler HTTP/JSON interface to gRPC APIs when their API descriptions have appropriate annotations and conform to style guidelines like [AIP-127](https://google.aip.dev/127).
 
 ## What do we want from gRPC API Management?
 
-gRPC adds additional expectations and opportunities for API management. Here are a few:
+gRPC adds additional expectations and opportunities for API management. Here we list a few possibilties.
 
 ### Validation
 
-gRPC APIs use Protocol Buffer encoding, so they are more observable, and API management systems can look inside messages to validate or monitor requests and responses.
+gRPC APIs use Protocol Buffer encoding, so they are generally observable, allowing API management systems to look inside messages to validate or monitor requests and responses.
 
 ### Metadata
 
-Protocol Buffer encoding isn't self-describing, so API management systems can make it easier to use gRPC APIs by providing standard metadata services like [gRPC Reflection](https://grpc.io/docs/guides/reflection/).
+Protocol Buffer encoding isn't self-describing, so API management systems can make it easier to use gRPC APIs by providing standard metadata services like [gRPC Reflection](https://grpc.io/docs/guides/reflection/), which makes it easier for clients to serialize and deserialize API messages.
 
 ### Documentation
 
-gRPC APIs are precisely and accurately described by their Protocol Buffer descriptions, so API management systems can easily provide generated documentation and even API client code.
+gRPC APIs are thoroughly and accurately described by their Protocol Buffer descriptions, so API management systems can easily provide generated documentation and even API client code.
 
 ### Transcoding
 

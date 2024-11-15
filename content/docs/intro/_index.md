@@ -4,13 +4,13 @@ title: Managing APIs
 bookFlatSection: true
 type: docs
 ---
-# Managing APIs
+## Managing APIs
 
 [API management](/docs/glossary#api-management) is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
 
 ## Networked APIs
 
-Networked APIs are APIs that operate across computer networks. Networked APIs communicate using protocols including HTTP, and are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
+Networked APIs are APIs that operate across computer networks. Networked APIs communicate using HTTP and similar protocols, and are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
 
 ## Common concerns
 

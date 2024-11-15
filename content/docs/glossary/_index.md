@@ -4,7 +4,7 @@ title: Service Infrapedia
 bookFlatSection: true
 type: docs
 ---
-# Service Infrapedia
+## Service Infrapedia
 
 Here we run through a list of terms that are used in our discussion and provide definitions and extra detail that seems out of scope for the flow but worth mentioning.
 

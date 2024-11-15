@@ -2,7 +2,7 @@
 weight: 2
 title: What does it cost?
 ---
-# Endpoints Costs
+## Endpoints Costs
 
 A great thing about Service Infrastructure is that not only is it available for the public to use, it's also what Google uses to run its own APIs. Because it's built to run at Google-scale, it's also highly performant and affordable. 
 

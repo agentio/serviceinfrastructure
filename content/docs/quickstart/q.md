@@ -2,7 +2,7 @@
 weight: 1
 title: Get the q Tool
 ---
-# The q Tool
+## The q Tool
 
 `q` is a command-line tool for calling the Service Infrastructure APIs. It can be used alongside or in place of [gcloud](https://cloud.google.com/sdk/gcloud). `q` is written in Go, and its code provides examples of Go usage of the Service Infrastructure APIs.
 

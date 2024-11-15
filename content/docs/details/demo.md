@@ -2,7 +2,7 @@
 weight: 1
 title: Quickstart Details
 ---
-# Quickstart Details
+## Quickstart Details
 
 ## The Boba Dojo Stores API
 

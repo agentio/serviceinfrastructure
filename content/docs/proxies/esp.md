@@ -3,7 +3,7 @@ weight: 1
 title: ESP, the Extensible Service Proxy
 bookToC: false
 ---
-# ESP
+## ESP
 
 ESP, the "Extensible Service Proxy", is the original proxy developed for [Cloud Endpoints](/cloud-endpoints).
 

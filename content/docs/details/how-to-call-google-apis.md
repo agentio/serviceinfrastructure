@@ -2,7 +2,7 @@
 weight: 2
 title: How to Call Google APIs
 ---
-# How to Call Google APIs
+## How to Call Google APIs
 
 Since the systems that we are using are provided as APIs, working with them will require us to call Google APIs. Here's a quick primer on how to do that.
 
@@ -13,6 +13,58 @@ The [gcloud](https://cloud.google.com/cli) tool allows us to perform many GCP-re
 Getting `gcloud` configured and running is almost always a good way to start (we're assuming you are already a GCP user, if not, [sign up for a free trial here](https://cloud.google.com/free?hl=en)). It gives us something to compare against, it can solve problems in a pinch, and we can even use it to easily get auth tokens to send with our own API calls. 
 
 If you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll find `gcloud` installed and ready. Otherwise, use [Google's instructions for installing gcloud](https://cloud.google.com/sdk/docs/install) and get set up. We use it throughout our discussions, starting with the [quickstart demo](/docs/quickstart/demo).
+
+`gcloud` has a nice built-in way to learn about Google APIs. Just add the `--log-http` flag to any `gcloud` command, and it will print all of the API calls that it makes along with their responses. Here's an example:
+
+```
+$ gcloud endpoints services describe stores.endpoints.bobadojo.cloud.goog --log-http
+=======================
+==== request start ====
+uri: https://servicemanagement.googleapis.com/v1/services/stores.endpoints.bobadojo.cloud.goog?alt=json
+method: GET
+== headers start ==
+b'accept': b'application/json'
+b'accept-encoding': b'gzip, deflate'
+b'authorization': --- Token Redacted ---
+b'content-length': b'0'
+b'user-agent': b'google-cloud-sdk gcloud/498.0.0 command/gcloud.endpoints.services.describe invocation-id/e9f069227bf9476cbca65f6bcd78c1f0 environment/None environment-version/None client-os/LINUX client-os-ver/6.11.0 client-pltf-arch/x86_64 interactive/True from-script/False python/3.11.9 term/xterm-256color (Linux 6.11.0-8-generic)'
+b'x-goog-api-client': b'cred-type/u'
+== headers end ==
+== body start ==
+
+== body end ==
+==== request end ====
+---- response start ----
+status: 200
+-- headers start --
+Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+Cache-Control: private
+Content-Encoding: gzip
+Content-Type: application/json; charset=UTF-8
+Date: Fri, 15 Nov 2024 04:35:45 GMT
+Server: ESF
+Transfer-Encoding: chunked
+Vary: Origin, X-Origin, Referer
+X-Content-Type-Options: nosniff
+X-Debug-Tracking-ID: 11591317513918051737;o=0
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 0
+-- headers end --
+-- body start --
+{
+  "serviceName": "stores.endpoints.bobadojo.cloud.goog",
+  "producerProjectId": "bobadojo"
+}
+
+-- body end --
+total round trip time (request+response): 0.373 secs
+---- response end ----
+----------------------
+producerProjectId: bobadojo
+serviceName: stores.endpoints.bobadojo.cloud.goog
+```
+
+Notice that this hides your auth token. If you want to see that, just run `gcloud config set log_http_redact_token false` and tokens will be displayed.
 
 ### Calling Google HTTP/JSON APIs with the APIs Explorer
 

@@ -2,7 +2,7 @@
 weight: 3
 title: The Service Control API
 ---
-# The Service Control API
+## The Service Control API
 
 The Service Control API is used by the proxies, so you probably won't call it directly, but we describe it here so that we know exactly what the proxies are doing in case we want to make changes to them or build something new. The Service Control API is used to check API requests from consumers and to monitor requests and responses.
 
@@ -18,8 +18,8 @@ Method names below are prefixed with `google.api.servicecontrol.v1.ServiceContro
 
 | Method | Description |
 | ------ | ----------- |
-| Check | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
-| Report | Reports operation results to Google Service Control, such as logs and metrics |
+| [Check](#check) | Checks whether an operation on a service should be allowed to proceed based on the configuration of the service and related policies |
+| [Report](#report) | Reports operation results to Google Service Control, such as logs and metrics |
 
 ### Check
 
@@ -31,7 +31,7 @@ Method names below are prefixed with `google.api.servicecontrol.v1.QuotaControll
 
 | Method | Description |
 | ------ | ----------- |
-| AllocateQuota | Attempts to allocate quota for the specified consumer |
+| [AllocateQuota](#allocatequota) | Attempts to allocate quota for the specified consumer |
 
 ### AllocateQuota
 

@@ -2,7 +2,7 @@
 weight: 2
 title: The Service Management API
 ---
-# The Service Management API
+## The Service Management API
 
 API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic. The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
 
@@ -15,19 +15,19 @@ Method names below are prefixed with `google.api.servicemanagement.v1.ServiceMan
 
 | Method | Description |
 | ------ | ----------- |
-| ListServices | Lists managed services |
-| GetService | Gets a managed service |
-| CreateService | Creates a new managed service |
-| DeleteService | Deletes a managed service |
-| UndeleteService | Revives a previously deleted managed service |
-| ListServiceConfigs | Lists the history of the service configuration for a managed service, from the newest to the oldest |
-| GetServiceConfig | Gets a service configuration (version) for a managed service |
-| CreateServiceConfig | Creates a new service configuration (version) for a managed service |
-| SubmitConfigSource  | Creates a new service configuration for a managed service based on user-supplied configuration source files |
-| ListServiceRollouts | Lists the history of the service configuration rollouts for a managed service, from the newest to the oldest |
-| GetServiceRollout | Gets a service configuration rollout |
-| CreateServiceRollout | Creates a new service configuration rollout |
-| GenerateConfigReport | Generates and returns a report of errors, warnings and changes from existing configurations |
+| [ListServices](#listservices) | Lists managed services |
+| [GetService](#getservice) | Gets a managed service |
+| [CreateService](#createservice) | Creates a new managed service |
+| [DeleteService](#deleteservice) | Deletes a managed service |
+| [UndeleteService](#undeleteservice) | Revives a previously deleted managed service |
+| [ListServiceConfigs](#listserviceconfigs) | Lists the history of the service configuration for a managed service, from the newest to the oldest |
+| [GetServiceConfig](#getserviceconfig) | Gets a service configuration (version) for a managed service |
+| [CreateServiceConfig](#createserviceconfig) | Creates a new service configuration (version) for a managed service |
+| [SubmitConfigSource](#submitconfigsource)  | Creates a new service configuration for a managed service based on user-supplied configuration source files |
+| [ListServiceRollouts](#listservicerollouts) | Lists the history of the service configuration rollouts for a managed service, from the newest to the oldest |
+| [GetServiceRollout](#getservicerollout) | Gets a service configuration rollout |
+| [CreateServiceRollout](#createservicerollout) | Creates a new service configuration rollout |
+| [GenerateConfigReport](#generateconfigreport) | Generates and returns a report of errors, warnings and changes from existing configurations |
 
 These methods can be divided into three groups:
 1. Managing Services. These APIs handle the creation and deletion of registered services.
@@ -40,7 +40,7 @@ To get to know these methods, we'll call them with [q](/the-q-tool) for the exam
 
 This first group of APIs operates on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
 
-### List services
+### ListServices
 
 **ListServices** lists the services that have been created within a project.
 
@@ -64,7 +64,7 @@ $ echo $SERVICE
 stores.endpoints.bobadojo.cloud.goog
 ```
 
-### Get details of a service
+### GetService
 
 **GetService** gets details of a service. It returns a [ManagedService](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicemanagement/v1/resources.proto#L34), which doesn't tell us anything that we don't already know, but let's try it to see it in action.
 
@@ -76,7 +76,7 @@ $ q service-management get-service $SERVICE | jq
 }
 ```
 
-### Create a service 
+### CreateService 
 
 We can create a new service with **CreateService**, which just takes a [ManagedService](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicemanagement/v1/resources.proto#L34) as an argument, so we don't need to specify much, just a project id and a service id: 
 
@@ -222,7 +222,7 @@ Of course, if we want to use this domain, we would add appopriate records with t
 
 For more about domain verification, see [Verifying a domain name](https://cloud.google.com/endpoints/docs/grpc/verify-domain-name) in the Cloud Endpoints documentation.
 
-### Delete (and undelete!) a service
+### DeleteService
 
 The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API gives keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
 
@@ -271,6 +271,8 @@ $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 }
 ```
 
+### UndeleteService
+
 Now let's change our minds and restore our deleted service.
 ```
 $ q service-management undelete-service $SERVICE
@@ -306,7 +308,7 @@ Separating `Service` from `ManagedService` has a few benefits:
 - We can deploy multiple configurations of a service at once. The next group of methods manages rollouts, and rollouts can divide services between multiple configurations.
 - We can (and do) have tighter access controls on `Service` configuration. We can list `ManagedService` resources outside of our control, but we can only see the `Service` resources that we own or have been explicitly granted access.
 
-### List service configurations
+### ListServiceConfigs
 
 We can list the service configurations associated with an service.
 
@@ -344,7 +346,7 @@ This is still a lot of output, but when you run it on your own service, it will 
 CONFIG_ID=$(q service-management list-service-configs $SERVICE | jq .[0].id -r)
 ```
 
-### Get a service configuration
+### GetServiceConfig
 
 Now we can get a service configuration. We got a subset of it from the list call. A GET request will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, we can also get any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
 
@@ -387,7 +389,7 @@ endpoints:
   target: "WWW.XXX.YYY.ZZZ"
 ```
 
-### Create a service configuration
+### CreateServiceConfig
 
 There are two ways to do this. The first one is to post the full service config for a service.
 
@@ -395,7 +397,7 @@ There are two ways to do this. The first one is to post the full service config 
 q service-management service-config create-service-config
 ```
 
-### Submit Config Source
+### SubmitConfigSource
 
 The second way to create a service configuration is to upload source files and ask Google to generate the full configuration.
 
@@ -405,7 +407,7 @@ q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog .
 q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:537024da-fdca-4c1c-8c33-5dbf1eb13e1a | jq .response.serviceConfig | head
 ```
 
-### Review configuration changes
+### GenerateConfigReport
 
 The API includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
 
@@ -442,7 +444,7 @@ q service-management generate-config-report services/$SERVICE/configs/2024-10-14
 
 The last few methods in the Service Management API handle rollouts. [Rollout](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L187) resources put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the Service Management API, we need to create rollouts explicitly.
 
-### List service rollouts
+### ListServiceRollouts
 
 First let's list them. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
 
@@ -484,7 +486,7 @@ $ q service-management list-service-rollouts $SERVICE | jq
   ...
 ```
 
-### Get details of a service rollout
+### GetServiceRollout
 
 We can get individual rollouts by their id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
 
@@ -504,7 +506,7 @@ $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
 }
 ```
 
-### Create a service rollout
+### CreateServiceRollout
 
 To create a new rollout, we just need to specify the service id and the id of the service config to be rolled out.
 
@@ -521,9 +523,9 @@ Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 
 | Method | Description |
 | ------ | ----------- |
-| GetIamPolicy | Gets the access control policy for a resource |
-| SetIamPolicy | Sets the access control policy on the specified resource |
-| TestIamPermissions | Returns permissions that a caller has on the specified resource |
+| [GetIamPolicy](#getiampolicy) | Gets the access control policy for a resource |
+| [SetIamPolicy](#setiampolicy) | Sets the access control policy on the specified resource |
+| [TestIamPermissions](#testiampermissions) | Returns permissions that a caller has on the specified resource |
 
 ### Policies
 
@@ -539,11 +541,11 @@ Method names below are prefixed with `google.longrunning.Operations.`
 
 | Method | Description |
 | ------ | ----------- |
-| ListOperations | Lists operations that match the specified filter in the request |
-| GetOperation | Gets the latest state of a long-running operation |
-| DeleteOperation | Deletes a long-running operation |
-| CancelOperation | Starts asynchronous cancellation on a long-running operation |
-| WaitOperation |  Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state |
+| [ListOperations](#listoperations) | Lists operations that match the specified filter in the request |
+| [GetOperation](#getoperation) | Gets the latest state of a long-running operation |
+| [DeleteOperation](#deleteoperation) | Deletes a long-running operation |
+| [CancelOperation](#canceloperation) | Starts asynchronous cancellation on a long-running operation |
+| [WaitOperation](#waitoperation) |  Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state |
 
 ### Operations
 

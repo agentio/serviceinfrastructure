@@ -3,7 +3,7 @@ weight: 2
 title: ESPv2
 bookToC: false
 ---
-# ESPv2
+## ESPv2
 
 ESPv2 is the latest proxy developed for [Cloud Endpoints](/cloud-endpoints).
 
