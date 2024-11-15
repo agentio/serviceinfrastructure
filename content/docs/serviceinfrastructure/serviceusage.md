@@ -15,12 +15,12 @@ Method names below are prefixed with `google.api.serviceusage.v1.ServiceUsage.`
 
 | Method | Description |
 | ------ | ----------- |
-| EnableService | Enable a service so that it can be used with a project |
-| DisableService | Disable a service so that it can no longer be used with a project |
-| GetService | Returns the service configuration and enabled state for a given service |
-| ListServices | List all services available to the specified project and the current state of those services with respect to the project |
-| BatchEnableServices | Enable multiple services on a project |
-| BatchGetServices | Returns the service configurations and enabled states for a given list of services |
+| [EnableService](#enableservice) | Enable a service so that it can be used with a project |
+| [DisableService](#disableservice) | Disable a service so that it can no longer be used with a project |
+| [GetService](#getservice) | Returns the service configuration and enabled state for a given service |
+| [ListServices](#listservices) | List all services available to the specified project and the current state of those services with respect to the project |
+| [BatchEnableServices](#batchenableservices) | Enable multiple services on a project |
+| [BatchGetServices](#batchgetservices) | Returns the service configurations and enabled states for a given list of services |
 
 ### EnableService
 

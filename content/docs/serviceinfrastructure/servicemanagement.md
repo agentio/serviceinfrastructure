@@ -11,6 +11,8 @@ The methods specific to the API are defined by the [ServiceManager](https://gith
 
 ## The ServiceManager service
 
+https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.api/servicemanagement.v1
+
 Method names below are prefixed with `google.api.servicemanagement.v1.ServiceManager.`
 
 | Method | Description |
@@ -519,6 +521,8 @@ This creates a long running operation that will complete quickly, and Cloud Endp
 
 ## The IAMPolicyService service
 
+https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1
+
 Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 
 | Method | Description |
@@ -536,6 +540,8 @@ Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 ### TestIamPermissions
 
 ## The Operations service
+
+https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning
 
 Method names below are prefixed with `google.longrunning.Operations.`
 
