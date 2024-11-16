@@ -26,11 +26,11 @@ The full names of theses methods begin with `google.api.servicecontrol.v1.Servic
 
 ### Check
 
-The **Check** method should be called by proxies after an operation is received and before it is processed. Typically `Check` request messages are small and contain an operation id, an API key, and just a few other details.
+The `Check` method should be called by proxies after an operation is received and before it is processed. Typically `Check` request messages are small and contain an operation id, an API key, and just a few other details.
 
 ### Report
 
-**Report** is called by proxies after operations are processed. `Report` request messages include a significant amount of detail about the processed API including information to be logged and tracked in system-defined metrics.
+`Report` is called by proxies after operations are processed. `Report` request messages include a significant amount of detail about the processed API including information to be logged and tracked in system-defined metrics.
 
 ## The QuotaController service
 
@@ -44,7 +44,7 @@ The full names of theses methods begin with `google.api.servicecontrol.v1.QuotaC
 
 ### AllocateQuota
 
-**AllocateQuota** is called by proxies after `Check` and before `Report`. It sends "quota metrics" which are charged against a user's quota and its response indicates whether an operation should proceed or fail with an out-of-quota error.
+`AllocateQuota` is called by proxies after `Check` and before `Report`. It sends "quota metrics" which are charged against a user's quota and its response indicates whether an operation should proceed or fail with an out-of-quota error.
 
 ## Usage Notes
 

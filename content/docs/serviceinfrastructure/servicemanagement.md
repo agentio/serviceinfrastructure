@@ -50,9 +50,9 @@ This first group of APIs operates on [ManagedService](https://github.com/googlea
 
 ### ListServices
 
-**ListServices** lists the services that have been created within a project.
+`ListServices` lists the services that have been created within a project.
 
-Let's try it. Like most methods, **ListServices** returns JSON, so we'll use `jq` to format the results.
+Let's try it. Like most methods, `ListServices` returns JSON, so we'll use `jq` to format the results.
 
 ```
 $ q service-management list-services bobadojo | jq
@@ -74,7 +74,7 @@ stores.endpoints.bobadojo.cloud.goog
 
 ### GetService
 
-**GetService** gets details of a service. It returns a `ManagedService`, which doesn't tell us anything that we don't already know from calling `ListServices`, but let's try it to see it in action.
+`GetService` gets details of a service. It returns a `ManagedService`, which doesn't tell us anything that we don't already know from calling `ListServices`, but let's try it to see it in action.
 
 ```
 $ q service-management get-service $SERVICE | jq
@@ -86,7 +86,7 @@ $ q service-management get-service $SERVICE | jq
 
 ### CreateService 
 
-We can create a new service with **CreateService**. This just takes a `ManagedService` as an argument, so we don't need to specify much, just a project id and a service id: 
+We can create a new service with `CreateService`. This just takes a `ManagedService` as an argument, so we don't need to specify much, just a project id and a service id: 
 
 ```
 $ q service-management create-service --help
@@ -316,7 +316,7 @@ Separating `Service` from `ManagedService` has benefits:
 
 ### ListServiceConfigs
 
-**ListServiceConfigs** lists the service configurations associated with an service.
+`ListServiceConfigs` lists the service configurations associated with an service.
 
 Try it.
 ```
@@ -354,7 +354,7 @@ CONFIG_ID=$(q service-management list-service-configs $SERVICE | jq .[0].id -r)
 
 ### GetServiceConfig
 
-**GetServiceConfig** gets an individual service configuration. We got a subset of the service config from the list call. This method will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, responses also include any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
+`GetServiceConfig` gets an individual service configuration. We got a subset of the service config from the list call. This method will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, responses also include any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
 
 ```
 $ q service-management get-service-config $SERVICE $CONFIG_ID --full | jq
@@ -397,7 +397,7 @@ endpoints:
 
 ### CreateServiceConfig
 
-**CreateServiceConfig** is the first of two ways to create service configs. This one posts the full service config for a service.
+`CreateServiceConfig` is the first of two ways to create service configs. This one posts the full service config for a service.
 
 ```
 q service-management service-config create-service-config
@@ -407,7 +407,7 @@ TODO: finish this
 
 ### SubmitConfigSource
 
-The second way to create a service configuration is using **SubmitConfigSource** is to upload source files that include partial service config, protocol buffer file descriptor sets, and OpenAPI descriptions. Google will then compile these into the full service config.
+The second way to create a service configuration is using `SubmitConfigSource` is to upload source files that include partial service config, protocol buffer file descriptor sets, and OpenAPI descriptions. Google will then compile these into the full service config.
 
 ```
 q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog ./stores-demo/api_config.yaml  ./stores-demo/descriptor.pb 
@@ -419,7 +419,7 @@ TODO: finish this
 
 ### GenerateConfigReport
 
-The ServiceManagement service includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
+The `ServiceManager` service includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
 
 ```
 q service-management generate-config-report services/$SERVICE/configs/$CONFIG
@@ -456,7 +456,7 @@ The last few methods in the `ServiceManager` service handle rollouts. [Rollout](
 
 ### ListServiceRollouts
 
-First let's list rollouts with **ListServiceRollouts**. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
+First let's list rollouts with `ListServiceRollouts`. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
 
 ```
 $ q service-management list-service-rollouts $SERVICE | jq
@@ -498,7 +498,7 @@ $ q service-management list-service-rollouts $SERVICE | jq
 
 ### GetServiceRollout
 
-We can use **GetServiceRollout** to get an individual rollout by its id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
+We can use `GetServiceRollout` to get an individual rollout by its id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
 
 ```
 $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
@@ -518,7 +518,7 @@ $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
 
 ### CreateServiceRollout
 
-We can create a new rollout with **CreateServiceRollout**. We just need to specify the service id and the id of the service config to be rolled out.
+We can create a new rollout with `CreateServiceRollout`. We just need to specify the service id and the id of the service config to be rolled out.
 
 ```
 $ q service-management create-service-rollout $SERVICE 2024-10-18r0
@@ -549,7 +549,7 @@ The specific role that we grant to share a service is `servicemanagement.service
 
 ### GetIamPolicy
 
-**GetIamPolicy** returns the policy associated with a service, which can be empty if nothing has been specified yet.
+`GetIamPolicy` returns the policy associated with a service, which can be empty if nothing has been specified yet.
 
 ```
 $ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
@@ -581,7 +581,7 @@ Next we'll see how to add users.
 
 ### SetIamPolicy
 
-**SetIamPolicy** allows us to update the IAM policy associated with a service.
+`SetIamPolicy` allows us to update the IAM policy associated with a service.
 
 To try it, place the following in a file named `policy.json`, ideally using a user that you would like to share your service with:
 ```
@@ -637,7 +637,7 @@ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goo
 
 ### TestIamPermissions
 
-The **TestIamPermissions** method allows us to see if one or more permissions is granted to the calling account.
+The `TestIamPermissions` method allows us to see if one or more permissions is granted to the calling account.
 
 To make these calls, we temporarily change our account by logging in again with `gcloud auth login`, in this case to the account that we used to share our service (here it's `tim@mitra.so`).
 
@@ -671,7 +671,7 @@ The full names of these methods begin with `google.longrunning.Operations.`
 
 ### **Operations**
 
-**Operation** resources can be used to manage operations that complete asynchronously after their initiating request completes.
+`Operation` resources can be used to manage operations that complete asynchronously after their initiating request completes.
 
 Quoting [Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#operations): "When an API method normally takes long time to complete, it can be designed to return Operation to the client, and the client can use this interface to receive the real response asynchronously by polling the operation resource, or pass the operation resource to another API (such as Google Cloud Pub/Sub API) to receive the response. Any API service that returns long-running operations should implement the Operations interface so developers can have a consistent client experience."
 
@@ -686,7 +686,7 @@ operations/services.example.endpoints.bobadojo.cloud.goog-0
 
 ### ListOperations
 
-**ListOperations** lets us see the operations that are currently active.
+`ListOperations` lets us see the operations that are currently active.
 
 ```
 $ q service-management list-operations "" | jq
@@ -720,7 +720,7 @@ That worked, and we see that our operation is nearly (99%) complete.
 
 ### GetOperation
 
-**GetOperation** lets us check on the status of a running operation. We can use it to directly check the operation that was returned above. We just provide the operation name that was returned from the original `CreateService` call.
+`GetOperation` lets us check on the status of a running operation. We can use it to directly check the operation that was returned above. We just provide the operation name that was returned from the original `CreateService` call.
 
 ```
 q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
@@ -769,7 +769,7 @@ $ q service-management get-operation operations/services.example.endpoints.bobad
 
 ### DeleteOperation
 
-**DeleteOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
+`DeleteOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management delete-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
@@ -785,7 +785,7 @@ Flags:
 
 ### CancelOperation
 
-**CancelOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
+`CancelOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management cancel-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
@@ -800,7 +800,7 @@ Flags:
 
 ### WaitOperation
 
-**WaitOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
+`WaitOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management wait-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
