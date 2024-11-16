@@ -8,7 +8,7 @@ Here's an easy way to explore the Service Infrastructure APIs. We'll use `q` in 
 
 This quickstart assumes that you have a Google Cloud account with a project created and access to the Google Cloud Shell. You don't have to start with a fresh project, but we recommend it! It's a good way to keep everything associated with your demo in one easy-to-find place.
 
-## Install and get set up with q.
+## Install and get set up with q
 
 After opening Google Cloud Shell, install `q` with `go install github.com/agentio/q@latest`
 
@@ -73,7 +73,7 @@ token = ya29.[REDACTED]
 Everything looks good!
 ```
 
-## Use `q` to create a demo instance.
+## Use `q` to create a demo instance
 
 Next run `q demo`. This generates a directory of files that you'll use to set up your service. They will be customized to the project and run region that you configured for `gcloud`, so you won't need to edit any of these files.
 
@@ -196,7 +196,7 @@ A lot just happened! Here's a summary:
 5. `gcloud run services replace` used the configuration in `service.yaml` to create your demo service on Cloud Run. We use "replace" to allow this to be called again to upload modified `service.yaml` files with alternate configurations.
 6. `gcloud run services set-iam-policy` removed a restriction on your Cloud Run service and opens it to public access. We don't need this restriction because we are protecting the service with a proxy (look inside `service.yaml` for a sneak peek at this).
 
-## Call your demo API.
+## Call your demo API with your browser
 
 Now go to the Cloud Run section of the Google Cloud Console. You'll see a list of services, and if you started with a fresh project, there will be just one, like in the screenshot below:
 
@@ -255,6 +255,8 @@ Add it to your request in the browser by appending it to the path.
 https://YOUR_HOST.us-west1.run.app/v1/stores/0?api_key=YOUR_KEY
 ```
 
+## Call your demo API with `curl`
+
 You can also get the key to use at the command line with `gcloud` and `jq`:
 ```
 $ KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
@@ -301,7 +303,7 @@ $ curl -s "$HOST/v1/stores/0?api_key=$KEY" | jq
 }
 ```
 
-## View your service in the Endpoints console.
+## View your service in the Endpoints console
 
 Now find the Endpoints link in the Cloud Console sidebar (on the left) and select it. You'll find a list of services like the one below.
 
