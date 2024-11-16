@@ -34,19 +34,246 @@ We'll work through these methods, calling each with `q` for the example project 
 
 ### CreateKey
 
+Let's use `q` to create an API key using the `CreateKey` method. We'll create a second key like the one that we created in the [quickstart](/demo/quickstart/demo). Recall that there we used this `gcloud` command:
+```
+$ KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
+```
+
+Now doing the same thing with `q`:
+```
+q api-keys create-key --parent projects/bobadojo/locations/global --keyid demo2 --service stores.endpoints.bobadojo.cloud.goog | jq
+{
+  "name": "operations/akmf.p7-1046800315646-a778a84e-6829-4426-b26c-7bd71525cc8c"
+}
+```
+
+```
+KEY=$(q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq .keyString -r)
+```
+
+```
+$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+{
+  "name": "stores/0",
+  "type": "office",
+  "title": "Columbus, NM 88029",
+  "location": {
+    "latitude": 31.8301201,
+    "longitude": -107.638199
+  },
+  "address": {
+    "street": "South Main Street",
+    "regionCode": "us"
+  }
+}
+
+```
+
 ### ListKeys
+
+```
+$ q api-keys list-keys bobadojo | jq
+{
+  "keys": [
+    {
+      "name": "projects/1046800315646/locations/global/keys/demo2",
+      "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
+      "createTime": "2024-11-16T17:02:44.459793Z",
+      "updateTime": "2024-11-16T17:02:44.484273Z",
+      "restrictions": {
+        "apiTargets": [
+          {
+            "service": "stores.endpoints.bobadojo.cloud.goog"
+          }
+        ]
+      },
+      "etag": "W/\"I57Ym+/tTkfOlWmuJrPVnQ==\""
+    },
+    {
+      "name": "projects/1046800315646/locations/global/keys/demo",
+      "uid": "cafe4d44-ff21-4273-a429-4dd0426ee8cd",
+      "createTime": "2024-11-04T19:21:35.811160Z",
+      "updateTime": "2024-11-16T16:57:49.195879Z",
+      "restrictions": {
+        "apiTargets": [
+          {
+            "service": "stores.endpoints.bobadojo.cloud.goog"
+          }
+        ]
+      },
+      "etag": "W/\"/ytdCWujsYbVbVftxBeBsg==\""
+    }
+  ]
+}
+
+```
+
+
 
 ### GetKey
 
+```
+$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+{
+  "name": "projects/1046800315646/locations/global/keys/demo2",
+  "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
+  "createTime": "2024-11-16T17:02:44.459793Z",
+  "updateTime": "2024-11-16T17:02:44.484273Z",
+  "restrictions": {
+    "apiTargets": [
+      {
+        "service": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ]
+  },
+  "etag": "W/\"I57Ym+/tTkfOlWmuJrPVnQ==\""
+}
+
+```
+
 ### GetKeyString
+
+```
+$ q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq
+{
+  "keyString": "REDACTED"
+}
+
+```
 
 ### UpdateKey
 
+```
+{
+  "name": "projects/1046800315646/locations/global/keys/demo2",
+  "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
+  "displayName": "Demo key",
+  "createTime": "2024-11-16T17:02:44.459793Z",
+  "updateTime": "2024-11-16T17:02:44.484273Z",
+  "restrictions": {
+    "apiTargets": [
+      {
+        "service": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ]
+  },
+  "etag": "W/\"I57Ym+/tTkfOlWmuJrPVnQ==\""
+}
+```
+
+
+```
+$ q api-keys update-key demo2.jq 
+{"name":"operations/akmf.p10-1046800315646-274fe790-2c2f-409f-8b58-e2494a489259"}
+```
+
+```
+$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+{
+  "name": "projects/1046800315646/locations/global/keys/demo2",
+  "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
+  "displayName": "Demo key",
+  "createTime": "2024-11-16T17:02:44.459793Z",
+  "updateTime": "2024-11-16T17:06:31.841817Z",
+  "restrictions": {
+    "apiTargets": [
+      {
+        "service": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ]
+  },
+  "etag": "W/\"Y1Y7yLy/aqK4oVGAeedn3w==\""
+}
+```
+
 ### DeleteKey
+
+```
+$ q api-keys delete-key projects/bobadojo/locations/global/keys/demo2 
+{"name":"operations/akmf.p12-1046800315646-3934e2bb-5b66-4e68-b640-753b5fbf60a1"}
+```
+
+```
+$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+{
+  "name": "projects/1046800315646/locations/global/keys/demo2",
+  "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
+  "displayName": "Demo key",
+  "createTime": "2024-11-16T17:02:44.459793Z",
+  "updateTime": "2024-11-16T17:07:58.456224Z",
+  "deleteTime": "2024-11-16T17:07:58.415258Z",
+  "restrictions": {
+    "apiTargets": [
+      {
+        "service": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ]
+  },
+  "etag": "W/\"Y1Y7yLy/aqK4oVGAeedn3w==\""
+}
+```
+
+```
+$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+{
+  "name": "stores/0",
+  "type": "office",
+  "title": "Columbus, NM 88029",
+  "location": {
+    "latitude": 31.8301201,
+    "longitude": -107.638199
+  },
+  "address": {
+    "street": "South Main Street",
+    "regionCode": "us"
+  }
+}
+
+```
+
+It still works! That's because our proxy is caching the key.
+
+```
+$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+{
+  "code": 400,
+  "message": "INVALID_ARGUMENT: API key expired. Please renew the API key."
+}
+```
 
 ### UndeleteKey
 
+```
+$ q api-keys undelete-key projects/bobadojo/locations/global/keys/demo2 
+{"name":"operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b"}
+
+$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+{
+  "name": "stores/0",
+  "type": "office",
+  "title": "Columbus, NM 88029",
+  "location": {
+    "latitude": 31.8301201,
+    "longitude": -107.638199
+  },
+  "address": {
+    "street": "South Main Street",
+    "regionCode": "us"
+  }
+}
+
+```
+
 ### LookupKey
+
+```
+$ q api-keys lookup-key $KEY | jq
+{
+  "parent": "projects/1046800315646/locations/global",
+  "name": "projects/1046800315646/locations/global/keys/demo2"
+}
+
+```
 
 ## The Operations service
 
