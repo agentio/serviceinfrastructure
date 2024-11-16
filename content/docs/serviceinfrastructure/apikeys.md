@@ -51,8 +51,10 @@ q api-keys create-key --parent projects/bobadojo/locations/global --keyid demo2 
 KEY=$(q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq .keyString -r)
 ```
 
+Now let's call our API with this new key using the `HOST` variable that we set in the [quickstart](/demo/quickstart/demo).
+
 ```
-$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 {
   "name": "stores/0",
   "type": "office",
@@ -214,7 +216,7 @@ $ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ```
 
 ```
-$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 {
   "name": "stores/0",
   "type": "office",
@@ -234,7 +236,7 @@ $ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Ke
 It still works! That's because our proxy is caching the key.
 
 ```
-$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 {
   "code": 400,
   "message": "INVALID_ARGUMENT: API key expired. Please renew the API key."
@@ -247,7 +249,7 @@ $ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Ke
 $ q api-keys undelete-key projects/bobadojo/locations/global/keys/demo2 
 {"name":"operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b"}
 
-$ curl -s https://stores-1046800315646.us-west1.run.app/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 {
   "name": "stores/0",
   "type": "office",
@@ -286,7 +288,7 @@ This is the same service that we discussed for the Service Management API, so we
 We can test this by creating an API key with another GCP account and using that key to call our API.
 
 ```
-$ curl 'https://stores-1046800315646.us-west1.run.app/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI'  -i
+$ curl "$HOST/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI"  -i
 HTTP/2 403 
 content-type: application/json
 x-envoy-decorator-operation: ingress GetStore
@@ -306,7 +308,7 @@ When they search for the service, they won't find it. It is only visible to the 
 Delete the key and you'll get this response:
 ```
 $ !curl
-curl 'https://stores-1046800315646.us-west1.run.app/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI'  -i
+curl "$HOST/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI"  -i
 HTTP/2 400 
 content-type: application/json
 x-envoy-decorator-operation: ingress GetStore

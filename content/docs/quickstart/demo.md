@@ -260,6 +260,47 @@ You can also get the key to use at the command line with `gcloud` and `jq`:
 $ KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
 ```
 
+`gcloud` can also give you the hostname for your service:
+```
+HOST=$(gcloud run services describe stores --format json | jq .status.address.url -r)
+```
+
+Now you can easily call your service with `curl`:
+```
+$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+{
+  "name": "stores/0",
+  "type": "office",
+  "title": "Columbus, NM 88029",
+  "location": {
+    "latitude": 31.8301201,
+    "longitude": -107.638199
+  },
+  "address": {
+    "street": "South Main Street",
+    "regionCode": "us"
+  }
+}
+```
+Note that here we are passing the API key in a header (`X-Api-Key`). We could have also used the `api_key` query parameter:
+
+```
+$ curl -s "$HOST/v1/stores/0?api_key=$KEY" | jq
+{
+  "name": "stores/0",
+  "type": "office",
+  "title": "Columbus, NM 88029",
+  "location": {
+    "latitude": 31.8301201,
+    "longitude": -107.638199
+  },
+  "address": {
+    "street": "South Main Street",
+    "regionCode": "us"
+  }
+}
+```
+
 ## View your service in the Endpoints console.
 
 Now find the Endpoints link in the Cloud Console sidebar (on the left) and select it. You'll find a list of services like the one below.
