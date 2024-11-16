@@ -4,7 +4,7 @@ title: The Service Management API
 ---
 ## The Service Management API
 
-API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic. The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
+API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic.
 
 The Service Management API is defined in the [googleapis](/docs/details/googleapis) repo in [servicemanagement_v1.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanagement_v1.yaml). It includes three services:
 
@@ -16,11 +16,10 @@ The Service Management API is defined in the [googleapis](/docs/details/googleap
 
 ## The ServiceManager service
 
-The methods specific to the API are defined by the [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto).
+The [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service ([Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.api/servicemanagement.v1)) is defined in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto) and
+manages descriptions of APIs, focusing on the service configurations that control their usage.
 
-https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.api/servicemanagement.v1
-
-Method names below are prefixed with `google.api.servicemanagement.v1.ServiceManager.`
+The full names of these methods begin with `google.api.servicemanagement.v1.ServiceManager.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -38,16 +37,16 @@ Method names below are prefixed with `google.api.servicemanagement.v1.ServiceMan
 | [CreateServiceRollout](#createservicerollout) | Creates a new service configuration rollout |
 | [GenerateConfigReport](#generateconfigreport) | Generates and returns a report of errors, warnings and changes from existing configurations |
 
-These methods can be divided into three groups:
-1. Managing Services. These APIs handle the creation and deletion of registered services.
-2. Managing Service Configurations. These APIs handle Service Configurations and allow multiple revisions of configurations to be tracked for each service.
-3. Managing Service Rollouts. Rollouts are used to control how service configurations are deployed. New configurations can be rolled out all at once or fractionally.
+The ServiceManager methods can be divided into three groups:
+1. Managing Services. These methods handle the creation and deletion of registered services.
+2. Managing Service Configurations. These methods handle Service Configurations and allow multiple revisions of configurations to be tracked for each service.
+3. Managing Service Rollouts. These methods control how service configurations are deployed. New configurations can be rolled out all at once or fractionally.
 
-To get to know these methods, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/docs/quickstart/demo).
+To get to know them better, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/docs/quickstart/demo).
 
-### Managed Services
+### **Managed Services**
 
-This first group of APIs operates on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. These are very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these APIs are just for managing a list of APIs (services) that we'll be managing.
+This first group of APIs operates on [ManagedService](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L32C1-L42C2) resources. A `ManagedService` is very simple: just a service name and the id of the "producer project". The producer project is the Google Cloud project that owns the service listing. For us, it's the project that we've configured using `gcloud config set project PROJECTID`. So essentially, these methods are just for managing a list of services that we'll be managing.
 
 ### ListServices
 
@@ -65,7 +64,7 @@ $ q service-management list-services bobadojo | jq
 ]
 ```
 
-`jq` is pretty handy and worth getting to know (start [here](https://jqlang.github.io/jq/)). We can use `jq` to pull specific values from a JSON response. Here we'll use it to get the service name and set it to a variable.
+`jq` is pretty handy and worth getting to know (start [here](https://jqlang.github.io/jq/)). We can use `jq` to pull specific values from a JSON response. Here we'll use `jq` to get the name of the first service and set it to a variable.
 
 ```
 $ SERVICE=$(q service-management list-services bobadojo  | jq .[0].serviceName -r)
@@ -75,7 +74,7 @@ stores.endpoints.bobadojo.cloud.goog
 
 ### GetService
 
-**GetService** gets details of a service. It returns a [ManagedService](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicemanagement/v1/resources.proto#L34), which doesn't tell us anything that we don't already know, but let's try it to see it in action.
+**GetService** gets details of a service. It returns a `ManagedService`, which doesn't tell us anything that we don't already know from calling `ListServices`, but let's try it to see it in action.
 
 ```
 $ q service-management get-service $SERVICE | jq
@@ -87,7 +86,7 @@ $ q service-management get-service $SERVICE | jq
 
 ### CreateService 
 
-We can create a new service with **CreateService**, which just takes a [ManagedService](https://github.com/googleapis/googleapis/blob/9b94dba2f7f4b601f8232bc3a3f6ef32665279b9/google/api/servicemanagement/v1/resources.proto#L34) as an argument, so we don't need to specify much, just a project id and a service id: 
+We can create a new service with **CreateService**. This just takes a `ManagedService` as an argument, so we don't need to specify much, just a project id and a service id: 
 
 ```
 $ q service-management create-service --help
@@ -101,13 +100,13 @@ Flags:
   -h, --help            help for create-service
 ```
 
-But we have to be careful with our choice of service name. Let's try "sample" to see what we get:
+But we have to be careful with our choice of service name. Let's try using "sample" as the service name to see what we get:
 
 ```
 $ q service-management create-service bobadojo sample
 Error: rpc error: code = PermissionDenied desc = Ownership for domain name 'sample' on project 'bobadojo' cannot be verified.
 Usage:
-  q service-management create-service PROJECT_ID SERVICE [flags]
+  q service-management create-service PROJECTID SERVICE [flags]
 
 Flags:
       --format string   output format (default "json")
@@ -116,7 +115,9 @@ Flags:
 
 That's an error, and from the error message, it seems that Google is expecting the service name to be a domain name.
 
-What names are we allowed to use? We've already seen that we can use names of the form `SERVICEID.endpoints.PROJECT_ID.cloud.goog`. This is because Google controls the `cloud.goog` domain and makes subdomains available for Endpoints customers. Also, Google App Engine users are able to access their services at `PROJECT_ID.appspot.com`. As we can see below, Google allows us to create services with names that match subdomains of either of these paths.
+What names are we allowed to use? We've already seen that we can use names of the form `SERVICEID.endpoints.PROJECTID.cloud.goog`. This is because Google controls the `cloud.goog` domain and makes its subdomains available for Endpoints customers. Also, Google App Engine users are able to access their services at `PROJECTID.appspot.com` and Google allows us to use these domains and their subdomains as service names.
+
+We demonstrate this in the examples below by creating services that are subdomains of `.cloud.goog` and `.appspot.com`.
 
 ```
 $ q service-management create-service sample.endpoints.bobadojo.cloud.goog bobadojo
@@ -126,9 +127,9 @@ $ q service-management create-service sample.bobadojo.appspot.com bobadojo
 service=Response { metadata: MetadataMap { headers: {"content-disposition": "attachment", "content-type": "application/grpc", "x-debug-tracking-id": "9253787921377858843;o=0", "date": "Sat, 13 Jul 2024 03:40:22 GMT", "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000", "grpc-status": "0"} }, message: Operation { name: "operations/services.sample.bobadojo.appspot.com-0", metadata: Some(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata", value: [10, 33, 115, 101, 114, 118, 105, 99, 101, 115, 47, 102, 111, 111, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 97, 112, 112, 115, 112, 111, 116, 46, 99, 111, 109, 34, 11, 8, 166, 238, 199, 180, 6, 16, 136, 218, 150, 112] }), done: false, result: Some(Response(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.ManagedService", value: [18, 24, 102, 111, 111, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 97, 112, 112, 115, 112, 111, 116, 46, 99, 111, 109, 26, 8, 98, 111, 98, 97, 100, 111, 106, 111] })) }, extensions: Extensions }
 ```
 
-Now, this doesn't mean that we have to actually serve our APIs using domain names that match our service ids. But because Google controls both `cloud.goog` and `appspot.com`, we can get Google-hosted DNS for the subdomains that we use.
+We aren't required to actually serve our APIs on these domains, but because Google controls both `cloud.goog` and `appspot.com`, we can get Google-hosted DNS if we use them.
 
-But how does Google know what address to use for these names? The answer is that we specify that in Service Config, specifically in the `endpoints` section. Here's an example for our test API, where we've substituted `WWW.XXX.YYY.ZZZ` for the actual endpoint address.
+But how does Google know what address to use for these names? The answer is that we specify that in Service Config, specifically in the [endpoints](/docs/serviceinfrastructure/serviceconfig/#endpoints) section. Here's an example for our test API, where we've substituted `WWW.XXX.YYY.ZZZ` for the actual endpoint address.
 
 ```
   "endpoints": [
@@ -165,13 +166,11 @@ stores.endpoints.bobadojo.cloud.goog. 60 IN A	WWW.XXX.YYY.ZZZ
 ;; MSG SIZE  rcvd: 81
 ```
 
-To read more about service names and DNS, see [Configuring DNS on the cloud.goog domain](https://cloud.google.com/endpoints/docs/openapi/cloud-goog-dns-configure).
-
-Google has additional suggestions for choosing service names in [Planning Your Cloud Projects](https://cloud.google.com/endpoints/docs/openapi/planning-cloud-projects).
+To read more about service names and DNS, see [Configuring DNS on the cloud.goog domain](https://cloud.google.com/endpoints/docs/openapi/cloud-goog-dns-configure). Also, Google has additional suggestions for choosing service names in [Planning Your Cloud Projects](https://cloud.google.com/endpoints/docs/openapi/planning-cloud-projects).
 
 Before we continue, let's explore one more way to name our services. In the original error message, we were told that `Ownership for domain name 'sample' on project 'bobadojo' cannot be verified.` So if we can prove to Google that we own a domain, can we use it as a service name?
 
-The answer to that is yes, and we'll verify that here with an example. The `bobadojo` project has been verified to own the `bobadojo.io` domain. As a test, we'll try to create a service named `sample.bobadojo.io`.
+The answer to that is yes, and we'll verify that here with an example. By following [these instructions](https://cloud.google.com/endpoints/docs/grpc/verify-domain-name), the `bobadojo` project was verified to own the `bobadojo.io` domain. As a test, we'll attempt to create a service named `sample.bobadojo.io`.
 
 ```
 $ q service-management create-service bobadojo sample.bobadojo.io
@@ -227,13 +226,11 @@ bobadojo.com.		10800	IN	SOA	dns1.namecheaphosting.com. cpanel.tech.namecheap.com
 ;; MSG SIZE  rcvd: 128
 ```
 
-Of course, if we want to use this domain, we would add appopriate records with the registrar that we use to manage our domain.
-
-For more about domain verification, see [Verifying a domain name](https://cloud.google.com/endpoints/docs/grpc/verify-domain-name) in the Cloud Endpoints documentation.
+Of course, if we want to use this domain, we would add appropriate records with the registrar that we use to manage our domain.
 
 ### DeleteService
 
-The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API gives keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
+The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
 
 To see this, let's first call the API that we set up in the [quickstart](/docs/quickstart/demo). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
 ```
@@ -306,20 +303,20 @@ $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 }
 ```
 
-How did this respond so quickly? Our endpoints proxy is configured to use the "managed" rollout strategy, which causes it to check the Service Management API once every minute to see if its configuration has changed. For more on this, see [Cloud Endpoints: Introducing a new way to manage API configuration rollout](https://cloud.google.com/blog/products/gcp/cloud-endpoints-introducing-a-new-way-to-manage-api-configuration-rollout).
+How did this respond so quickly? Our proxy is configured to use the "managed" rollout strategy, which causes it to check the Service Management API once every minute to see if the service configuration has changed. For more on this, see [Cloud Endpoints: Introducing a new way to manage API configuration rollout](https://cloud.google.com/blog/products/gcp/cloud-endpoints-introducing-a-new-way-to-manage-api-configuration-rollout).
 
-### Service Configurations
+### **Service Configurations**
 
-The Managed Service records that we saw in the previous section don't contain much: just the name of a service and the owning project id. We actually configure our services with a separate resource, the "Service Configuration", and this is the "Service Config" that we disccused in the [Service Config](/docs/serviceinfrastructure/serviceconfig) section.
+The Managed Service records that we saw in the previous section don't contain much: just the name of a service and the owning project id. We actually configure our services with a separate resource, the "Service Configuration", and this is the "Service Config" that we discussed in the [Service Config](/docs/serviceinfrastructure/serviceconfig) section.
 
-Separating `Service` from `ManagedService` has a few benefits:
-- We can keep several revisions of `Service`; in fact, the API keeps the entire revision history.
+Separating `Service` from `ManagedService` has benefits:
+- We can keep several revisions of `Service`; in fact, the Service Management API keeps the entire revision history.
 - We can deploy multiple configurations of a service at once. The next group of methods manages rollouts, and rollouts can divide services between multiple configurations.
 - We can (and do) have tighter access controls on `Service` configuration. We can list `ManagedService` resources outside of our control, but we can only see the `Service` resources that we own or have been explicitly granted access.
 
 ### ListServiceConfigs
 
-We can list the service configurations associated with an service.
+**ListServiceConfigs** lists the service configurations associated with an service.
 
 Try it.
 ```
@@ -350,14 +347,14 @@ $ q service-management list-service-configs $SERVICE | jq .[].id -r
 2024-07-12r0
 ```
 
-This is still a lot of output, but when you run it on your own service, it will probably only be one or two lines. This is showing the ids of every revision of service configuration that has been uploaded for this API. Let's set `CONFIG_ID` to the most recent one.
+This is still a lot of output, but when you run it on your own service, it will probably only be one or two lines. This is showing the ids of every revision of service configuration that has been uploaded for this service. Let's set `CONFIG_ID` to the first one, which is also the most recent.
 ```
 CONFIG_ID=$(q service-management list-service-configs $SERVICE | jq .[0].id -r)
 ```
 
 ### GetServiceConfig
 
-Now we can get a service configuration. We got a subset of it from the list call. A GET request will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, we can also get any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
+**GetServiceConfig** gets an individual service configuration. We got a subset of the service config from the list call. This method will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, responses also include any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
 
 ```
 $ q service-management get-service-config $SERVICE $CONFIG_ID --full | jq
@@ -400,15 +397,17 @@ endpoints:
 
 ### CreateServiceConfig
 
-There are two ways to do this. The first one is to post the full service config for a service.
+**CreateServiceConfig** is the first of two ways to create service configs. This one posts the full service config for a service.
 
 ```
 q service-management service-config create-service-config
 ```
 
+TODO: finish this
+
 ### SubmitConfigSource
 
-The second way to create a service configuration is to upload source files and ask Google to generate the full configuration.
+The second way to create a service configuration is using **SubmitConfigSource** is to upload source files that include partial service config, protocol buffer file descriptor sets, and OpenAPI descriptions. Google will then compile these into the full service config.
 
 ```
 q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog ./stores-demo/api_config.yaml  ./stores-demo/descriptor.pb 
@@ -416,9 +415,11 @@ q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog .
 q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:537024da-fdca-4c1c-8c33-5dbf1eb13e1a | jq .response.serviceConfig | head
 ```
 
+TODO: finish this
+
 ### GenerateConfigReport
 
-The API includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
+The ServiceManagement service includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
 
 ```
 q service-management generate-config-report services/$SERVICE/configs/$CONFIG
@@ -449,13 +450,13 @@ q service-management generate-config-report services/$SERVICE/configs/2024-10-14
 }
 ```
 
-### Service Rollouts
+### **Service Rollouts**
 
-The last few methods in the Service Management API handle rollouts. [Rollout](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L187) resources put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the Service Management API, we need to create rollouts explicitly.
+The last few methods in the `ServiceManager` service handle rollouts. [Rollout](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/resources.proto#L187) resources put service configurations into action. Rollouts are created automatically by calls to `gcloud endpoints deploy`, but when we create new service configurations with the `ServiceManager` service, we need to create rollouts explicitly.
 
 ### ListServiceRollouts
 
-First let's list them. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
+First let's list rollouts with **ListServiceRollouts**. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
 
 ```
 $ q service-management list-service-rollouts $SERVICE | jq
@@ -497,7 +498,7 @@ $ q service-management list-service-rollouts $SERVICE | jq
 
 ### GetServiceRollout
 
-We can get individual rollouts by their id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
+We can use **GetServiceRollout** to get an individual rollout by its id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
 
 ```
 $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
@@ -517,24 +518,20 @@ $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
 
 ### CreateServiceRollout
 
-To create a new rollout, we just need to specify the service id and the id of the service config to be rolled out.
+We can create a new rollout with **CreateServiceRollout**. We just need to specify the service id and the id of the service config to be rolled out.
 
 ```
 $ q service-management create-service-rollout $SERVICE 2024-10-18r0
 operations/rollouts.stores.endpoints.bobadojo.cloud.goog:20355192-1186-4f42-a267-d76abb4dc35a
 ```
 
-This creates a long running operation that will complete quickly, and Cloud Endpoints proxies will then start serving using the new configuraiton.
+This creates a long running operation that will complete quickly, and our proxies will then start serving using the new configuraiton.
 
 ## The IAMPolicyService service
 
-The **IAMPolicyService** allows us to set IAM policies that allow other Google Cloud users to see the managed services that we create and enable them for use in their projects. When a user has enabled your service, they will be able to create API keys that they can use to call your service. When you check those keys with service control, you'll be able to see which project they came from.
+The [IAMPolicyService](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto#L59) ([Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1)) is defined in [iam_policy.proto](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto). It allows us to set IAM policies that allow other Google Cloud users to see the managed services that we create and enable them for use in their projects. When a user has enabled your service, they will be able to create API keys that they can use to call your service. When you check those keys with `ServiceControl`, you'll be able to see which project owns them.
 
-https://cloud.google.com/service-infrastructure/docs/service-management/access-control
-
-https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1
-
-Method names below are prefixed with `google.iam.v1.IamPolicyService.`
+The full names of these methods begin with `google.iam.v1.IamPolicyService.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -542,15 +539,17 @@ Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 | [SetIamPolicy](#setiampolicy) | Sets the access control policy on the specified resource |
 | [TestIamPermissions](#testiampermissions) | Returns permissions that a caller has on the specified resource |
 
-### Policies
+### **Policies**
 
 [Policies](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1#policy) specify access controls, and the Service Management API uses them to give users access to services. A policy contains a list of "bindings" that grant a role to a list of users. 
 
-The specific role that we are granting is `servicemanagement.serviceConsumer` and we refer to it as `roles/servicemanagement.serviceConsumer` in the binding. We'll see examples in the method descriptions below.
+Roles are collections of permissions, and permissions are typically fine-grained descriptions of capabilities. For the Service Management API, the supported roles and permissions are listed in [Service Management API Access Control](https://cloud.google.com/service-infrastructure/docs/service-management/access-control).
+
+The specific role that we grant to share a service is `servicemanagement.serviceConsumer` and we refer to it as `roles/servicemanagement.serviceConsumer` in the binding. It includes a single permission, `servicemanagement.services.bind`. We'll see examples in the method descriptions below.
 
 ### GetIamPolicy
 
-**GetIamPolicy** returns the policy associated with a service, which can be empty of nothing has been specified yet.
+**GetIamPolicy** returns the policy associated with a service, which can be empty if nothing has been specified yet.
 
 ```
 $ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
@@ -578,9 +577,13 @@ $ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.g
 }
 ```
 
+Next we'll see how to add users.
+
 ### SetIamPolicy
 
-Place the following in a file named `policy.json`:
+**SetIamPolicy** allows us to update the IAM policy associated with a service.
+
+To try it, place the following in a file named `policy.json`, ideally using a user that you would like to share your service with:
 ```
 {
   "version": 1,
@@ -595,7 +598,7 @@ Place the following in a file named `policy.json`:
 }
 ```
 
-Now set the policy with `q`:
+Now use `q` to call `SetIamPolicy`:
 
 ```
 $ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
@@ -613,7 +616,7 @@ $ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.g
 }
 ```
 
-We can also add Google groups:
+We can also add Google groups as members:
 
 ```
 q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
@@ -634,18 +637,18 @@ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goo
 
 ### TestIamPermissions
 
-This allows us to see if one or more permissions is granted to the calling account.
+The **TestIamPermissions** method allows us to see if one or more permissions is granted to the calling account.
 
-To make these calls, we temporarily change our account by logging in again with `gcloud auth login`, in this case to a Google Cloud account associated with `tim@mitra.so`.
+To make these calls, we temporarily change our account by logging in again with `gcloud auth login`, in this case to the account that we used to share our service (here it's `tim@mitra.so`).
 
-First we check the `servicemanagement.services.check` permission. We can expect this first request to "fail" since this permission is not included in the `servicemanagement.serviceConsumer` role.
+First we check the `servicemanagement.services.check` permission. We expect this first request to confirm that this permission is not included in the `servicemanagement.serviceConsumer` role.
 
 ```
 $ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.check
 {}
 ```
 
-Next we check the `servicemanagement.services.bind` permission. We can expect this first request to succeed since this permission is included in the `servicemanagement.serviceConsumer` role.
+Next we check the `servicemanagement.services.bind` permission. We expect this first request to return `servicemanagement.services.bind` since this permission is included in the `servicemanagement.serviceConsumer` role.
 
 ```
 $ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.bind
@@ -654,9 +657,9 @@ $ q service-management test-iam-permissions services/stores.endpoints.bobadojo.c
 
 ## The Operations service
 
-https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning
+The [Operations](https://github.com/googleapis/googleapis/blob/master/google/longrunning/operations.proto#L55) service ([Google Documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning)) is defined in [operations.proto](https://github.com/googleapis/googleapis/blob/master/google/longrunning/operations.proto). It allows us to check the status of operations that complete asynchronously after their initiating request completes.
 
-Method names below are prefixed with `google.longrunning.Operations.`
+The full names of these methods begin with `google.longrunning.Operations.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -666,15 +669,13 @@ Method names below are prefixed with `google.longrunning.Operations.`
 | [CancelOperation](#canceloperation) | Starts asynchronous cancellation on a long-running operation |
 | [WaitOperation](#waitoperation) |  Waits until the specified long-running operation is done or reaches at most a specified timeout, returning the latest state |
 
-### Operations
+### **Operations**
 
 **Operation** resources can be used to manage operations that complete asynchronously after their initiating request completes.
 
-https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#operations
+Quoting [Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#operations): "When an API method normally takes long time to complete, it can be designed to return Operation to the client, and the client can use this interface to receive the real response asynchronously by polling the operation resource, or pass the operation resource to another API (such as Google Cloud Pub/Sub API) to receive the response. Any API service that returns long-running operations should implement the Operations interface so developers can have a consistent client experience."
 
-"When an API method normally takes long time to complete, it can be designed to return Operation to the client, and the client can use this interface to receive the real response asynchronously by polling the operation resource, or pass the operation resource to another API (such as Google Cloud Pub/Sub API) to receive the response. Any API service that returns long-running operations should implement the Operations interface so developers can have a consistent client experience."
-
-To get a sample operation, we will call the **CreateService** method, which returns an operation.
+To get a sample operation, we will call the `CreateService` method, which returns an operation.
 
 ```
 $ q service-management create-service bobadojo example.endpoints.bobadojo.cloud.goog
@@ -692,10 +693,7 @@ $ q service-management list-operations "" | jq
 Error: rpc error: code = InvalidArgument desc = Must specify a filter.
 ```
 
-This requires a filter.
-
-https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#google.longrunning.ListOperationsRequest
-
+That failed because this method requires a filter. We can learn more about that in the [ListOperationsRequest](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#google.longrunning.ListOperationsRequest) documentation. Here we'll use a filter to select the service that we just attempted to create. The filter expression is `serviceName=example.endpoints.bobadojo.cloud.goog`.
 
 ```
 $ q service-management list-operations "serviceName=example.endpoints.bobadojo.cloud.goog" | jq
@@ -718,10 +716,11 @@ $ q service-management list-operations "serviceName=example.endpoints.bobadojo.c
   }
 ]
 ```
+That worked, and we see that our operation is nearly (99%) complete.
 
 ### GetOperation
 
-**GetOperation** lets us check on the status of a running operation. We can use it to directly check the operation that was returned above.
+**GetOperation** lets us check on the status of a running operation. We can use it to directly check the operation that was returned above. We just provide the operation name that was returned from the original `CreateService` call.
 
 ```
 q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
@@ -742,6 +741,8 @@ q service-management get-operation operations/services.example.endpoints.bobadoj
   }
 }
 ```
+
+Here again we see that our operation is 99% complete.
 
 If we check a few minutes later, we'll see that the operation is complete.
 
@@ -768,7 +769,7 @@ $ q service-management get-operation operations/services.example.endpoints.bobad
 
 ### DeleteOperation
 
-**DeleteOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+**DeleteOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management delete-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
@@ -784,7 +785,7 @@ Flags:
 
 ### CancelOperation
 
-**CancelOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+**CancelOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management cancel-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
@@ -799,7 +800,7 @@ Flags:
 
 ### WaitOperation
 
-**WaitOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+**WaitOperation** is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
 ```
 $ q service-management wait-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
@@ -811,7 +812,6 @@ Flags:
       --format string   output format (default "json")
   -h, --help            help for wait-operation
 ```
-
 
 ## Summarizing
 
