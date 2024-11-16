@@ -12,7 +12,7 @@ This website describes a way to manage APIs that is inexpensive, high-performing
 
 It's also great for APIs that are built with gRPC and Protocol Buffers. It's the only API management system that starts with these powerful approaches, and if you are building APIs with them, you'll find it especially familiar.
 
-We start with a review of [API Management](/docs/intro) and then discuss what's special about [gRPC API Management](/docs/intro/grpc). Then we look at Google's [Service Infrastructure](/docs/serviceinfrastructure) and the [Extensible Service Proxies](/docs/proxies). These are the key parts of our API management solution.
+We start with a review of [API Management](/docs/intro) and discuss what's special about [gRPC API Management](/docs/intro/grpc). Then we look at Google's [Service Infrastructure](/docs/serviceinfrastructure) and the [Extensible Service Proxies](/docs/proxies). These are the key parts of our API management solution.
 
 We fill a few gaps with [q](/docs/quickstart/q), a command-line tool that helps us configure and demonstrate Service Infrastructure-based API management. `q` supports a [demo](/docs/quickstart/demo) that Google Cloud users can use to quickly get a sample managed service running on Cloud Run. Try it!
 

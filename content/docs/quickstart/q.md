@@ -8,6 +8,8 @@ title: Get the q Tool
 
 To get started with `q`, try the [demo](/docs/quickstart/demo). It provides scripts, support files, and instructions to allow you to quickly set up a managed gRPC service on Google Cloud Run, and you can do everything in the Google Cloud Shell.
 
-Full source code for `q` is on GitHub at [github.com/agentio/q](https://github.com/agentio/q). A container build that also includes `gcloud` is available at [ghcr.io/agentio/q:nightly](https://github.com/agentio/q/pkgs/container/q). 
+Full source code for `q` is on GitHub at [github.com/agentio/q](https://github.com/agentio/q). A container that contains both `q` and `gcloud` is available at [ghcr.io/agentio/q:nightly](https://github.com/agentio/q/pkgs/container/q).
 
-For an in-depth discussion of how `q` calls the Service Infrastructure APIs, see [How to Call Google APIs](/docs/details/how-to-call-google-apis).
+In many ways, `q` replicates capabilities that you'll find in `gcloud`, but with a closer correspondence to the underlying APIs. For every method of Service Infrastructure that we discuss, there is a `q` subcommand that allows us to call it directly, and Go source code is available to show how it works. 
+
+For background on how `q` calls the Service Infrastructure APIs, see [How to Call Google APIs](/docs/details/how-to-call-google-apis).

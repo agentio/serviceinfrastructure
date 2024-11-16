@@ -46,7 +46,7 @@ The third-largest provider of cloud computing services after AWS and Azure.
 
 ### Google Cloud Run
 
-A serverless platform that runs software in containers on Google's cloud infrastructure. 
+A serverless platform that runs software in containers on Google's cloud infrastructure. See [Cloud Run | Google Cloud](https://cloud.google.com/run) for details.
 
 ### gRPC
 

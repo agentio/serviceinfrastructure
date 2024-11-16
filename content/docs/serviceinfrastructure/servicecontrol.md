@@ -64,7 +64,7 @@ $ q service-control mock --service stores.endpoints.bobadojo.cloud.goog --operat
 
 What just happened? 
 
-We just made the backend calls that a proxy would make to handle a request. First we call check to verify an API key, then allocate_quota to verify that the request is within quota limits, and then finally report to save logs and metrics.
+We just made the backend calls that a proxy would make to handle a request. First we call `Check` to verify an API key, then `AllocateQuota` to verify that the request is within quota limits, and then finally we call `Report` to save logs and metrics.
 
 In a minute or so, the results will show up in the log viewer.
 
