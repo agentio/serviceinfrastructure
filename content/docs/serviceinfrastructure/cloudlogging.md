@@ -6,251 +6,305 @@ title: The Cloud Logging API
 
 [Cloud Logging](https://cloud.google.com/logging) is a Google service that provides centralized storage and analytics for application logs. Service Infrastructure users use it indirectly when Service Control API handlers write logs using the Cloud Logging API. This allows Service Infrastructure users to use the [Logs Explorer](https://cloud.google.com/logging/docs/view/logs-explorer-interface) to view their APIs and the Cloud Logging API to programmatically access their logs.
 
-The Cloud Logging API is defined in the [googleapis](/docs/details/googleapis) repo in [logging_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_v2.yaml).
-The methods specific to the API are defined 
-by the 
-[ConfigServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_config.proto#L50),
-[LoggingServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto#L39), and
-[MetricsServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_metrics.proto#L38) in 
-[logging_config.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_config.proto),
-[logging.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto), and
-[logging_metrics.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_metrics.proto).
+The Cloud Logging API is defined in the [googleapis](/docs/details/googleapis) repo in [logging_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging_v2.yaml). It includes four services:
 
-This is a large API with many uses beyond Service Infrastructure. Here we list all of the available methods but focus on the ones most relevant to Service Infrastructure users.
+| Service | Purpose |
+| ------- | ------- |
+| `ConfigServiceV2` | A service for configuring sinks used to route log entries |
+| [LoggingServiceV2](#the-loggingservicev2-service) | A service for ingesting and querying logs |
+| `MetricsServiceV2` | A service for configuring logs-based metrics |
+| `Operations` | A mix-in that handles long-running operations |
 
-## The ConfigServiceV2 service
-
-Documented as a "service for configuring sinks used to route log entries", this service provides a rich set of capabilities for configuring log storage. Service Infrastructure users will find that these resources are automatically configured, so our survey of these methods will focus on listing the various resource types.
-
-Method names below are prefixed with `google.logging.v2.ConfigServiceV2.`
-
-| Method | Description |
-| ------ | ----------- |
-| ListBuckets | Lists log buckets |
-| GetBucket | Gets a log bucket |
-| CreateBucketAsync | Creates a log bucket asynchronously that can be used to store log entries |
-| UpdateBucketAsync | Updates a log bucket asynchronously |
-| CreateBucket | Creates a log bucket that can be used to store log entries |
-| UpdateBucket | Updates a log bucket |
-| DeleteBucket | Deletes a log bucket |
-| UndeleteBucket | Undeletes a log bucket |
-| ListViews | Lists views on a log bucket |
-| GetView | Gets a view on a log bucket |
-| CreateView | Creates a view over log entries in a log bucket |
-| UpdateView | Updates a view on a log bucket |
-| DeleteView | Deletes a view on a log bucket |
-| ListSinks | Lists sinks |
-| GetSink | Gets a sink |
-| CreateSink | Creates a sink that exports specified log entries to a destination |
-| UpdateSink | Updates a sink |
-| DeleteSink | Deletes a sink |
-| CreateLink | Asynchronously creates a linked dataset in BigQuery which makes it possible to use BigQuery to read the logs stored in the log bucket |
-| DeleteLink | Deletes a link |
-| ListLinks | Lists links |
-| GetLink | Gets a link |
-| ListExclusions | Lists all the exclusions on the _Default sink in a parent resource |
-| GetExclusion | Gets the description of an exclusion in the _Default sink |
-| CreateExclusion | Creates a new exclusion in the _Default sink in a specified parent resource |
-| UpdateExclusion | Changes one or more properties of an existing exclusion in the _Default sink |
-| DeleteExclusion | Deletes an exclusion in the _Default sink |
-| GetCmekSettings | Gets the Logging CMEK settings for the given resource |
-| UpdateCmekSettings | Updates the Log Router CMEK settings for the given resource |
-| GetSettings | Gets the Log Router settings for the given resource |
-| UpdateSettings | Updates the Log Router settings for the given resource |
-| CopyLogEntries | Copies a set of log entries from a log bucket to a Cloud Storage bucket |
+This is a large API with many uses beyond Service Infrastructure. Here we focus on the service most relevant to Service Infrastructure uses, the `LoggingServiceV2` service.
 
 ## The LoggingServiceV2 service
 
-Documented as a "service for ingesting and querying logs," this will be a close focus for us as we look at how we can programmatically read the logs written by Service Infrastructure.
+The [LoggingServiceV2](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto#L39) service is defined in [logging.proto](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto).
+
+Documented as a "service for ingesting and querying logs," this will be a close focus for us as we look at how we can programmatically read the logs written by Service Infrastructure. Its methods are used by `ServiceControl` to write logs that users can view in the Cloud Console or query using other methods of the service.
 
 Method names below are prefixed with `google.logging.v2.LoggingServiceV2.`
 
 | Method | Description |
 | ------ | ----------- |
-| DeleteLog | Deletes all the log entries in a log for the _Default Log Bucket |
+| ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
 | WriteLogEntries | Writes log entries to Logging |
 | ListLogEntries | Lists log entries |
-| ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
-| ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
 | TailLogEntries | Streaming read of log entries as they are ingested |
+| DeleteLog | Deletes all the log entries in a log |
+| ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
 
-### DeleteLog
+### **LogEntries**
 
-### WriteLogEntries
-
-### ListLogEntries
-
-```
-$ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log
-{
-  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
-  "resource": {
-    "type": "api",
-    "labels": {
-      "location": "global",
-      "method": "bobadojo.stores.v1.Stores.GetStore",
-      "project_id": "bobadojo",
-      "service": "stores.endpoints.bobadojo.cloud.goog",
-      "version": "v1"
-    }
-  },
-  "Payload": {
-    "JsonPayload": {
-      "api_key": "REDACTED",
-      "api_key_state": "VERIFIED",
-      "api_method": "bobadojo.stores.v1.Stores.GetStore",
-      "api_name": "bobadojo.stores.v1.Stores",
-      "api_version": "v1",
-      "grpc_status_code": "OK",
-      "http_status_code": 200,
-      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
-      "producer_project_id": "bobadojo",
-      "response_code_detail": "via_upstream",
-      "service_agent": "ESPv2/2.48.0",
-      "service_config_id": "2024-10-18r0",
-      "timestamp": 1731381304.226605
-    }
-  },
-  "timestamp": {
-    "seconds": 1731381304,
-    "nanos": 226605011
-  },
-  "receive_timestamp": {
-    "seconds": 1731381306,
-    "nanos": 106807545
-  },
-  "severity": 200,
-  "insert_id": "ecb2ce7a-103f-4ffe-8f11-717c5ccfe0554850908905639612439@aq",
-  "http_request": {
-    "request_method": "POST",
-    "request_url": "/bobadojo.stores.v1.Stores/GetStore",
-    "request_size": 422,
-    "status": 200,
-    "response_size": 187,
-    "remote_ip": "10.1.9.100",
-    "latency": {},
-    "protocol": "grpc"
-  }
-}
-{
-  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
-  "resource": {
-    "type": "api",
-    "labels": {
-      "location": "global",
-      "method": "bobadojo.stores.v1.Stores.GetStore",
-      "project_id": "bobadojo",
-      "service": "stores.endpoints.bobadojo.cloud.goog",
-      "version": "v1"
-    }
-  },
-  "Payload": {
-    "JsonPayload": {
-      "api_key": "REDACTED",
-      "api_key_state": "VERIFIED",
-      "api_method": "bobadojo.stores.v1.Stores.GetStore",
-      "api_name": "bobadojo.stores.v1.Stores",
-      "api_version": "v1",
-      "grpc_status_code": "OK",
-      "http_status_code": 200,
-      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
-      "producer_project_id": "bobadojo",
-      "response_code_detail": "via_upstream",
-      "service_agent": "ESPv2/2.48.0",
-      "service_config_id": "2024-10-18r0",
-      "timestamp": 1731381304.2231698
-    }
-  },
-  "timestamp": {
-    "seconds": 1731381304,
-    "nanos": 223169837
-  },
-  "receive_timestamp": {
-    "seconds": 1731381306,
-    "nanos": 106807545
-  },
-  "severity": 200,
-  "insert_id": "ecb2ce7a-103f-4ffe-8f11-717c5ccfe0554850908905639612439@ap",
-  "http_request": {
-    "request_method": "POST",
-    "request_url": "/bobadojo.stores.v1.Stores/GetStore",
-    "request_size": 422,
-    "status": 200,
-    "response_size": 206,
-    "remote_ip": "10.1.9.100",
-    "latency": {},
-    "protocol": "grpc"
-  }
-}
-{
-  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
-  "resource": {
-    "type": "api",
-    "labels": {
-      "location": "global",
-      "method": "bobadojo.stores.v1.Stores.GetStore",
-      "project_id": "bobadojo",
-      "service": "stores.endpoints.bobadojo.cloud.goog",
-      "version": "v1"
-    }
-  },
-  "Payload": {
-    "JsonPayload": {
-      "api_key": "REDACTED",
-      "api_key_state": "VERIFIED",
-      "api_method": "bobadojo.stores.v1.Stores.GetStore",
-      "api_name": "bobadojo.stores.v1.Stores",
-      "api_version": "v1",
-      "grpc_status_code": "OK",
-      "http_status_code": 200,
-      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
-      "producer_project_id": "bobadojo",
-      "response_code_detail": "via_upstream",
-      "service_agent": "ESPv2/2.48.0",
-      "service_config_id": "2024-10-18r0",
-      "timestamp": 1731381304.2194657
-    }
-  },
-  "timestamp": {
-    "seconds": 1731381304,
-    "nanos": 219465707
-  },
-  "receive_timestamp": {
-    "seconds": 1731381306,
-    "nanos": 106807545
-  },
-  "severity": 200,
-  "insert_id": "ecb2ce7a-103f-4ffe-8f11-717c5ccfe0554850908905639612439@ao",
-  "http_request": {
-    "request_method": "POST",
-    "request_url": "/bobadojo.stores.v1.Stores/GetStore",
-    "request_size": 421,
-    "status": 200,
-    "response_size": 175,
-    "remote_ip": "10.1.9.100",
-    "latency": {},
-    "protocol": "grpc"
-  }
-}
-
-```
-
-### ListMonitoredResourceDescriptors
+[LogEntry](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto#L38) is the most significant resource that we'll deal with in this API. It appears as a single line in the Logs Explorer and can be programmaticlly retrieved with the API. It has many optional properties that include an associated HTTP request and an arbitrary payload that can be either a binary-encoded protobuf message, a JSON value, or text.
 
 ### ListLogs
 
+We discuss `ListLogs` first, because it provides us with the list of logs in our project. You'll see from the list below that a variety of logs exist, and we see several that are created by Cloud Run (with `run.googleapis.com` in their name). The log for our service is named with the service name, followed by %2F (a url-encoded forward slash), and `endpoints_log`.
+
+```
+$ q logging list-logs projects/bobadojo
+projects/bobadojo/logs/cloudaudit.googleapis.com%2Factivity
+projects/bobadojo/logs/cloudaudit.googleapis.com%2Fsystem_event
+projects/bobadojo/logs/run.googleapis.com%2F%2Fvar%2Flog%2Fnginx%2Ferror.log
+projects/bobadojo/logs/run.googleapis.com%2Frequests
+projects/bobadojo/logs/run.googleapis.com%2Fstderr
+projects/bobadojo/logs/run.googleapis.com%2Fstdout
+projects/bobadojo/logs/run.googleapis.com%2Fvarlog%2Fsystem
+projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log
+```
+
+### WriteLogEntries
+
+`WriteLogEntries` can be used to directly add entries to a log. When we use Service Infrastructure, the `ServiceControl` `Report` method calls this for us. In general, this requires a log name, an optional monitored resource, and a list of `LogEntry` values. We won't demonstrate this here.
+
+### ListLogEntries
+
+We can read the entries in a log with `ListLogEntries`. This can return many values, so here we display only the two most recent. You'll see below that the logs include API keys. We've replaced them with `REDACTED` in the text below, but in the original response these were raw (unencrypted) API key strings.
+
+```
+$ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 2
+{
+  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
+  "resource": {
+    "type": "api",
+    "labels": {
+      "location": "global",
+      "method": "bobadojo.stores.v1.Stores.GetStore",
+      "project_id": "bobadojo",
+      "service": "stores.endpoints.bobadojo.cloud.goog",
+      "version": "v1"
+    }
+  },
+  "Payload": {
+    "JsonPayload": {
+      "api_key": "REDACTED",
+      "api_key_state": "VERIFIED",
+      "api_method": "bobadojo.stores.v1.Stores.GetStore",
+      "api_name": "bobadojo.stores.v1.Stores",
+      "api_version": "v1",
+      "grpc_status_code": "OK",
+      "http_status_code": 200,
+      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
+      "producer_project_id": "bobadojo",
+      "response_code_detail": "via_upstream",
+      "service_agent": "ESPv2/2.48.0",
+      "service_config_id": "2024-10-18r0",
+      "timestamp": 1731798005.4496007
+    }
+  },
+  "timestamp": {
+    "seconds": 1731798005,
+    "nanos": 449600742
+  },
+  "receive_timestamp": {
+    "seconds": 1731798007,
+    "nanos": 60366065
+  },
+  "severity": 200,
+  "insert_id": "a42b02cf-4901-45ba-8197-5148bed715ef4850908905639612439@b16",
+  "http_request": {
+    "request_method": "POST",
+    "request_url": "/bobadojo.stores.v1.Stores/GetStore",
+    "request_size": 422,
+    "status": 200,
+    "response_size": 166,
+    "remote_ip": "10.1.9.100",
+    "latency": {},
+    "protocol": "grpc"
+  }
+}
+{
+  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
+  "resource": {
+    "type": "api",
+    "labels": {
+      "location": "global",
+      "method": "bobadojo.stores.v1.Stores.GetStore",
+      "project_id": "bobadojo",
+      "service": "stores.endpoints.bobadojo.cloud.goog",
+      "version": "v1"
+    }
+  },
+  "Payload": {
+    "JsonPayload": {
+      "api_key": "REDACTED",
+      "api_key_state": "VERIFIED",
+      "api_method": "bobadojo.stores.v1.Stores.GetStore",
+      "api_name": "bobadojo.stores.v1.Stores",
+      "api_version": "v1",
+      "grpc_status_code": "OK",
+      "http_status_code": 200,
+      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
+      "producer_project_id": "bobadojo",
+      "response_code_detail": "via_upstream",
+      "service_agent": "ESPv2/2.48.0",
+      "service_config_id": "2024-10-18r0",
+      "timestamp": 1731798005.4459765
+    }
+  },
+  "timestamp": {
+    "seconds": 1731798005,
+    "nanos": 445976439
+  },
+  "receive_timestamp": {
+    "seconds": 1731798007,
+    "nanos": 60366065
+  },
+  "severity": 200,
+  "insert_id": "a42b02cf-4901-45ba-8197-5148bed715ef4850908905639612439@b15",
+  "http_request": {
+    "request_method": "POST",
+    "request_url": "/bobadojo.stores.v1.Stores/GetStore",
+    "request_size": 422,
+    "status": 200,
+    "response_size": 184,
+    "remote_ip": "10.1.9.100",
+    "latency": {},
+    "protocol": "grpc"
+  }
+}
+```
+
+`ListLogEntries` supports a rich language for filtering queries. It's described in detail at [Logging query language](https://cloud.google.com/logging/docs/view/logging-query-language) and we're actually already using it in the `q` command to filter our query to only return entries from the `endpoints_log`.
+
+To illustrate a tighter filter, let's ask for the most recent call to `ListStores`.
+
+```
+$ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1 --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/ListStores"'
+{
+  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
+  "resource": {
+    "type": "api",
+    "labels": {
+      "location": "global",
+      "method": "bobadojo.stores.v1.Stores.ListStores",
+      "project_id": "bobadojo",
+      "service": "stores.endpoints.bobadojo.cloud.goog",
+      "version": "v1"
+    }
+  },
+  "Payload": {
+    "JsonPayload": {
+      "api_key": "REDACTED",
+      "api_key_state": "VERIFIED",
+      "api_method": "bobadojo.stores.v1.Stores.ListStores",
+      "api_name": "bobadojo.stores.v1.Stores",
+      "api_version": "v1",
+      "grpc_status_code": "OK",
+      "http_status_code": 200,
+      "log_message": "bobadojo.stores.v1.Stores.ListStores is called",
+      "producer_project_id": "bobadojo",
+      "response_code_detail": "via_upstream",
+      "service_agent": "q/0.0.0",
+      "service_config_id": "2024-10-18r0",
+      "timestamp": 1730763427
+    }
+  },
+  "timestamp": {
+    "seconds": 1730763427,
+    "nanos": 347017499
+  },
+  "receive_timestamp": {
+    "seconds": 1730763428,
+    "nanos": 821073787
+  },
+  "severity": 200,
+  "insert_id": "5b8e82e2-b78e-4b5f-9b87-fe0a269330b34850908905639612439@a1",
+  "http_request": {
+    "request_method": "GET",
+    "request_url": "/bobadojo.stores.v1.Stores/ListStores",
+    "request_size": 10,
+    "status": 200,
+    "response_size": 10,
+    "remote_ip": "10.1.1.1",
+    "latency": {
+      "seconds": 5
+    },
+    "protocol": "grpc"
+  }
+}
+```
+
+As one more example, let's ask for the most recent request that resulted in a non-OK (200) response code.
+
+```
+$ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1 --filter ' AND httpRequest.status != 200'
+{
+  "log_name": "projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log",
+  "resource": {
+    "type": "api",
+    "labels": {
+      "location": "us-west1",
+      "method": "bobadojo.stores.v1.Stores.GetStore",
+      "project_id": "bobadojo",
+      "service": "stores.endpoints.bobadojo.cloud.goog",
+      "version": "v1"
+    }
+  },
+  "Payload": {
+    "JsonPayload": {
+      "api_key_state": "NOT CHECKED",
+      "api_method": "bobadojo.stores.v1.Stores.GetStore",
+      "api_name": "bobadojo.stores.v1.Stores",
+      "api_version": "v1",
+      "error_cause": "Method doesn't allow unregistered callers (callers without established identity). Please use API Key or other form of API consumer identity to call this API.",
+      "http_status_code": 401,
+      "location": "us-west1",
+      "log_message": "bobadojo.stores.v1.Stores.GetStore is called",
+      "producer_project_id": "bobadojo",
+      "response_code_detail": "service_control_bad_request{MISSING_API_KEY}",
+      "service_agent": "ESPv2/2.48.0",
+      "service_config_id": "2024-10-18r0",
+      "timestamp": 1731778552.495956
+    }
+  },
+  "timestamp": {
+    "seconds": 1731778552,
+    "nanos": 495955841
+  },
+  "receive_timestamp": {
+    "seconds": 1731778554,
+    "nanos": 622525552
+  },
+  "severity": 500,
+  "insert_id": "9b772b44-9b91-403b-be73-7e2d932ed94e4850908905639612439@a1",
+  "http_request": {
+    "request_method": "GET",
+    "request_url": "/v1/stores/0",
+    "request_size": 444,
+    "status": 401,
+    "response_size": 342,
+    "remote_ip": "169.254.169.126",
+    "latency": {},
+    "protocol": "http"
+  },
+  "trace": "projects/bobadojo/traces/a6283db966f75ae660d3e7b740a1779e"
+}
+```
+
 ### TailLogEntries
 
-## The MetricsServiceV2 service
+`TailLogEntries` is a streaming gRPC method that allows us to watch a log for new entries. We generally give it the same arguments as `ListLogEntries` (omitting [order_by](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/logging.proto#L291), since ordering is implicit).
 
-This service is documented as a "service for configuring logs-based metrics". We'll focus on the read-only methods for observing any automatically-defined metrics.
+As an example, here's a `q` command that tails the log entries for our API, filtering to only show requests to `FindStores`:
 
-Method names below are prefixed with `google.logging.v2.MetricsServiceV2.`
+```
+q logging tail-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1000 --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/FindStores"'
+```
 
-| Method | Description |
-| ------ | ----------- |
-| ListLogMetrics | Lists logs-based metrics |
-| GetLogMetric | Gets a logs-based metric |
-| CreateLogMetric | Creates a logs-based metric |
-| UpdateLogMetric | Creates or updates a logs-based metric |
-| DeleteLogMetric | Deletes a logs-based metric |
+### DeleteLog
+
+The `DeleteLog` method can be used to delete all of the entries in a log. The log should be identified by its full resource name. We won't demonstrate this here.
+
+### ListMonitoredResourceDescriptors
+
+Finally, `ListMonitoredResourceDescriptors` lists the types of resources that can be used as monitored resources in Logging. You can view a list of their names with the following `q` command, but results are omitted because they are large and not relevant to our discussion.
+
+```
+$ q logging list-monitored-resource-descriptors | jq .[].type -r
+```
+
+## Usage Notes
+
+Cloud Logging is a powerful API that is built for large-scale logging. Service Control uses it to store logs for our managed services, and if we take some time to understand the log structure (see the examples above) and the [filtering language](https://cloud.google.com/logging/docs/view/logging-query-language), we can build our own powerful queries that help us understand how our services are running and being used.
