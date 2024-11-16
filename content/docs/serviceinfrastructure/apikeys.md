@@ -4,16 +4,20 @@ title: The API Keys API
 ---
 ## The API Keys API
 
-The API Keys API generates and manages API keys that consumers use to call APIs.
+The API Keys API creates and manages API keys that consumers use to call APIs.
 
-The API Keys API is defined in the [googleapis](/docs/details/googleapis) repo in [apikeys_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys_v2.yaml).
-The methods specific to the API are defined
-by the [ApiKeys](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto#L37) service
-in [apikeys.proto](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto).
+The API Keys API is defined in the [googleapis](/docs/details/googleapis) repo in [apikeys_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys_v2.yaml). It includes two services.
+
+| Service | Purpose |
+| ------- | ------- |
+| [ApiKeys](#the-apikeys-service) | Methods managing the API keys associated with projects |
+| [Operations](#the-operations-service) | A mix-in that handles long-running operations |
 
 ## The ApiKeys service
 
-Method names below are prefixed with `google.api.apikeys.v2.ApiKeys.`
+The [ApiKeys](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto#L37) service is defined in [apikeys.proto](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys.proto) and provides support for managing and using API keys.
+
+The full names of these methods begin with `google.api.apikeys.v2.ApiKeys.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -25,6 +29,8 @@ Method names below are prefixed with `google.api.apikeys.v2.ApiKeys.`
 | [DeleteKey](#deletekey) | Deletes an API key |
 | [UndeleteKey](#undeletekey) | Undeletes an API key which was deleted within 30 days |
 | [LookupKey](#lookupkey) | Find the parent project and resource name of the API key that matches the key string in the request |
+
+We'll work through these methods, calling each with `q` for the example project that we set up in the [quickstart](/docs/quickstart).
 
 ### CreateKey
 
@@ -42,6 +48,9 @@ Method names below are prefixed with `google.api.apikeys.v2.ApiKeys.`
 
 ### LookupKey
 
+## The Operations service
+
+This is the same service that we discussed for the Service Management API, so we won't discuss it further here.
 
 ## Usage Notes
 
@@ -63,7 +72,7 @@ alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 {"message":"PERMISSION_DENIED: API stores.endpoints.bobadojo.cloud.goog is not enabled for the project.","code":403}
 ```
 
-When they search for the service, they won't find it. It is only visible in the organization that created it.
+When they search for the service, they won't find it. It is only visible to the projects have been granted access to it.
 ![alt text](/screenshots/service-not-found.png)
 
 

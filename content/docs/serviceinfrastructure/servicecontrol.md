@@ -4,17 +4,20 @@ title: The Service Control API
 ---
 ## The Service Control API
 
-The Service Control API is used by the proxies, so you probably won't call it directly, but we describe it here so that we know exactly what the proxies are doing in case we want to make changes to them or build something new. The Service Control API is used to check API requests from consumers and to monitor requests and responses.
+The Service Control API is used by the proxies, so you probably won't call it directly, but we describe it here so that we know exactly what the proxies are doing in case we want to make changes to them or to build something new.
 
-The Service Control API is defined in the [googleapis](/docs/details/googleapis) repo in [servicecontrol.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/servicecontrol.yaml).
-The methods specific to the API are defined 
-by the [ServiceController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto#L39) and
-[QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) services
-in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto).
+The Service Control API is defined in the [googleapis](/docs/details/googleapis) repo in [servicecontrol.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/servicecontrol.yaml). It is used to check API requests from consumers and to monitor requests and responses. It includes two services:
+
+| Service | Purpose |
+| ------- | ------- |
+| [ServiceController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto#L39) | Check and report on requests made to a managed service |
+| [QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) | Provide quota controls for requests a managed service | 
 
 ## The ServiceController service
 
-Method names below are prefixed with `google.api.servicecontrol.v1.ServiceController`
+The [ServiceController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto#L39) service is defined in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and provides two methods that are used by proxies to check and report on requests to a managed service.
+
+The full names of theses methods begin with `google.api.servicecontrol.v1.ServiceController.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -23,17 +26,25 @@ Method names below are prefixed with `google.api.servicecontrol.v1.ServiceContro
 
 ### Check
 
+The **Check** method should be called by proxies after an operation is received and before it is processed. Typically `Check` request messages are small and contain an operation id, an API key, and just a few other details.
+
 ### Report
+
+**Report** is called by proxies after operations are processed. `Report` request messages include a significant amount of detail about the processed API including information to be logged and tracked in system-defined metrics.
 
 ## The QuotaController service
 
-Method names below are prefixed with `google.api.servicecontrol.v1.QuotaController`
+The [QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) service is defined in [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto) and provides a single method that is used by proxies to implement quotas on managed services.
+
+The full names of theses methods begin with `google.api.servicecontrol.v1.QuotaController.`
 
 | Method | Description |
 | ------ | ----------- |
 | [AllocateQuota](#allocatequota) | Attempts to allocate quota for the specified consumer |
 
 ### AllocateQuota
+
+**AllocateQuota** is called by proxies after `Check` and before `Report`. It sends "quota metrics" which are charged against a user's quota and its response indicates whether an operation should proceed or fail with an out-of-quota error.
 
 ## Usage Notes
 
