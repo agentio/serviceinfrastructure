@@ -6,7 +6,7 @@ type: docs
 ---
 ## Managing APIs
 
-[API management](/docs/glossary#api-management) is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that _API management addresses the common concerns that arise when developers make and use networked APIs_.
+[API management](/docs/glossary#api-management) is a thriving industry with many vendors, marketers, and definitions. Here we step back to the perspective of a software developer and say that API management _addresses the common concerns that arise when developers make and use networked APIs_.
 
 ## Networked APIs
 

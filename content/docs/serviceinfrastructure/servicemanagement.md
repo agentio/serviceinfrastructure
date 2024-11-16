@@ -6,10 +6,17 @@ title: The Service Management API
 
 API management starts with knowing what your APIs are, and the Service Management API is used to build a list and digest it into a form that allows API proxies to check and report API traffic. The Service Management API manages descriptions of APIs, focusing on the service configurations that control their usage.
 
-The Service Management API is defined in the [googleapis](/docs/details/googleapis) repo in [servicemanagement_v1.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanagement_v1.yaml).
-The methods specific to the API are defined by the [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto).
+The Service Management API is defined in the [googleapis](/docs/details/googleapis) repo in [servicemanagement_v1.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanagement_v1.yaml). It includes three services:
+
+| Service | Purpose |
+| ------- | ------- |
+| [ServiceManager](#the-servicemanager-service) | Methods for managing service descriptions |
+| [IAMPolicyService](#the-iampolicyservice-service) | A mix-in that configures access and sharing |
+| [Operations](#the-operations-service) | A mix-in that handles long-running operations |
 
 ## The ServiceManager service
+
+The methods specific to the API are defined by the [ServiceManager](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto#L39) service in [servicemanager.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicemanagement/v1/servicemanager.proto).
 
 https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.api/servicemanagement.v1
 
@@ -521,6 +528,10 @@ This creates a long running operation that will complete quickly, and Cloud Endp
 
 ## The IAMPolicyService service
 
+The **IAMPolicyService** allows us to set IAM policies that allow other Google Cloud users to see the managed services that we create and enable them for use in their projects. When a user has enabled your service, they will be able to create API keys that they can use to call your service. When you check those keys with service control, you'll be able to see which project they came from.
+
+https://cloud.google.com/service-infrastructure/docs/service-management/access-control
+
 https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1
 
 Method names below are prefixed with `google.iam.v1.IamPolicyService.`
@@ -533,11 +544,113 @@ Method names below are prefixed with `google.iam.v1.IamPolicyService.`
 
 ### Policies
 
+[Policies](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1#policy) specify access controls, and the Service Management API uses them to give users access to services. A policy contains a list of "bindings" that grant a role to a list of users. 
+
+The specific role that we are granting is `servicemanagement.serviceConsumer` and we refer to it as `roles/servicemanagement.serviceConsumer` in the binding. We'll see examples in the method descriptions below.
+
 ### GetIamPolicy
+
+**GetIamPolicy** returns the policy associated with a service, which can be empty of nothing has been specified yet.
+
+```
+$ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
+{
+  "etag":"ACAB"
+}
+```
+
+After we've added a few users, our policy might look like this:
+
+```
+$ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
+{
+  "version": 1,
+  "bindings": [
+    {:
+      "role": "roles/servicemanagement.serviceConsumer",
+      "members": [
+        "user:tim@mitra.so",
+        "user:tim@radtastical.com"
+      ]
+    }
+  ],
+  "etag": "BwYm5Z23vKM="
+}
+```
 
 ### SetIamPolicy
 
+Place the following in a file named `policy.json`:
+```
+{
+  "version": 1,
+  "bindings": [
+    {
+      "role": "roles/servicemanagement.serviceConsumer",
+      "members": [
+        "user:tim@mitra.so"
+      ]
+    }
+  ]
+}
+```
+
+Now set the policy with `q`:
+
+```
+$ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
+{
+  "version": 1,
+  "bindings": [
+    {
+      "role": "roles/servicemanagement.serviceConsumer",
+      "members": [
+        "user:tim@mitra.so"
+      ]
+    }
+  ],
+  "etag": "BwYm+t1o3Y4="
+}
+```
+
+We can also add Google groups:
+
+```
+q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
+{
+  "version": 1,
+  "bindings": [
+    {
+      "role": "roles/servicemanagement.serviceConsumer",
+      "members": [
+        "group:agentio@googlegroups.com",
+        "user:tim@mitra.so"
+      ]
+    }
+  ],
+  "etag": "BwYm+uvcW4c="
+}
+```
+
 ### TestIamPermissions
+
+This allows us to see if one or more permissions is granted to the calling account.
+
+To make these calls, we temporarily change our account by logging in again with `gcloud auth login`, in this case to a Google Cloud account associated with `tim@mitra.so`.
+
+First we check the `servicemanagement.services.check` permission. We can expect this first request to "fail" since this permission is not included in the `servicemanagement.serviceConsumer` role.
+
+```
+$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.check
+{}
+```
+
+Next we check the `servicemanagement.services.bind` permission. We can expect this first request to succeed since this permission is included in the `servicemanagement.serviceConsumer` role.
+
+```
+$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.bind
+{"permissions":["servicemanagement.services.bind"]}
+```
 
 ## The Operations service
 
@@ -555,22 +668,158 @@ Method names below are prefixed with `google.longrunning.Operations.`
 
 ### Operations
 
+**Operation** resources can be used to manage operations that complete asynchronously after their initiating request completes.
+
+https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#operations
+
+"When an API method normally takes long time to complete, it can be designed to return Operation to the client, and the client can use this interface to receive the real response asynchronously by polling the operation resource, or pass the operation resource to another API (such as Google Cloud Pub/Sub API) to receive the response. Any API service that returns long-running operations should implement the Operations interface so developers can have a consistent client experience."
+
+To get a sample operation, we will call the **CreateService** method, which returns an operation.
+
+```
+$ q service-management create-service bobadojo example.endpoints.bobadojo.cloud.goog
+operations/services.example.endpoints.bobadojo.cloud.goog-0
+```
+
+`operations/services.example.endpoints.bobadojo.cloud.goog-0` is the name of the operation.
+
 ### ListOperations
+
+**ListOperations** lets us see the operations that are currently active.
+
+```
+$ q service-management list-operations "" | jq
+Error: rpc error: code = InvalidArgument desc = Must specify a filter.
+```
+
+This requires a filter.
+
+https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#google.longrunning.ListOperationsRequest
+
+
+```
+$ q service-management list-operations "serviceName=example.endpoints.bobadojo.cloud.goog" | jq
+[
+  {
+    "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
+    "metadata": {
+      "@type": "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata",
+      "resourceNames": [
+        "services/example.endpoints.bobadojo.cloud.goog"
+      ],
+      "progressPercentage": 99,
+      "startTime": "2024-11-15T22:37:25.944856Z"
+    },
+    "response": {
+      "@type": "type.googleapis.com/google.api.servicemanagement.v1.ManagedService",
+      "serviceName": "example.endpoints.bobadojo.cloud.goog",
+      "producerProjectId": "bobadojo"
+    }
+  }
+]
+```
 
 ### GetOperation
 
+**GetOperation** lets us check on the status of a running operation. We can use it to directly check the operation that was returned above.
+
+```
+q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
+{
+  "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
+  "metadata": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata",
+    "resourceNames": [
+      "services/example.endpoints.bobadojo.cloud.goog"
+    ],
+    "progressPercentage": 99,
+    "startTime": "2024-11-15T22:37:25.944856Z"
+  },
+  "response": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.ManagedService",
+    "serviceName": "example.endpoints.bobadojo.cloud.goog",
+    "producerProjectId": "bobadojo"
+  }
+}
+```
+
+If we check a few minutes later, we'll see that the operation is complete.
+
+```
+$ q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
+{
+  "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
+  "metadata": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata",
+    "resourceNames": [
+      "services/example.endpoints.bobadojo.cloud.goog"
+    ],
+    "progressPercentage": 100,
+    "startTime": "2024-11-15T22:37:25.944856Z"
+  },
+  "done": true,
+  "response": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.ManagedService",
+    "serviceName": "example.endpoints.bobadojo.cloud.goog",
+    "producerProjectId": "bobadojo"
+  }
+}
+```
+
 ### DeleteOperation
+
+**DeleteOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+
+```
+$ q service-management delete-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+Error: rpc error: code = Unimplemented desc = Method not found.
+Usage:
+  q service-management delete-operation OPERATION [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for delete-operation
+
+```
 
 ### CancelOperation
 
+**CancelOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+
+```
+$ q service-management cancel-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+Error: rpc error: code = Unimplemented desc = Method not found.
+Usage:
+  q service-management cancel-operation OPERATION [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for cancel-operation
+```
+
 ### WaitOperation
+
+**WaitOperation** is defined in the Operations interface but unsupported by the ServiceManagement service.
+
+```
+$ q service-management wait-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+Error: rpc error: code = Unimplemented desc = WaitOperation is not supported now.
+Usage:
+  q service-management wait-operation OPERATION [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for wait-operation
+```
+
 
 ## Summarizing
 
-There's a lot in this section, but that's only because we went over everything in great detail. To use Service Management, here's what you need to know:
+There's a lot in this section, but that's because we went over everything in great detail. To use Service Management, here's what you need to know:
 1. Add your API by creating a managed service.
 2. Describe your API by uploading a service config.
 3. Activate your configuration by creating a rollout.
 4. If you need to make changes, upload a new service config and roll it out.
+5. To share your managed service with other users, set an IAM Policy on the service.
 
 Now on to Service Control!
