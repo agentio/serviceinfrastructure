@@ -66,6 +66,20 @@ serviceName: stores.endpoints.bobadojo.cloud.goog
 
 Notice that this hides your auth token. If you want to see that, just run `gcloud config set log_http_redact_token false` and tokens will be displayed.
 
+This also reveals that `gcloud` doesn't use gRPC! But that's not too surprising because `gcloud` is older than gRPC. Digging into the `google-cloud-sdk` release notes, we find this description of its earliest release:
+```
+## 0.9.0 (2013-04-09)
+
+*   Developer preview release of the Cloud SDK
+*   Includes command line tools for:
+    *   App Engine
+    *   BigQuery
+    *   Compute Engine
+    *   Cloud Storage
+    *   Cloud SQL
+*   Includes the new gauth tool for one time common authentication for all tools
+```
+
 ### Calling Google HTTP/JSON APIs with the APIs Explorer
 
 Many Google APIs are available as HTTP/JSON APIs that we can easily call with the [Google APIs Explorer](https://developers.google.com/apis-explorer), a web-based tool that you'll often find alongside Google API documentation.

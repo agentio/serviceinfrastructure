@@ -83,3 +83,7 @@ A person or organization that owns a [service](#service). The service owner is r
 ### Service User
 
 A person or organization that uses a [service](#service). A service user typically uses one or more [API Clients](#api-client) to make requests to a service. A service user often has a business relationship with a [service owner](#service-owner) and is responsible for conforming to terms of use and for paying for usage, when required.
+
+### Sidecar Deployment
+
+A deployment pattern that puts a helper container alongside the primary container that implements a service. This _sidecar_ extends the capabilities of the primary container to address common needs like authentication, rate limiting, and logging. The primary container can then be simpler and can be implemented more flexibly, perhaps using a language or technology where these common needs aren't easily addressed. In larger organizations, sidecars can also be managed by a separate platform or governance team, providing a separation of concerns that can improve security and regulatory compliance.
