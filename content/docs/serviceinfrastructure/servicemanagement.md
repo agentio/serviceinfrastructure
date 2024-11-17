@@ -635,6 +635,16 @@ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goo
 }
 ```
 
+But one thing that we can't do is add `allUsers` to make our API public. Here we try using `gcloud`, which makes the same calls that we've been making with `q`.
+
+```
+$ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=allUsers --role=roles/servicemanagement.serviceConsumer 
+ERROR: Policy modification failed. For a binding with condition, run "gcloud alpha iam policies lint-condition" to identify issues in condition.
+ERROR: (gcloud.endpoints.services.add-iam-policy-binding) INVALID_ARGUMENT: Member 'allUsers' is not allowed in role 'roles/servicemanagement.serviceConsumer'.
+```
+
+This is mentioned in [Cloud Endpoints Portal public access](https://groups.google.com/g/google-cloud-endpoints/c/-GrnDqyauiI).
+
 ### TestIamPermissions
 
 The `TestIamPermissions` method allows us to see if one or more permissions is granted to the calling account.

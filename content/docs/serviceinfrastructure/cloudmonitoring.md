@@ -26,9 +26,9 @@ And we thought the logging API was a lot! Here we'll only look at the `MetricSer
 
 The [MetricService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto#L67) service is defined in [metric_service.proto](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto).
 
-We'll use it to read metrics written by `ServiceControl`. Using other parts of the API, we could add alerts and other mechanisms to help us respond to unusual situations that we can observe with metrics.
+We'll use it to read metrics written by `ServiceControl`. Using other services in the API, we could add alerts and other mechanisms to help us respond to unusual situations that we can observe with metrics.
 
-The full names of these methods begin with  `google.monitoring.v3.MetricService.`
+The full names of these methods begin with `google.monitoring.v3.MetricService.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -43,18 +43,121 @@ The full names of these methods begin with  `google.monitoring.v3.MetricService.
 | [CreateServiceTimeSeries](#createservicetimeseries) | Creates or adds data to one or more service time series |
 
 ### ListMonitoredResourceDescriptors
- 
+
+`ListMonitoredResourceDescriptors` lists the resource types that can be specified as monitored resources.
+
+This is also documented at [Monitored Resource Types](https://cloud.google.com/monitoring/api/resources).
+
+```
+$ q monitoring list-monitored-resource-descriptors projects/bobadojo | jq .[].name -r | wc -l
+324
+
+$ q monitoring list-monitored-resource-descriptors projects/bobadojo | jq .[].name -r | egrep "api$"
+projects/bobadojo/monitoredResourceDescriptors/api
+projects/bobadojo/monitoredResourceDescriptors/consumed_api
+projects/bobadojo/monitoredResourceDescriptors/produced_api
+```
+
 ### GetMonitoredResourceDescriptor
+
+`GetMonitoredResourceDescriptor` lets us get individual descriptors. These are the same values that we get from `ListMonitoredResourceDescriptors`, so we won't exercise this in detail.
 
 ### ListMetricDescriptors
 
+`ListMetricDescriptors` lists metrics that are defined for Cloud Monitoring APIs. There are lots of them!
+
+```
+$ q monitoring list-metric-descriptors projects/bobadojo | jq .[].name -r | wc -l
+6440
+```
+
+For Service Infrastructure, we care about the ones associated with `serviceruntime.googleapis.com`:
+
+```
+ q monitoring list-metric-descriptors projects/bobadojo | jq .[].name -r | grep serviceruntime
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_count
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_backend
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_overhead
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_sizes
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/response_sizes
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/allocation/usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/exceeded
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/limit
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/exceeded
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/limit
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/rate/net_usage
+projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/reserved/metric1
+```
+
+These are described at [Google Cloud Metrics: serviceruntime](https://cloud.google.com/monitoring/api/metrics_gcp#gcp-serviceruntime), which closely matches the descriptors that we get from `ListMetricDescriptors` (hopefully because this documentation is automatically-generated!)
+
+Here's an example. First, this is the online documentation:
+
+![alt text](/screenshots/api-request-count.png)
+
+This is the metric descriptor that we get from `ListMetricDescriptors`: 
+```
+ {
+    "name": "projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_count",
+    "type": "serviceruntime.googleapis.com/api/request_count",
+    "labels": [
+      {
+        "key": "protocol",
+        "description": "The protocol of the request, e.g. \"http\", \"grpc\""
+      },
+      {
+        "key": "response_code",
+        "description": "The HTTP response code for HTTP requests, or HTTP equivalent code for gRPC requests. See code mapping in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto."
+      },
+      {
+        "key": "response_code_class",
+        "description": "The response code class for HTTP requests, or HTTP equivalent class for gRPC requests, e.g. \"2xx\", \"4xx\""
+      },
+      {
+        "key": "grpc_status_code",
+        "description": "The numeric gRPC response code for gRPC requests, or gRPC equivalent code for HTTP requests. See code mapping in https://github.com/googleapis/googleapis/blob/master/google/rpc/code.proto."
+      }
+    ],
+    "metric_kind": 2,
+    "value_type": 2,
+    "unit": "1",
+    "description": "The count of completed requests.",
+    "display_name": "Request count",
+    "metadata": {
+      "launch_stage": 4,
+      "sample_period": {
+        "seconds": 60
+      },
+      "ingest_delay": {
+        "seconds": 1800
+      }
+    },
+    "launch_stage": 4,
+    "monitored_resource_types": [
+      "api",
+      "consumed_api",
+      "produced_api"
+    ]
+  },
+```
+
 ### GetMetricDescriptor
+
+Like `GetMonitoredResourceDescriptor`, `GetMetricDescriptor` just gives us the same values that we get from `ListMetricDescriptors`, so we won't exercise this in detail.
 
 ### CreateMetricDescriptor
 
+`CreateMetricDescriptor` lets us create new metric descriptors. Since our focus is on reading values that are written by Service Control, we'll skip over this.
+
 ### DeleteMetricDescriptor
 
+Similarly, we'll leave `DeleteMetricDescriptor` for future explorations.
+
 ### ListTimeSeries
+
+`ListTimeSeries` is what we're after -- this is the method that we can call to extract metrics from Cloud Monitoring. `ListTimeSeries` requires a filter expression to specify what we want (a metric type and other optional qualifiers), and we can also specify a time window, an "aggregation", and other parameters to control the response. Here we'll just try a simple query to get the request counts in the last hour (this time range is a default value for the `q` subcommand).
 
 ```
 $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq
@@ -284,7 +387,96 @@ $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/reque
   },
   ...
 ```
+
+This was truncated! The actual response includes request counts for many other APIs. We can narrow the results by adding to the filter; filtering expressions are documented at [Monitoring filters](https://cloud.google.com/monitoring/api/v3/filters). Here we'll just ask for bobadojo APIs, and we'll use `jq` to just see which API methods are in our response:
+
+```
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' | jq .[].resource.labels.method
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.ListStores"
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.FindStores"
+"bobadojo.stores.v1.Stores.GetStore"
+"bobadojo.stores.v1.Stores.ListStores"
+```
+
+For comparison, without the filter, we got the following:
+```
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq .[].resource.labels.method -r
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.ListStores
+google.devtools.cloudtrace.v2.TraceService.BatchWriteSpans
+google.monitoring.v3.MetricService.ListMetricDescriptors
+google.monitoring.v3.MetricService.ListTimeSeries
+google.monitoring.v3.MetricService.ListTimeSeries
+google.monitoring.v3.MetricService.ListTimeSeries
+google.cloud.location.Locations.ListLocations
+google.cloud.run.v1.DomainMappings.ListDomainMappings
+google.cloud.run.v1.Revisions.ListRevisions
+google.cloud.run.v1.Routes.ListRoutes
+google.cloud.run.v1.Services.GetService
+google.cloud.run.v1.Services.ListServices
+google.cloud.run.v1.Services.TestIamPermissions
+google.api.servicecontrol.v1.ServiceController.Check
+google.api.servicecontrol.v1.ServiceController.Report
+google.api.servicecontrol.v1.ServiceController.Report
+google.api.servicemanagement.v1.ServiceManager.GetServiceConfig
+google.api.servicemanagement.v1.ServiceManager.ListServiceRollouts
+google.api.servicemanagement.v1.ServiceManager.ListServices
+google.api.servicemanagement.v1.ServiceManager.ListServices
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.FindStores
+bobadojo.stores.v1.Stores.GetStore
+bobadojo.stores.v1.Stores.ListStores
+```
+
+Notice that we're seeing calls to `servicemanagement` and `servicecontrol` along with a variety of other calls that have been happening either behind-the-scenes or in other experimentation.
+
+We can also look at other metrics. Here we can see that we've gone over quota during some recent experiments with the Service Management APIs:
+
+```
+$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/exceeded | jq | more
+[
+  {
+    "metric": {
+      "type": "serviceruntime.googleapis.com/quota/exceeded",
+      "labels": {
+        "limit_name": "DefaultRequestsPerMinutePerProject",
+        "quota_metric": "servicemanagement.googleapis.com/default_requests"
+      }
+    },
+    "resource": {
+      "type": "consumer_quota",
+      "labels": {
+        "location": "global",
+        "project_id": "bobadojo",
+        "service": "servicemanagement.googleapis.com"
+      }
+    },
+    "metricKind": "GAUGE",
+    "valueType": "BOOL",
+    "points": [
+      {
+        "interval": {
+          "endTime": "2024-11-14T04:25:47.717304Z",
+          "startTime": "2024-11-14T04:25:47.717304Z"
+        },
+        "value": {
+          "boolValue": true
+        }
+      }
+    ]
+  }
+]
+```
+
 ### CreateTimeSeries
+
+It's a bit out of scope for our purposes, but it's also possible to write time series data using our own calls to `MetricService`. Here as an example, we write two values to a custom metric and then read the resulting time series.
 
 ```
 $ q monitoring create-time-series bobadojo custom.googleapis.com/stores/orders 10
@@ -330,111 +522,8 @@ $ q monitoring list-time-series bobadojo custom.googleapis.com/stores/orders | j
   }
 ]
 ```
+Naming conventions and other help for using custom-defined metrics can be found at [User-defined metrics overview](https://cloud.google.com/monitoring/custom-metrics).
 
 ### CreateServiceTimeSeries
 
 `CreateServiceTimeSeries` is a variant of `CreateTimeSeries` that is intended for Google internal use only.
-
-
-
-https://cloud.google.com/monitoring/api/metrics_gcp#gcp-serviceruntime
-
-## Usage Notes
-
-```
-$ q monitoring list-metric-descriptors projects/bobadojo > descriptors.json
-$ jq < descriptors.json .[].name -r | grep serviceruntime
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_count
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_backend
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_latencies_overhead
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_sizes
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/response_sizes
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/allocation/usage
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/exceeded
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/limit
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/concurrent/usage
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/exceeded
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/limit
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/quota/rate/net_usage
-projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/reserved/metric1
-
-$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/exceeded | jq | more
-[
-  {
-    "metric": {
-      "type": "serviceruntime.googleapis.com/quota/exceeded",
-      "labels": {
-        "limit_name": "DefaultRequestsPerMinutePerProject",
-        "quota_metric": "servicemanagement.googleapis.com/default_requests"
-      }
-    },
-    "resource": {
-      "type": "consumer_quota",
-      "labels": {
-        "location": "global",
-        "project_id": "bobadojo",
-        "service": "servicemanagement.googleapis.com"
-      }
-    },
-    "metricKind": "GAUGE",
-    "valueType": "BOOL",
-    "points": [
-      {
-        "interval": {
-          "endTime": "2024-11-14T04:25:47.717304Z",
-          "startTime": "2024-11-14T04:25:47.717304Z"
-        },
-        "value": {
-          "boolValue": true
-        }
-      }
-    ]
-  }
-]
-```
-
-https://cloud.google.com/monitoring/api/v3/filters
-
-```
-$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' | jq .[].resource.labels.method
-"bobadojo.stores.v1.Stores.FindStores"
-"bobadojo.stores.v1.Stores.GetStore"
-"bobadojo.stores.v1.Stores.ListStores"
-"bobadojo.stores.v1.Stores.FindStores"
-"bobadojo.stores.v1.Stores.GetStore"
-"bobadojo.stores.v1.Stores.FindStores"
-"bobadojo.stores.v1.Stores.GetStore"
-"bobadojo.stores.v1.Stores.ListStores"
-```
-
-```
-$ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq .[].resource.labels.method -r
-bobadojo.stores.v1.Stores.FindStores
-bobadojo.stores.v1.Stores.GetStore
-bobadojo.stores.v1.Stores.ListStores
-google.devtools.cloudtrace.v2.TraceService.BatchWriteSpans
-google.monitoring.v3.MetricService.ListMetricDescriptors
-google.monitoring.v3.MetricService.ListTimeSeries
-google.monitoring.v3.MetricService.ListTimeSeries
-google.monitoring.v3.MetricService.ListTimeSeries
-google.cloud.location.Locations.ListLocations
-google.cloud.run.v1.DomainMappings.ListDomainMappings
-google.cloud.run.v1.Revisions.ListRevisions
-google.cloud.run.v1.Routes.ListRoutes
-google.cloud.run.v1.Services.GetService
-google.cloud.run.v1.Services.ListServices
-google.cloud.run.v1.Services.TestIamPermissions
-google.api.servicecontrol.v1.ServiceController.Check
-google.api.servicecontrol.v1.ServiceController.Report
-google.api.servicecontrol.v1.ServiceController.Report
-google.api.servicemanagement.v1.ServiceManager.GetServiceConfig
-google.api.servicemanagement.v1.ServiceManager.ListServiceRollouts
-google.api.servicemanagement.v1.ServiceManager.ListServices
-google.api.servicemanagement.v1.ServiceManager.ListServices
-bobadojo.stores.v1.Stores.FindStores
-bobadojo.stores.v1.Stores.GetStore
-bobadojo.stores.v1.Stores.FindStores
-bobadojo.stores.v1.Stores.GetStore
-bobadojo.stores.v1.Stores.ListStores
-```
