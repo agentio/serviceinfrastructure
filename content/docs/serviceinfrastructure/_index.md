@@ -50,4 +50,6 @@ Service Infrastructure is built on a central data format, called [Service Config
 5. The [Cloud Monitoring API](/docs/serviceinfrastructure/cloudmonitoring) allows applications to read metrics describing API traffic.
 6. The [Service Usage API](/docs/serviceinfrastructure/serviceusage) controls access to APIs within Google Cloud projects and is used to enable the other APIs listed above.
 
-In 2016, Google released the [Cloud Endpoints](/docs/endpoints) API management product, which uses Service Infrastructure to manage APIs on Google Cloud and external platforms.
+All of these APIs are described and built with Protocol Buffers, and we frequently refer to their Protocol Buffer descriptions as we explore them. They are available using either gRPC or HTTP/JSON. We use both but rely most heavily on gRPC.
+
+Service Infrastructure is in use today, both by Google and by users of [Cloud Endpoints](/docs/endpoints), an API management product that Google released in 2016. Because it is used by virtually all of Google's public APIs, it is possibly the highest-traffic API management system in existence.
