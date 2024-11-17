@@ -115,7 +115,7 @@ Flags:
 
 That's an error, and from the error message, it seems that Google is expecting the service name to be a domain name.
 
-What names are we allowed to use? We've already seen that we can use names of the form `SERVICEID.endpoints.PROJECTID.cloud.goog`. This is because Google controls the `cloud.goog` domain and makes its subdomains available for Endpoints customers. Also, Google App Engine users are able to access their services at `PROJECTID.appspot.com` and Google allows us to use these domains and their subdomains as service names.
+What names are we allowed to use? We've already seen that we can use names of the form `SERVICEID.endpoints.PROJECTID.cloud.goog`. This is because Google controls the `cloud.goog` domain and makes its subdomains available for Endpoints customers. Also, Google App Engine users can access their services at `PROJECTID.appspot.com` and Google allows us to use these domains and their subdomains as service names.
 
 We demonstrate this in the examples below by creating services that are subdomains of `.cloud.goog` and `.appspot.com`.
 
@@ -529,7 +529,7 @@ This creates a long running operation that will complete quickly, and our proxie
 
 ## The IAMPolicyService service
 
-The [IAMPolicyService](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto#L59) ([Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1)) is defined in [iam_policy.proto](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto). It allows us to set IAM policies that allow other Google Cloud users to see the managed services that we create and enable them for use in their projects. When a user has enabled your service, they will be able to create API keys that they can use to call your service. When you check those keys with `ServiceControl`, you'll be able to see which project owns them.
+The [IAMPolicyService](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto#L59) ([Google documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.iam.v1)) is defined in [iam_policy.proto](https://github.com/googleapis/googleapis/blob/master/google/iam/v1/iam_policy.proto). It allows us to set IAM policies that allow other Google Cloud users to see the managed services that we create and enable them for use in their projects. When a user has enabled your service, they will be able to create API keys that they can use to call your service. When you check those keys with `ServiceControl`, you'll see which project owns them.
 
 The full names of these methods begin with `google.iam.v1.IamPolicyService.`
 
