@@ -32,6 +32,8 @@ $ curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/mas
 
 Generally, each API in the `googleapis` repo is in a directory in a path ending with a version identifier. For example, the description of the [Cloud Translation API](https://cloud.google.com/translate) is in [google/cloud/translate/v3](https://github.com/googleapis/googleapis/tree/master/google/cloud/translate/v3). The main Protocol Buffer description is in [translation_service.proto](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translation_service.proto) and the service configuration is in [translate_v3.yaml](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_v3.yaml).
 
+## What's in googleapis?
+
 ### Protocol Buffers
 
 The message serialization mechanism.
@@ -55,7 +57,11 @@ Another file that you'll find for each API in the `googleapis` repo is what the 
 
 https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_grpc_service_config.json
 
-### Methodology: A Protos Repo
+## Pieces of the Methodology Puzzle
+
+### A Language for describing APIs
+
+### A Protos Repo
 
 The googleapis repository contains public protos for Google APIs. It's effectively a monorepo of API descriptions.
 
@@ -65,7 +71,7 @@ We can make some important observations:
 
 See [github.com/bobadojo/apis](https://github.com/bobadojo/apis) for an example of how an organization outside Google might organize their protos.
 
-### Methodology: Generated Code
+### Generated Code
 
 Protobuf and gRPC support code is almost always generated (actually, we've never seen a counterexample).
 
