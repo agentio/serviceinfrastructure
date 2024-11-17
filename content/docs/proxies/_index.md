@@ -11,4 +11,42 @@ The Extensible Service Proxies run alongside API servers and are configured and 
 There are two Google-supported versions of these proxies:
 1. [ESP](/docs/proxies/esp), a custom proxy based on nginx.
 2. [ESPv2](/docs/proxies/espv2), a custom proxy based on [Envoy](/docs/details/envoy).
- 
+
+Recalling our overview discussion, the Extensible Service Proxy sits between API clients and an API server and handles the general-purpose API management needs of the server, allowing the server to focus on its own special features. The proxy isn't fully self-contained, instead it calls out to Service Infrastructure for configuration, access control, and logging. This makes it lightweight and convenient to deploy alongside an API server.
+
+Often the ESP and API server are built into containers and deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use ESP; it could also be run elsewhere and serve multiple backends. But because it is lightweight, and because we would like to minimize the network delay between the ESP and API server, we prefer this "sidecar" deployment.
+
+```goat
+
+                                                   .------------------------------------------.
+                                                   |                                          |
+  .-------------.                                  |    .--------------.     .------------.   |
+  |             |                                  |    |  Extensible  |     |            |   |  o  Service
+  | API clients +----------------------------------+--->|   Service    +---->| API server |   | -+-  Owner
+  |             |           API Requests           |    |    Proxy     |     |            |   | / \
+  .-------------.                                  |    .---------+----.     .------------.   |
+     o   o   o                                     |         ^    |                           |
+    -+- -+- -+-                                    |         |    |        Service Deployment |
+    / \ / \ / \                                    .---------+----+---------------------------.
+   Service Users                                             |    |
+                                                             |    |
+                                                             |    | Request Handling:
+                              Proxy Configuration            |    | - Check
+                    +----------------------------------------+    | - Allocate Quota
+                    |                                             | - Report
+                    |                                             |
+                    |                                             v
+  +-----------------+---------------------------------------------+-------------------------------+
+  |                                                                        Service Infrastructure |
+  |                                                                                               | Google
+  |                                                                                               |
+  +-----------------+--------------------------+------------------+-------------------+-----------+
+                    ^                          ^                  |                   |
+                    | Service                  | User             |                   |
+                    | Configuration            | Authorizations   | Logs              | Metrics
+                    |                          |                  v                   v 
+                 o      
+                -+- Service Owner
+                / \   
+
+```

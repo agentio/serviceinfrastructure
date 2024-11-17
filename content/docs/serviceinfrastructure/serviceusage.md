@@ -6,33 +6,55 @@ title: The Service Usage API
 
 The Service Usage API is used to control access to Google APIs within Google Cloud projects.
 
-The Service Usage API is defined in the [googleapis](/docs/details/googleapis) repo in [serviceusage.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage_v1.yaml).
-The methods specific to the API are defined by the [ServiceUsage](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto#L37) service in [serviceusage.proto](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto).
+The Service Usage API is defined in the [googleapis](/docs/details/googleapis) repo in [serviceusage.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage_v1.yaml). It includes two services.
+
+| Service | Purpose |
+| ------- | ------- |
+| [ServiceUsage](#the-serviceusage-service) | Manage the services that are enabled for use in a Google Cloud project |
+| [Operations](#the-operations-service) | A mix-in that handles long-running operations |
 
 ## The ServiceUsage service
 
-Method names below are prefixed with `google.api.serviceusage.v1.ServiceUsage.`
+The [ServiceUsage](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto#L37) service is defined in [serviceusage.proto](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/serviceusage.proto).
+
+The full names of these methods begin with  `google.api.serviceusage.v1.ServiceUsage.`
 
 | Method | Description |
 | ------ | ----------- |
+| [ListServices](#listservices) | List all services available to the specified project and the current state of those services with respect to the project |
+| [GetService](#getservice) | Returns the service configuration and enabled state for a given service |
 | [EnableService](#enableservice) | Enable a service so that it can be used with a project |
 | [DisableService](#disableservice) | Disable a service so that it can no longer be used with a project |
-| [GetService](#getservice) | Returns the service configuration and enabled state for a given service |
-| [ListServices](#listservices) | List all services available to the specified project and the current state of those services with respect to the project |
-| [BatchEnableServices](#batchenableservices) | Enable multiple services on a project |
 | [BatchGetServices](#batchgetservices) | Returns the service configurations and enabled states for a given list of services |
-
-### EnableService
-
-### DisableService
-
-### GetService
+| [BatchEnableServices](#batchenableservices) | Enable multiple services on a project |
 
 ### ListServices
 
-### BatchEnableServices
+From the proto: "List all services available to the specified project, and the current state of those services with respect to the project. The list includes all public services, all services for which the calling user has the `servicemanagement.services.bind` permission, and all services that have already been enabled on the project. The list can be filtered to only include services in a specific state, for example to only include services enabled on the project."
+
+### GetService
+
+"Returns the service configuration and enabled state for a given service."
+
+### EnableService
+
+"Enable a service so that it can be used with a project."
+
+### DisableService
+
+"Disable a service so that it can no longer be used with a project. This prevents unintended usage that may cause unexpected billing charges or security leaks."
 
 ### BatchGetServices
+
+"Returns the service configurations and enabled states for a given list of services."
+
+### BatchEnableServices
+
+"Enable multiple services on a project."
+
+## The Operations service
+
+This is the same service that we discussed for the Service Management API, so we won't discuss it in detail here.
 
 ## Usage Notes
 
@@ -198,7 +220,6 @@ NAME                                  TITLE
 stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
 
 ```
-
 
 ![alt text](/screenshots/serviceusage-singleservice.png)
 

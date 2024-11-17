@@ -23,20 +23,20 @@ The [LoggingServiceV2](https://github.com/googleapis/googleapis/blob/master/goog
 
 Documented as a "service for ingesting and querying logs," this will be a close focus for us as we look at how we can programmatically read the logs written by Service Infrastructure. Its methods are used by `ServiceControl` to write logs that users can view in the Cloud Console or query using other methods of the service.
 
-Method names below are prefixed with `google.logging.v2.LoggingServiceV2.`
+The full names of these methods begin with `google.logging.v2.LoggingServiceV2.`
 
 | Method | Description |
 | ------ | ----------- |
-| ListLogs | Lists the logs in projects, organizations, folders, or billing accounts |
-| WriteLogEntries | Writes log entries to Logging |
-| ListLogEntries | Lists log entries |
-| TailLogEntries | Streaming read of log entries as they are ingested |
-| DeleteLog | Deletes all the log entries in a log |
-| ListMonitoredResourceDescriptors | Lists the descriptors for monitored resource types used by Logging |
+| [ListLogs](#listlogs) | Lists the logs in projects, organizations, folders, or billing accounts |
+| [WriteLogEntries](#writelogentries) | Writes log entries to Logging |
+| [ListLogEntries](#listlogentries) | Lists log entries |
+| [TailLogEntries](#taillogentries) | Streaming read of log entries as they are ingested |
+| [DeleteLog](#deletelog) | Deletes all the log entries in a log |
+| [ListMonitoredResourceDescriptors](#listmonitoredresourcedescriptors) | Lists the descriptors for monitored resource types used by Logging |
 
 ### **LogEntries**
 
-[LogEntry](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto#L38) is the most significant resource that we'll deal with in this API. It appears as a single line in the Logs Explorer and can be programmaticlly retrieved with the API. It has many optional properties that include an associated HTTP request and an arbitrary payload that can be either a binary-encoded protobuf message, a JSON value, or text.
+[LogEntry](https://github.com/googleapis/googleapis/blob/master/google/logging/v2/log_entry.proto#L38) is the most significant resource that we'll deal with in this API. A `LogEntry` usually appears as a single line in the Logs Explorer but can also be programmaticlly retrieved with the API. It has many optional properties that include an associated HTTP request and an arbitrary payload that can be either a binary-encoded protobuf message, a JSON value, or text.
 
 ### ListLogs
 

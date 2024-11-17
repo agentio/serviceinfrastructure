@@ -6,35 +6,41 @@ title: The Cloud Monitoring API
 
 The Cloud Monitoring API allows applications to read metrics describing API traffic.
 
-The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml).
-The methods specific to the API are defined 
-by the 
-[AlertPolicyService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/alert_service.proto#L44),
-[GroupService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/group_service.proto#L48),
-[MetricService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto#L67),
-[NotificationChannelService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/notification_service.proto#L38),
-[QueryService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/query_service.proto#L34),
-[ServiceMonitoringService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/service_service.proto#L39),
-[SnoozeService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/snooze_service.proto#L37), and
-[UptimeCheckService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/uptime_service.proto#L43).
+The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml). It includes nine services:
 
-This is a large API. Our discussion will be limited to the `MetricService`.
+| Service | Purpose |
+| ------- | ------- |
+| `AlertPolicyService` | Manages alerting policies |
+| `GroupService` | Inspects and manages groups of resources being monitored |
+| [MetricService](#the-metricservice-service) | Manages metric descriptors, monitored resource descriptors, and time series data |
+| `NotificationChannelService` | Configures how messages related to incidents are sent |
+| `QueryService` | Manages time series data |
+| `ServiceMonitoringService` | Manages service-oriented metrics |
+| `SnoozeService` | Temporarily prevents alert policies from generating alerts |
+| `UptimeCheckService` | Manages uptime check configurations |
+| `Operations` | A mix-in that handles long-running operations |
+
+And we thought the logging API was a lot! Here we'll only look at the `MetricService`.
 
 ## The MetricService service
 
-Method names below are prefixed with `google.monitoring.v3.MetricService.`
+The [MetricService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto#L67) service is defined in [metric_service.proto](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto).
+
+We'll use it to read metrics written by `ServiceControl`. Using other parts of the API, we could add alerts and other mechanisms to help us respond to unusual situations that we can observe with metrics.
+
+The full names of these methods begin with  `google.monitoring.v3.MetricService.`
 
 | Method | Description |
 | ------ | ----------- |
-| ListMonitoredResourceDescriptors | Lists monitored resource descriptors that match a filter |
-| GetMonitoredResourceDescriptor | Gets a single monitored resource descriptor |
-| ListMetricDescriptors | Lists metric descriptors that match a filter |
-| GetMetricDescriptor | Gets a single metric descriptor |
-| CreateMetricDescriptor | Creates a new metric descriptor |
-| DeleteMetricDescriptor | Deletes a metric descriptor |
-| ListTimeSeries | Lists time series that match a filter |
-| CreateTimeSeries | Creates or adds data to one or more time series |
-| CreateServiceTimeSeries | Creates or adds data to one or more service time series |
+| [ListMonitoredResourceDescriptors](#listmonitoredresourcedescriptors) | Lists monitored resource descriptors that match a filter |
+| [GetMonitoredResourceDescriptor](#getmonitoredresourcedescriptor) | Gets a single monitored resource descriptor |
+| [ListMetricDescriptors](#listmetricdescriptors) | Lists metric descriptors that match a filter |
+| [GetMetricDescriptor](#getmetricdescriptor) | Gets a single metric descriptor |
+| [CreateMetricDescriptor](#createmetricdescriptor) | Creates a new metric descriptor |
+| [DeleteMetricDescriptor](#deletemetricdescriptor) | Deletes a metric descriptor |
+| [ListTimeSeries](#listtimeseries) | Lists time series that match a filter |
+| [CreateTimeSeries](#createtimeseries) | Creates or adds data to one or more time series |
+| [CreateServiceTimeSeries](#createservicetimeseries) | Creates or adds data to one or more service time series |
 
 ### ListMonitoredResourceDescriptors
  
@@ -327,6 +333,10 @@ $ q monitoring list-time-series bobadojo custom.googleapis.com/stores/orders | j
 
 ### CreateServiceTimeSeries
 
+`CreateServiceTimeSeries` is a variant of `CreateTimeSeries` that is intended for Google internal use only.
+
+
+
 https://cloud.google.com/monitoring/api/metrics_gcp#gcp-serviceruntime
 
 ## Usage Notes
@@ -382,7 +392,6 @@ $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/exc
     ]
   }
 ]
-
 ```
 
 https://cloud.google.com/monitoring/api/v3/filters
@@ -428,5 +437,4 @@ bobadojo.stores.v1.Stores.GetStore
 bobadojo.stores.v1.Stores.FindStores
 bobadojo.stores.v1.Stores.GetStore
 bobadojo.stores.v1.Stores.ListStores
-
 ```
