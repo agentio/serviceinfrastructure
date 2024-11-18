@@ -48,6 +48,8 @@ The full names of theses methods begin with `google.api.servicecontrol.v1.QuotaC
 
 ## Usage Notes
 
+### Mocking calls to Service Control
+
 Instead of calling these APIs individually, we'll set up a subcommand of `q` that pretends to be an API proxy and makes the Service Infrastructure calls for a sample API call. Our subcommand is called `q service-control mock`. Its key arguments are a service name, an operation name, and an API key that is being used to make our mock request.
 
 We call it like this:
@@ -74,8 +76,11 @@ Compare this with logs from calls through our proxy and you'll see this is a pre
 
 See the source code for [q service-control mock](https://github.com/agentio/q/blob/main/cmd/servicecontrol/mock.go) for details.
 
-References:
-- https://cloud.google.com/service-infrastructure/docs/service-control/getting-started
+### Service Control v2
+
+In this section, we've been describing the Service Control v1 API, the API used by the [Extensible Service Proxies](/docs/proxies).
+
+[Getting Started with the Service Control API](https://cloud.google.com/service-infrastructure/docs/service-control/getting-started) describes a new version of Service Control that is currently in Private Preview and [only available for approved services](https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.api/servicecontrol.v2).
 
 ## Summarizing
 
