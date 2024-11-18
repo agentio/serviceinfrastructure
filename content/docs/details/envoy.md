@@ -1,6 +1,6 @@
 ---
-weight: 5
-title: Envoy
+weight: 9
+title: The Envoy proxy
 ---
 ## Envoy
 
