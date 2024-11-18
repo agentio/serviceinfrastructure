@@ -4,7 +4,7 @@ title: The Cloud Monitoring API
 ---
 ## The Cloud Monitoring API
 
-The Cloud Monitoring API allows applications to read metrics describing API traffic.
+The Cloud Monitoring API allows applications to read metrics describing API traffic. Service Infrastructure users use it indirectly when Service Control API handlers write metrics using the Cloud Monitoring API. This allows Service Infrastructure users to use the Metrics Explorer to view their APIs and the Cloud Monitoring API to programmatically access their metrics.
 
 The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml). It includes nine services:
 
@@ -26,7 +26,7 @@ And we thought the logging API was a lot! Here we'll only look at the `MetricSer
 
 The [MetricService](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto#L67) service is defined in [metric_service.proto](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/metric_service.proto).
 
-We'll use it to read metrics written by `ServiceControl`. Using other services in the API, we could add alerts and other mechanisms to help us respond to unusual situations that we can observe with metrics.
+We'll use it to read metrics written by `ServiceControl`. Using other services in the Cloud Monitoring API, we could add alerts and other mechanisms to help us respond to unusual situations that we can observe with metrics.
 
 The full names of these methods begin with `google.monitoring.v3.MetricService.`
 
@@ -203,192 +203,14 @@ $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/reque
           "int64Value": "1"
         }
       },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:12:00Z",
-          "startTime": "2024-11-12T03:11:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:11:00Z",
-          "startTime": "2024-11-12T03:10:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:07:00Z",
-          "startTime": "2024-11-12T03:06:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:06:00Z",
-          "startTime": "2024-11-12T03:05:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:02:00Z",
-          "startTime": "2024-11-12T03:01:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T03:01:00Z",
-          "startTime": "2024-11-12T03:00:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:57:00Z",
-          "startTime": "2024-11-12T02:56:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:56:00Z",
-          "startTime": "2024-11-12T02:55:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:52:00Z",
-          "startTime": "2024-11-12T02:51:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:51:00Z",
-          "startTime": "2024-11-12T02:50:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:47:00Z",
-          "startTime": "2024-11-12T02:46:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:46:00Z",
-          "startTime": "2024-11-12T02:45:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:42:00Z",
-          "startTime": "2024-11-12T02:41:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:41:00Z",
-          "startTime": "2024-11-12T02:40:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:37:00Z",
-          "startTime": "2024-11-12T02:36:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:36:00Z",
-          "startTime": "2024-11-12T02:35:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:32:00Z",
-          "startTime": "2024-11-12T02:31:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:31:00Z",
-          "startTime": "2024-11-12T02:30:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:27:00Z",
-          "startTime": "2024-11-12T02:26:00Z"
-        },
-        "value": {
-          "int64Value": "0"
-        }
-      },
-      {
-        "interval": {
-          "endTime": "2024-11-12T02:26:00Z",
-          "startTime": "2024-11-12T02:25:00Z"
-        },
-        "value": {
-          "int64Value": "1"
-        }
-      }
+      [...many more points elided]
     ]
   },
-  ...
+  [...many more request count metrics elided]
+]
 ```
 
-This was truncated! The actual response includes request counts for many other APIs. We can narrow the results by adding to the filter; filtering expressions are documented at [Monitoring filters](https://cloud.google.com/monitoring/api/v3/filters). Here we'll just ask for bobadojo APIs, and we'll use `jq` to just see which API methods are in our response:
+The actual response includes many more points and request counts for other APIs. We can narrow the results by adding to the filter; filtering expressions are documented at [Monitoring filters](https://cloud.google.com/monitoring/api/v3/filters). Here we'll just ask for bobadojo APIs, and we'll use `jq` to just see which API methods are in our response:
 
 ```
 $ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' | jq .[].resource.labels.method

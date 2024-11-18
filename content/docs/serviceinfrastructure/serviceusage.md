@@ -32,17 +32,296 @@ The full names of these methods begin with  `google.api.serviceusage.v1.ServiceU
 
 From the proto: "List all services available to the specified project, and the current state of those services with respect to the project. The list includes all public services, all services for which the calling user has the `servicemanagement.services.bind` permission, and all services that have already been enabled on the project. The list can be filtered to only include services in a specific state, for example to only include services enabled on the project."
 
+```
+$ q service-usage list-services projects/nodal-time-442104-f1 | jq | more
+[
+  {
+    "name": "projects/327402113844/services/analyticshub.googleapis.com",
+    "parent": "projects/327402113844",
+    "config": {
+      "name": "analyticshub.googleapis.com",
+      "title": "Analytics Hub API",
+      "documentation": {
+        "summary": "Exchange data and analytics assets securely and efficiently."
+      },
+      "quota": {},
+      "authentication": {},
+      "usage": {
+        "requirements": [
+          "serviceusage.googleapis.com/tos/cloud"
+        ]
+      },
+      "monitoring": {}
+    },
+    "state": "ENABLED"
+  },
+  ... 20 services elided
+]
+
+$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+projects/327402113844/services/analyticshub.googleapis.com
+projects/327402113844/services/bigquery.googleapis.com
+projects/327402113844/services/bigqueryconnection.googleapis.com
+projects/327402113844/services/bigquerydatapolicy.googleapis.com
+projects/327402113844/services/bigquerymigration.googleapis.com
+projects/327402113844/services/bigqueryreservation.googleapis.com
+projects/327402113844/services/bigquerystorage.googleapis.com
+projects/327402113844/services/cloudapis.googleapis.com
+projects/327402113844/services/cloudresourcemanager.googleapis.com
+projects/327402113844/services/cloudtrace.googleapis.com
+projects/327402113844/services/dataform.googleapis.com
+projects/327402113844/services/dataplex.googleapis.com
+projects/327402113844/services/datastore.googleapis.com
+projects/327402113844/services/logging.googleapis.com
+projects/327402113844/services/monitoring.googleapis.com
+projects/327402113844/services/servicemanagement.googleapis.com
+projects/327402113844/services/serviceusage.googleapis.com
+projects/327402113844/services/sql-component.googleapis.com
+projects/327402113844/services/storage-api.googleapis.com
+projects/327402113844/services/storage-component.googleapis.com
+projects/327402113844/services/storage.googleapis.com
+
+```
+
+```
+$ q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r
+projects/327402113844/services/a10-thunder-adc-601b150-byol.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-100mbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-10gbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-1gbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-200mbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-20mbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-500mbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-5gbps.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/a10-vthunder-adc-byol.endpoints.a10networks-public-396315.cloud.goog
+projects/327402113844/services/aapl-miriinfotech-public.cloudpartnerservices.goog
+projects/327402113844/services/ab-initio-cooperating-system.endpoints.ab-initio-419002.cloud.goog
+projects/327402113844/services/ab-tasty-experimentation.endpoints.abtasty-public.cloud.goog
+projects/327402113844/services/abacus.ai.endpoints.abacus-public.cloud.goog
+projects/327402113844/services/abacus360-on-rcloud.endpoints.regnology-cloud-marketplace.cloud.goog
+...
+
+$ q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r > DISABLED
+
+$ wc -l DISABLED
+6216 DISABLED
+
+$ grep bobadojo DISABLED
+projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
+```
+
 ### GetService
 
 "Returns the service configuration and enabled state for a given service."
+
+```
+$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq
+{
+  "name": "projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog",
+  "parent": "projects/327402113844",
+  "config": {
+    "name": "stores.endpoints.bobadojo.cloud.goog",
+    "title": "Boba Dojo Stores API",
+    "apis": [
+      {
+        "name": "bobadojo.stores.v1.Stores",
+        "methods": [
+          {
+            "name": "ListStores"
+          },
+          {
+            "name": "FindStores"
+          },
+          {
+            "name": "GetStore"
+          }
+        ],
+        "version": "v1"
+      }
+    ],
+    "documentation": {},
+    "quota": {},
+    "authentication": {},
+    "usage": {},
+    "endpoints": [
+      {
+        "name": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ],
+    "monitoredResources": [
+      {
+        "type": "api",
+        "labels": [
+          {
+            "key": "cloud.googleapis.com/location"
+          },
+          {
+            "key": "cloud.googleapis.com/uid"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/api_version"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/api_method"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/consumer_project"
+          },
+          {
+            "key": "cloud.googleapis.com/project"
+          },
+          {
+            "key": "cloud.googleapis.com/service"
+          }
+        ]
+      }
+    ],
+    "monitoring": {
+      "consumerDestinations": [
+        {
+          "monitoredResource": "api",
+          "metrics": [
+            "serviceruntime.googleapis.com/api/consumer/request_count",
+            "serviceruntime.googleapis.com/api/consumer/quota_used_count",
+            "serviceruntime.googleapis.com/api/consumer/total_latencies",
+            "serviceruntime.googleapis.com/api/consumer/request_sizes",
+            "serviceruntime.googleapis.com/api/consumer/response_sizes"
+          ]
+        }
+      ]
+    }
+  },
+  "state": "DISABLED"
+}
+```
 
 ### EnableService
 
 "Enable a service so that it can be used with a project."
 
+```
+$ q service-usage enable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
+{}
+
+$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq 
+{
+  "name": "projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog",
+  "parent": "projects/327402113844",
+  "config": {
+    "name": "stores.endpoints.bobadojo.cloud.goog",
+    "title": "Boba Dojo Stores API",
+    "apis": [
+      {
+        "name": "bobadojo.stores.v1.Stores",
+        "methods": [
+          {
+            "name": "ListStores"
+          },
+          {
+            "name": "FindStores"
+          },
+          {
+            "name": "GetStore"
+          }
+        ],
+        "version": "v1"
+      }
+    ],
+    "documentation": {},
+    "quota": {},
+    "authentication": {},
+    "usage": {},
+    "endpoints": [
+      {
+        "name": "stores.endpoints.bobadojo.cloud.goog"
+      }
+    ],
+    "monitoredResources": [
+      {
+        "type": "api",
+        "labels": [
+          {
+            "key": "cloud.googleapis.com/location"
+          },
+          {
+            "key": "cloud.googleapis.com/uid"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/api_version"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/api_method"
+          },
+          {
+            "key": "serviceruntime.googleapis.com/consumer_project"
+          },
+          {
+            "key": "cloud.googleapis.com/project"
+          },
+          {
+            "key": "cloud.googleapis.com/service"
+          }
+        ]
+      }
+    ],
+    "monitoring": {
+      "consumerDestinations": [
+        {
+          "monitoredResource": "api",
+          "metrics": [
+            "serviceruntime.googleapis.com/api/consumer/request_count",
+            "serviceruntime.googleapis.com/api/consumer/quota_used_count",
+            "serviceruntime.googleapis.com/api/consumer/total_latencies",
+            "serviceruntime.googleapis.com/api/consumer/request_sizes",
+            "serviceruntime.googleapis.com/api/consumer/response_sizes"
+          ]
+        }
+      ]
+    }
+  },
+  "state": "ENABLED"
+}
+
+$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
+ENABLED
+
+$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+projects/327402113844/services/analyticshub.googleapis.com
+projects/327402113844/services/bigquery.googleapis.com
+projects/327402113844/services/bigqueryconnection.googleapis.com
+projects/327402113844/services/bigquerydatapolicy.googleapis.com
+projects/327402113844/services/bigquerymigration.googleapis.com
+projects/327402113844/services/bigqueryreservation.googleapis.com
+projects/327402113844/services/bigquerystorage.googleapis.com
+projects/327402113844/services/cloudapis.googleapis.com
+projects/327402113844/services/cloudresourcemanager.googleapis.com
+projects/327402113844/services/cloudtrace.googleapis.com
+projects/327402113844/services/dataform.googleapis.com
+projects/327402113844/services/dataplex.googleapis.com
+projects/327402113844/services/datastore.googleapis.com
+projects/327402113844/services/logging.googleapis.com
+projects/327402113844/services/monitoring.googleapis.com
+projects/327402113844/services/servicemanagement.googleapis.com
+projects/327402113844/services/serviceusage.googleapis.com
+projects/327402113844/services/sql-component.googleapis.com
+projects/327402113844/services/storage-api.googleapis.com
+projects/327402113844/services/storage-component.googleapis.com
+projects/327402113844/services/storage.googleapis.com
+projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
+
+```
+
 ### DisableService
 
 "Disable a service so that it can no longer be used with a project. This prevents unintended usage that may cause unexpected billing charges or security leaks."
+
+```
+$ q service-usage disable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
+{}
+
+$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
+DISABLED
+```
 
 ### BatchGetServices
 
@@ -293,4 +572,132 @@ bindings:
   role: roles/servicemanagement.serviceConsumer
 etag: BwYmbUvc2zk=
 version: 1
+```
+
+
+
+---
+
+```
+$ q service-usage list-services projects/nodal-time-442104-f1  | jq .[].name -r > DISABLE.sh
+
+#!/bin/sh
+
+q service-usage disable-service projects/327402113844/services/analyticshub.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigquery.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigqueryconnection.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigquerydatapolicy.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigquerymigration.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigqueryreservation.googleapis.com
+q service-usage disable-service projects/327402113844/services/bigquerystorage.googleapis.com
+q service-usage disable-service projects/327402113844/services/cloudapis.googleapis.com
+q service-usage disable-service projects/327402113844/services/cloudresourcemanager.googleapis.com
+q service-usage disable-service projects/327402113844/services/cloudtrace.googleapis.com
+q service-usage disable-service projects/327402113844/services/dataform.googleapis.com
+q service-usage disable-service projects/327402113844/services/dataplex.googleapis.com
+q service-usage disable-service projects/327402113844/services/datastore.googleapis.com
+q service-usage disable-service projects/327402113844/services/logging.googleapis.com
+q service-usage disable-service projects/327402113844/services/monitoring.googleapis.com
+q service-usage disable-service projects/327402113844/services/servicemanagement.googleapis.com
+q service-usage disable-service projects/327402113844/services/sql-component.googleapis.com
+q service-usage disable-service projects/327402113844/services/storage-api.googleapis.com
+q service-usage disable-service projects/327402113844/services/storage-component.googleapis.com
+q service-usage disable-service projects/327402113844/services/storage.googleapis.com
+
+#q service-usage disable-service projects/327402113844/services/serviceusage.googleapis.com
+
+```
+
+```
+$ sh DISABLE.sh 
+{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}
+```
+
+```
+$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+projects/327402113844/services/serviceusage.googleapis.com
+projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
+```
+
+```
+q service-usage disable-service projects/327402113844/services/serviceusage.googleapis.com
+{}
+```
+
+```
+$ q service-usage list-services projects/nodal-time-442104-f1 
+[Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
+error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
+Usage:
+  q service-usage list-services PARENT [flags]
+
+Flags:
+      --filter string   filter (default "state:ENABLED")
+      --format string   output format (default "json")
+  -h, --help            help for list-services
+```
+```
+$ q service-usage enable-service projects/327402113844/services/serviceusage.googleapis.com
+Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
+error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
+Usage:
+  q service-usage enable-service [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for enable-service
+```
+```
+$ gcloud services enable serviceusage.googleapis.com
+Operation "operations/acat.p2-327402113844-d45c9e7a-440a-4bd0-8df5-b13840f681e9" finished successfully.
+
+$ gcloud config list
+[core]
+account = tim@mitra.so
+disable_usage_reporting = False
+log_http_redact_token = false
+project = nodal-time-442104-f1
+[run]
+region = us-west1
+
+Your active configuration is: [default]
+
+$ gcloud services list
+NAME                                  TITLE
+serviceusage.googleapis.com           Service Usage API
+stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
+```
+
+```
+$ gcloud services list
+NAME                                  TITLE
+serviceusage.googleapis.com           Service Usage API
+stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
+
+$ gcloud services disable serviceusage.googleapis.com
+Operation "operations/acat.p17-327402113844-6e586555-42d3-4432-8e29-b4975d17e5f4" finished successfully.
+
+$ gcloud services list
+NAME                                  TITLE
+stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
+
+$ gcloud services enable serviceusage.googleapis.com
+Operation "operations/acat.p2-327402113844-cf2ba8b5-4865-497e-a5cd-ea1b2aaea6d9" finished successfully.
+
+$ gcloud services disable serviceusage.googleapis.com
+Operation "operations/acat.p17-327402113844-e6e66b99-79d0-4e27-a711-762f9e498d62" finished successfully.
+
+$ q service-usage enable-service projects/nodal-time-442104-f1/services/serviceusage.googleapis.com
+Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
+error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
+error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
+Usage:
+  q service-usage enable-service [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for enable-service
+
 ```
