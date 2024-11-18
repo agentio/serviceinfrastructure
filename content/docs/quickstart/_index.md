@@ -3,7 +3,7 @@ weight: 2
 title: A Quick Start
 bookFlatSection: true
 ---
-## A Quick Start
+# A Quick Start
 
 It's possible to skip ahead if you want, but this section contains a quickstart (and we do mean _quick_) that you can use to deploy a sample gRPC API on [Google Cloud Run](https://cloud.google.com/run), which you can then use for hands-on exercises throughout the discussions that follow.
 

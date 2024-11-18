@@ -8,6 +8,22 @@ Looking at things that can be observed externally, we can learn a lot about how 
 
 As I wrote in [I got a golden ticket: what I learned about APIs in my first year at Google](https://medium.com/apis-and-digital-transformation/i-got-a-golden-ticket-what-i-learned-about-apis-in-my-first-year-at-google-556e1f02f9ab), Google makes a lot of APIs and Google APIs get called a lot. These two dimensions of scale, in development and operations, have had a big influence on API practice at Google and led to things that might not be obvious to someone using an online tutorial to code their first API (which is a great first step!)
 
+## Philosophy
+
+### Make APIs managable by controlling their design
+
+Google APIs are governed by a strict review and approval process. Reviewers are trained in expectations and best practices and are granted "API readability", which allows them to approve new APIs and API design changes.
+
+This is possible because Google APIs are published through a central infrastructure, giving that team the opportunity to establish and enforce requirements on APIs.
+
+### Consistent APIs allow simpler, more powerful tools
+
+Instead of buying a powerful API management system from a vendor (and since these systems were in their infancy), Google engineers built a series of API management systems that grew in capacity while pursuing simplicity.Over the years, hundreds of engineers were involved, and the system described here is a credit to their creativity and collaboration.
+
+It is fair to say that the consistency of Google APIs had as important a part in the development of Google’s API management strategy as any of the code that was written.
+
+### How many APIs does Google have?
+
 To get an idea of how many APIs Google produces, we could start by just asking Google directly by calling the [API Discovery Service](https://developers.google.com/discovery/v1/reference/apis/list)
 
 ```
@@ -21,6 +37,8 @@ $ curl https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[] | "\(.
 
 ```
 
+## What's in googleapis?
+
 Google also publishes a directory of API descriptions at [github.com/googleapis/googleapis](https://github.com/googleapis/googleapis). These are all public Google APIs, and the descriptions are in the Protocol Buffers format. They can be used with Protocol Buffer and gRPC support tools to generate clients, documentation, and any other materials needed to work with Google's public APIs.
 
 The googleapis repo includes an automatically-generated index of Google APIs in [api-index-v1.json](https://github.com/googleapis/googleapis/blob/master/api-index-v1.json).
@@ -32,7 +50,6 @@ $ curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/mas
 
 Generally, each API in the `googleapis` repo is in a directory in a path ending with a version identifier. For example, the description of the [Cloud Translation API](https://cloud.google.com/translate) is in [google/cloud/translate/v3](https://github.com/googleapis/googleapis/tree/master/google/cloud/translate/v3). The main Protocol Buffer description is in [translation_service.proto](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translation_service.proto) and the service configuration is in [translate_v3.yaml](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_v3.yaml).
 
-## What's in googleapis?
 
 ### Protocol Buffers
 
@@ -126,3 +143,6 @@ https://linter.aip.dev/
 To see the value of AIPs, consider pagination, as described in [AIP-158](https://google.aip.dev/158).
 
 For more on "the Google school" of API design, see [API Design Patterns](https://www.manning.com/books/api-design-patterns) by JJ Geewax.
+
+
+

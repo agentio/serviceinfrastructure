@@ -2,7 +2,6 @@
 weight: 4
 bookFlatSection: true
 title: "The Proxies"
-bookToC: false
 ---
 # The Extensible Service Proxies
 

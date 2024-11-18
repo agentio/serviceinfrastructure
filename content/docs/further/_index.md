@@ -5,7 +5,7 @@ bookFlatSection: true
 ---
 # Going Further
 
-### Can we build a better Endpoints?
+Can we build a better Endpoints?
 
 Let's look at three ways that we can make Endpoints better:
 
