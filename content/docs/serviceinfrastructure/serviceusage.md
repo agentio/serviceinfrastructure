@@ -701,3 +701,7 @@ Flags:
   -h, --help            help for enable-service
 
 ```
+
+## Summarizing
+
+Service Usage is the simplest API that we discussed, but in an important way, it's the bridge that connects services to Google Cloud users. With the Service Usage API, Google Cloud users can find services to use in their projects, enable them, and also importantly, disable services that they don't need. This can held reduce security risks and accidental charges. If you want to share a service that you make with Google Cloud users, they'll need to know to use the Service Usage API to enable your service so that they can then generate API keys to use it.

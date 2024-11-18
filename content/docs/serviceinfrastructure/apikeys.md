@@ -4,7 +4,7 @@ title: The API Keys API
 ---
 ## The API Keys API
 
-The API Keys API creates and manages API keys that consumers use to call APIs.
+The API Keys API creates and manages API keys that consumers use to call APIs. Anyone can use these API keys to call an API. There is no need that they be a Google customer or even have an identity known to Google.
 
 The API Keys API is defined in the [googleapis](/docs/details/googleapis) repo in [apikeys_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys_v2.yaml). It includes two services.
 
@@ -420,3 +420,17 @@ alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
 
 {"code":400,"message":"INVALID_ARGUMENT: API key not found. Please pass a valid API key."}
 ```
+
+## Summarizing
+
+We've seen that the API Keys API makes it easy to create and manage API keys. We can use it to create keys for our API users, and because Service Control logs those keys, we can observe their usage with the Cloud Logging API, which we examine next.
+
+Anyone can use these API keys to call your API. There is no need that they be a Google customer or even have an identity known to Google.
+
+However, Google limits the API Keys API to allow [at most 300 keys per project](https://cloud.google.com/docs/authentication/api-keys#limits). If you need more, we can suggest a few ways to adapt to this:
+
+1. Create new projects as needed using the [CreateProject](https://github.com/googleapis/googleapis/blob/master/google/cloud/resourcemanager/v3/projects.proto#L91) method in the [Cloud Resource Manager API](https://cloud.google.com/resource-manager/reference/rest). Then you could use these projects as pools of API keys. (Note this link is to REST documentation. This API is also available as a gRPC service, but that is currently undocumented.)
+
+2. Expanding on the above approach, you could create your projects in [tenancy units](https://cloud.google.com/service-infrastructure/docs/glossary#tenancy) that are dedicated to individual customers and managed with the [Service Consumer Management API](https://cloud.google.com/service-infrastructure/docs/service-consumer-management/getting-started)
+
+3. If your API users are also Google Cloud users, you can grant them access to your service using the [SetIamPolicy](/docs/serviceinfrastructure/servicemanagement#setiampolicy) method of the Service Management API. Then they can use the [Service Usage API](/docs/serviceinfrastructure/serviceusage) to enable your service in their own Google Cloud Project and create their own API keys with the API Keys API.

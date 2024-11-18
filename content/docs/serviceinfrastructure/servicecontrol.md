@@ -76,3 +76,7 @@ See the source code for [q service-control mock](https://github.com/agentio/q/bl
 
 References:
 - https://cloud.google.com/service-infrastructure/docs/service-control/getting-started
+
+## Summarizing
+
+Here we've seen how it works, but for a typical Service Infrastructure user, the Service Control API is a behind-the-scenes helper, taking requests from the [Extensible Service Proxy](/docs/proxies), checking them with the [API Keys API](/docs/serviceinfrastructure/apikeys), logging them with the [Cloud Logging API](/docs/serviceinfrastructure/cloudlogging), and collecting metrics on them with the [Cloud Monitoring API](/docs/serviceinfrastructure/cloudmonitoring). We'll look at these three APIs next to see how we can get the most out of our Service Infrastructure usage.

@@ -305,6 +305,6 @@ Finally, `ListMonitoredResourceDescriptors` lists the types of resources that ca
 $ q logging list-monitored-resource-descriptors | jq .[].type -r
 ```
 
-## Usage Notes
+## Summarizing
 
 Cloud Logging is a powerful API that is built for large-scale logging. Service Control uses it to store logs for our managed services, and if we take some time to understand the log structure (see the examples above) and the [filtering language](https://cloud.google.com/logging/docs/view/logging-query-language), we can build our own powerful queries that help us understand how our services are running and being used.

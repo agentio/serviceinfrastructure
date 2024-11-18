@@ -4,7 +4,7 @@ title: The Cloud Monitoring API
 ---
 ## The Cloud Monitoring API
 
-The Cloud Monitoring API allows applications to read metrics describing API traffic. Service Infrastructure users use it indirectly when Service Control API handlers write metrics using the Cloud Monitoring API. This allows Service Infrastructure users to use the Metrics Explorer to view their APIs and the Cloud Monitoring API to programmatically access their metrics.
+[Cloud Monitoring](https://cloud.google.com/monitoring?hl=en) is a Google service that provides metrics collection, storage, and dashboard for cloud applications. Service Infrastructure users use it indirectly when Service Control API handlers write metrics using the Cloud Monitoring API. This allows Service Infrastructure users to use the Metrics Explorer to view their APIs and the Cloud Monitoring API to programmatically access their metrics.
 
 The Cloud Monitoring API is defined in the [googleapis](/docs/details/googleapis) repo in [monitoring.yaml](https://github.com/googleapis/googleapis/blob/master/google/monitoring/v3/monitoring.yaml). It includes nine services:
 
@@ -349,3 +349,7 @@ Naming conventions and other help for using custom-defined metrics can be found 
 ### CreateServiceTimeSeries
 
 `CreateServiceTimeSeries` is a variant of `CreateTimeSeries` that is intended for Google internal use only.
+
+## Summarizing
+
+Like Cloud Logging, Cloud Monitoring is a powerful API that is built for observing services running at scale. Service Control uses it to store metrics for our managed services, and if we take some time to understand the data structures (see the examples above) and the [query language](https://cloud.google.com/stackdriver/docs/deprecations/mql), we can build our own powerful queries that help us understand how our services are running and being used.
