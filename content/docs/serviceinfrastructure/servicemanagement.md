@@ -830,6 +830,6 @@ There's a lot in this section, but that's because we went over everything in gre
 2. Describe your API by uploading a service config.
 3. Activate your configuration by creating a rollout.
 4. If you need to make changes, upload a new service config and roll it out.
-5. To share your managed service with other users, set an IAM Policy on the service.
+5. To make your managed service visible to other Google Cloud users, set an IAM Policy on the service.
 
 Now on to Service Control!

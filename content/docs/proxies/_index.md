@@ -13,7 +13,7 @@ There are two Google-supported versions of these proxies:
 
 Recalling our overview discussion, the Extensible Service Proxy sits between API clients and an API server and handles the general-purpose API management needs of the server, allowing the server implementation to focus on its own special features. The proxy isn't fully self-contained, instead it calls out to Service Infrastructure for configuration, access control, and logging. This makes it lightweight and convenient to deploy alongside an API server.
 
-Often the ESP and API server are built into containers and deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use ESP; it could also be run elsewhere and serve multiple backends. But because it is lightweight, and because we generally like to minimize the network delay between the ESP and the API server, we prefer this [sidecar deployment](/docs/glossary#sidecar-deployment).
+Often the ESP and API server are built into their own containers that are deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use an ESP; it could also be run elsewhere and handle requests for multiple backends. But because it is lightweight, and because we generally like to minimize the network delay between the ESP and the API server, we prefer this [sidecar deployment](/docs/glossary#sidecar-deployment).
 
 ```goat
 
