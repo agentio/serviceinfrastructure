@@ -5,7 +5,7 @@ bookFlatSection: true
 ---
 # Going Further
 
-Can we build a better Endpoints?
+Can we build a better Endpoints? From what we've seen of the [Service Infrastructure APIs](/docs/service-infrastructure), it clearly has "good bones", but several other things suggest that its better days are either behind it or in the future.
 
 Let's look at three ways that we can make Endpoints better:
 

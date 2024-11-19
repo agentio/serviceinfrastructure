@@ -49,3 +49,84 @@ Often the ESP and API server are built into their own containers that are deploy
                 / \   
 
 ```
+
+## Troubleshooting
+
+See "Troubleshooting Cloud Endpoints configuration deployment" [grpc](https://cloud.google.com/endpoints/docs/grpc/troubleshoot-config-deployment) and [openapi](https://cloud.google.com/endpoints/docs/openapi/troubleshoot-config-deployment) for help from Google for troubleshooting proxy deployments.
+
+## Running the proxies in docker
+
+For testing and experimentation, it's useful to run the proxies locally. Unfortunately, their implementations are a bit too complex to easily run them directly, but we can use Docker to run them in their containers.
+
+Let's try it for our demo API.
+
+First we'll run our `stores-server` container locally with Docker:
+```
+$ docker run -p 8080:8080 ghcr.io/bobadojo/stores-server
+2024/11/19 03:04:20 listening on port 8080
+```
+
+### ESPv2
+
+Now, leaving the `stores-server` container running, we run one of the proxies (ESP v2), also in Docker. We'll do it from a script:
+```
+#!/bin/sh
+
+docker run \
+	-v /home/tim/Desktop/bobadojo/stores-server/kubernetes/key.json:/key.json \
+	-p 8081:8081 \
+	-p 19000:19000 \
+	gcr.io/endpoints-release/endpoints-runtime:2 \
+	--listener_port=8081 \
+	--admin_port=19000 \
+	--backend=grpc://192.168.86.200:8080 \
+	--service=stores.endpoints.bobadojo.cloud.goog \
+	--rollout_strategy=managed \
+	--non_gcp \
+	--service_account_key=/key.json 
+```
+
+Run this script to run the ESP v2 proxy. Note that it contains some things that you'll need to customize.
+- You should have a service account key in `key.json`.
+- You should fix the path to your local version `key.json`.
+- You should set the backend address to the address of the machine running your `stores-server` container.
+- You should set the --service option to use the name of your own service.
+
+With this, you should be able to access your API on port 8081 of your local machine.
+
+When you're finished, kill this container with CTRL-C.
+
+### ESP
+
+We can also run the original proxy (ESP) in Docker with slightly different command-line options.
+```
+#!/bin/sh
+
+docker run \
+	-v /home/tim/Desktop/bobadojo/stores-server/kubernetes/key.json:/key.json \
+	-p 8081:8081 \
+	-p 19000:19000 \
+	gcr.io/endpoints-release/endpoints-runtime:1 \
+	--http_port=8081 \
+	--backend=grpc://192.168.86.200:8080 \
+	--service=stores.endpoints.bobadojo.cloud.goog \
+	--rollout_strategy=managed \
+	--service_account_key=/key.json 
+```
+
+But when you run it, something interesting and surprising might happen. The proxy might exit.
+
+```
+$ sh local-espv1.sh 
+INFO:Constructing an access token with scope https://www.googleapis.com/auth/service.management.readonly
+INFO:Service account email: stores@bobadojo.iam.gserviceaccount.com
+INFO:Refreshing access_token
+INFO:Fetching the service config ID from the rollouts service
+INFO:Fetching the service configuration from the service management service
+nginx: [warn] Using trusted CA certificates file: /etc/nginx/trusted-ca-certificates.crt
+2024/11/19 22:00:02[error]1#1: Cannot load ESP configuration protocol buffer.
+nginx: [emerg] Failed to load service configuration files in /etc/nginx/endpoints/nginx.conf:112
+nginx: [emerg] There were errors with Endpoints api service configuration.
+```
+
+Uh, what? It appears that ESP thinks there's something wrong with our service configuration, but this same configuration just worked with ESP v2. We'll come back to this when we discuss ESP in detail.
