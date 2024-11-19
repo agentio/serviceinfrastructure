@@ -13,3 +13,9 @@ For more information, see:
 * [Endpoints Resources](/docs/endpoints/resources)
 * [Endpoints Costs](/docs/endpoints/costs)
 
+https://cloud.google.com/endpoints/docs/endpoints-release-notes
+
+https://cloud.google.com/endpoints/docs/grpc
+
+https://cloud.google.com/endpoints/docs/openapi
+
