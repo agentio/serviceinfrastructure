@@ -10,12 +10,12 @@ Cloud Endpoints is a Google API management product that uses Service Infrastruct
 Cloud Endpoints is based on tools and practices that Google developed over many years to manage its own APIs. When Cloud Endpoints was released in 2016, most API developers used tools and methods that were very different from Google's, making this an awkward fit. But now, with the growth of gRPC and Buf, more and more developers are using Protocol Buffers to design their APIs, and it's worth revisiting Cloud Endpoints to see an example of Protobuf-first API management.
 
 For more information, see:
-* [Endpoints Resources](/docs/endpoints/resources)
-* [Endpoints Costs](/docs/endpoints/costs)
+- [Endpoints Resources](/docs/endpoints/resources)
+- [Endpoints Costs](/docs/endpoints/costs)
 
-https://cloud.google.com/endpoints/docs/endpoints-release-notes
+## References
 
-https://cloud.google.com/endpoints/docs/grpc
-
-https://cloud.google.com/endpoints/docs/openapi
+- [Endpoints Release Notes](https://cloud.google.com/endpoints/docs/endpoints-release-notes)
+- [Endpoints for gRPC documentation](https://cloud.google.com/endpoints/docs/grpc)
+- [Endpoints for OpenAPI documentation](https://cloud.google.com/endpoints/docs/openapi)
 
