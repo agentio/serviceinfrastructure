@@ -10,7 +10,7 @@ Here we run through a list of terms that are used in our discussion and provide 
 
 ## API
 
-Application Programming Interface. ["An API divides and organizes the world of computing tasks in a particular way."](https://www.supremecourt.gov/opinions/20pdf/18-956_d18f.pdf) Recognizing that this term is sometimes defined loosely, we prefer to say that an API is an interface that is distinct from possibly many implementations ([API Servers](#api-server)) which may be running in instances that we call [Services](#service).
+Application Programming Interface. ["An API divides and organizes the world of computing tasks in a particular way."](https://www.supremecourt.gov/opinions/20pdf/18-956_d18f.pdf) Recognizing that this term is sometimes defined loosely, we prefer to say that an API is an interface that may have many implementations ([API Servers](#api-server)) which may be running in instances that we call [Services](#service).
 
 ## API Client
 

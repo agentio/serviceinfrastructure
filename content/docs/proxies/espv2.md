@@ -23,5 +23,5 @@ When they do work, ESPv2 builds take a long time -- builds using GitHub Actions 
 
 ### Debugging ESPv2
 
-One interesting to note is that in the process of [debugging a problem with ESP](/docs/proxies/esp#debugging-esp), we updated the service config by direct uploads that didn't include the file descriptor set of our API. After doing so, HTTP/JSON transcoding for ESPv2 no longer worked (though it did for ESP). What's the difference? ESP uses the service config to configure transcoding, but ESPv2 uses Envoy's grpc transcoding filter, which requires the file descriptor set for configuration.
+One interesting thing to note is that in the process of [debugging a problem with ESP](/docs/proxies/esp#debugging-esp), we updated the service config by direct uploads that didn't include the file descriptor set of our API. After doing so, HTTP/JSON transcoding for ESPv2 no longer worked (though it did for ESP). What's the difference? ESP uses the service config to configure transcoding, but ESPv2 uses Envoy's grpc transcoding filter, which requires the file descriptor set for configuration.
 

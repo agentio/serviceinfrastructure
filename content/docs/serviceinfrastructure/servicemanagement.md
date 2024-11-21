@@ -399,23 +399,70 @@ endpoints:
 
 `CreateServiceConfig` is the first of two ways to create service configs. This one posts the full service config for a service.
 
+If we've saved the output of `GetServiceConfig` in `stores.json`, we can modify that file and directly update the service with the following:
+
 ```
-q service-management service-config create-service-config
+$ q service-management create-service-config stores.endpoints.bobadojo.cloud.goog stores.config 
 ```
 
-TODO: finish this
+But note that if we don't remove the `id` field or set it to an unused value, this will return an error:
+```
+Error: rpc error: code = AlreadyExists desc = Service configuration 'services/stores.endpoints.bobadojo.cloud.goog/configs/2024-11-19r0' already exists.
+Usage:
+  q service-management create-service-config SERVICE FILE [flags]
+
+Flags:
+      --format string   output format (default "json")
+  -h, --help            help for create-service-config
+```
+
+If we didn't specify an `id`, one will be set automatically and included in the returned value (the service config).
+
+Also, although we've uploaded a new config, it won't be available until we roll it out. See the discussion of [CreateServiceRollout](#createservicerollout) below for more.
 
 ### SubmitConfigSource
 
 The second way to create a service configuration is using `SubmitConfigSource` is to upload source files that include partial service config, protocol buffer file descriptor sets, and OpenAPI descriptions. Google will then compile these into the full service config.
 
 ```
-q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog ./stores-demo/api_config.yaml  ./stores-demo/descriptor.pb 
-
-q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:537024da-fdca-4c1c-8c33-5dbf1eb13e1a | jq .response.serviceConfig | head
+$ q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog api_config.yaml descriptor.pb 
+operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9
 ```
 
-TODO: finish this
+This returns an operation. Using [GetOperation](#getoperation) to check the result, we can see that a new service config has been uploaded with id `2024-11-21r0`.
+
+```
+ q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9 | jq
+{
+  "name": "operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9",
+  "metadata": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata",
+    "resourceNames": [
+      "services/stores.endpoints.bobadojo.cloud.goog/configs/2024-11-21r0"
+    ],
+    "startTime": "2024-11-21T02:17:25.466817Z"
+  },
+  "done": true,
+  "response": {
+    "@type": "type.googleapis.com/google.api.servicemanagement.v1.SubmitConfigSourceResponse",
+    "serviceConfig": {
+      "name": "stores.endpoints.bobadojo.cloud.goog",
+      "title": "Boba Dojo Stores API",
+      "producerProjectId": "bobadojo",
+      "id": "2024-11-21r0",
+      "apis": [
+        {
+```
+
+This same function is called by `gcloud endpoints services deploy`, but that also rolls out the service. Try running it with [--log-http](/docs/details/how-to-call-google-apis#seeing-inside-gcloud-with---log-http) and see! Use the files from your demo service:
+
+```
+gcloud endpoints services deploy descriptor.pb api_config.yaml --log-http
+```
+
+Or if you'd prefer, read [our log](/docs/serviceinfrastructure/gcloud-endpoints-service-deploy).
+
+If you only call `SubmitConfigSource` or `CreateServiceConfig`, you'll need to create the new rollout yourself. See the discussion of [CreateServiceRollout](#createservicerollout) for more.
 
 ### GenerateConfigReport
 

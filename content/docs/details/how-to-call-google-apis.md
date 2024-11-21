@@ -14,6 +14,8 @@ Getting `gcloud` configured and running is almost always a good way to start (we
 
 If you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll find `gcloud` installed and ready. Otherwise, use [Google's instructions for installing gcloud](https://cloud.google.com/sdk/docs/install) and get set up. We use it throughout our discussions, starting with the [quickstart demo](/docs/quickstart/demo).
 
+### Seeing inside gcloud with --log-http
+
 `gcloud` has a nice built-in way to learn about Google APIs. Just add the `--log-http` flag to any `gcloud` command, and it will print all of the API calls that it makes along with their responses. Here's an example:
 
 ```

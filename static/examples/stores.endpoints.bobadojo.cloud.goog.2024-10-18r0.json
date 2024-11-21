@@ -643,7 +643,7 @@
   "endpoints": [
     {
       "name": "stores.endpoints.bobadojo.cloud.goog",
-      "target": "172.125.77.209"
+      "target": "WWW.XXX.YYY.ZZZ"
     }
   ],
   "control": {
