@@ -253,3 +253,6 @@ As a companion to this book, we've written a command line tool that we can use t
 If you're a Go programmer, this is probably the easiest way to call this API. Note that this is using what Google calls [Application Default Credentials](https://cloud.google.com/docs/authentication/application-default-credentials), which are essentially the same credentials that we've been getting from `gcloud` (there are nuances that you can read about in the Google docs).
 
 For more, see [How Google Makes APIs](/docs/details/how-google-makes-apis).
+
+---
+#### Go back to [Going Deeper](/docs/details).

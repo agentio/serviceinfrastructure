@@ -5,15 +5,7 @@ title: "The Proxies"
 ---
 # The Extensible Service Proxies
 
-The Extensible Service Proxies run alongside API servers and are configured and controlled by [Service Infrastructure](/docs/serviceinfrastructure).
-
-There are two Google-supported versions of these proxies:
-1. [ESP](/docs/proxies/esp), a custom proxy based on nginx.
-2. [ESPv2](/docs/proxies/espv2), a custom proxy based on [Envoy](/docs/details/envoy).
-
-Recalling our overview discussion, the Extensible Service Proxy sits between API clients and an API server and handles the general-purpose API management needs of the server, allowing the server implementation to focus on its own special features. The proxy isn't fully self-contained, instead it calls out to Service Infrastructure for configuration, access control, and logging. This makes it lightweight and convenient to deploy alongside an API server.
-
-Often the ESP and API server are built into their own containers that are deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use an ESP; it could also be run elsewhere and handle requests for multiple backends. But because it is lightweight, and because we generally like to minimize the network delay between the ESP and the API server, we prefer this [sidecar deployment](/docs/glossary#sidecar-deployment).
+The Extensible Service Proxies run alongside API servers and are configured and controlled by [Service Infrastructure](/docs/serviceinfrastructure). Reviewing the simplified picture below, we see that these proxies sit alongside API server implementations and take traffic from API clients and check and log it using Service Infrastructure. In this way, the Extensible Service Proxy handles the general-purpose API management needs of the server, allowing the server implementation to focus on its own unique features. The proxy isn't fully self-contained; instead it calls out to Service Infrastructure for configuration, access control, and logging. This makes it lightweight and convenient to deploy alongside an API server.
 
 ```goat
 
@@ -50,11 +42,16 @@ Often the ESP and API server are built into their own containers that are deploy
 
 ```
 
+Often the ESP and API server are built into their own containers that are deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use an ESP; it could also be run elsewhere and handle requests for multiple backends. But because it is lightweight, and because we generally like to minimize the network delay between the ESP and the API server, we prefer this [sidecar deployment](/docs/glossary#sidecar-deployment).
+
+There are two Google-supported versions of these proxies:
+1. [ESP](/docs/proxies/esp), a custom proxy based on nginx.
+2. [ESPv2](/docs/proxies/espv2), a custom proxy based on [Envoy](/docs/details/envoy).
 ## Troubleshooting
 
 See "Troubleshooting Cloud Endpoints configuration deployment" [grpc](https://cloud.google.com/endpoints/docs/grpc/troubleshoot-config-deployment) and [openapi](https://cloud.google.com/endpoints/docs/openapi/troubleshoot-config-deployment) for help from Google for troubleshooting proxy deployments.
 
-## Running the proxies in docker
+## Running the proxies in Docker
 
 For testing and experimentation, it's useful to run the proxies locally. Unfortunately, their implementations are a bit too complex to easily run them directly, but we can use Docker to run them in their containers.
 
@@ -130,3 +127,6 @@ nginx: [emerg] There were errors with Endpoints api service configuration.
 ```
 
 Uh, what? It appears that ESP thinks there's something wrong with our service configuration, but this same configuration just worked with ESP v2. We'll come back to this when we discuss ESP in detail.
+
+---
+#### Continue with [ESP](/docs/proxies/esp).

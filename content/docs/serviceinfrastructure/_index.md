@@ -53,3 +53,6 @@ Service Infrastructure is built on a central data format, called [Service Config
 All of these APIs are described and built with Protocol Buffers, and we frequently refer to their Protocol Buffer descriptions as we explore them. The APIs themselves are available using either gRPC or HTTP/JSON. We use both but rely most heavily on gRPC.
 
 Service Infrastructure is in use today, both by Google and by users of [Cloud Endpoints](/docs/endpoints), an API management product that Google released in 2016. Because Service Infrastructure is used by virtually all of Google's public APIs, it is possibly the highest-traffic API management system in existence.
+
+---
+#### Continue with [Service Configuration](/docs/serviceinfrastructure/serviceconfig).

@@ -39,3 +39,6 @@ Most frequently, the out-of-process part of the solution is called an _API proxy
 ```
 
 Most of the API management industry has focused on providing reverse proxies to organizations that make and offer APIs. Reverse proxies have evolved into _API gateways_ that provide powerful and sometimes sophisticated features including authentication, rate limiting, and monitoring. This is the focus of Service Infrastructure and our discussion here.
+
+---
+#### Continue with [Managing gRPC APIs](/docs/intro/grpc).

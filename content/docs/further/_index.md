@@ -12,3 +12,6 @@ Let's look at three ways that we can take Endpoints and build something better:
 1. [Better Deployments](/docs/further/deployments)
 2. [Better Configuration](/docs/further/configuration)
 3. [Better Proxies](/docs/further/proxies)
+
+---
+#### Continue with [Better Deployments](/docs/further/deployments).

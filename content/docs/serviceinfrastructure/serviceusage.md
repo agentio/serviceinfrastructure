@@ -34,6 +34,14 @@ Here's what it looks like to create a new project in the cloud console:
 
 ![alt text](/screenshots/serviceusage-createproject.png)
 
+### **Services**
+
+The Service Usage API defines it's own [Service](https://github.com/googleapis/googleapis/blob/master/google/api/serviceusage/v1/resources.proto#L38) type that allows it to add some additional information about services:
+- The service name is relative to the owning project (e.g. `projects/123/services/serviceusage.googleapis.com`). This allows us to selectively enable and disable services for use within individual projects.
+- The `state` field contains the state of the service (`ENABLED` or `DISABLED`)
+
+`Service` also includes a pared-down `ServiceConfig` type that contains a subset of the full service config. This subset is mainly focused on the needs of service consumers.
+
 ### ListServices
 
 The `ListServices` method lets us list services available to our current project. This includes all the public services, all the ones that we own, and all the services for which we've been given the `servicemanagement.services.bind` permission, typically by being granted the `servicemanagement.serviceConsumer` role.
@@ -421,7 +429,7 @@ q service-usage disable-service projects/327402113844/services/storage.googleapi
 
 ```
 
-Note that we've deleted the line containing our shared service. We've also commented out the call that disables the Service Usage API so that we can explore that case separately. 
+Note that we've deleted the line containing the stores service that we shared with this user. We've also commented out the call that disables the Service Usage API so that we can explore that case separately. 
 
 ```
 $ sh DISABLE.sh 
@@ -533,7 +541,7 @@ Flags:
   -h, --help            help for enable-service
 ```
 
-But now that we've done this, we'll only see one service enabled in the Cloud Console:
+Coming out of this digression, we check the Cloud Console and see that it shows only one service enabled for this project:
 
 ![alt text](/screenshots/serviceusage-singleservice.png)
 
@@ -541,11 +549,11 @@ But now that we've done this, we'll only see one service enabled in the Cloud Co
 
 In the Service Management section, we showed how we can use the `IamPolicyService` to share our service with another user. Here's how it looks in the Cloud Console. Note that now we have gone back and logged in with our producer identity. 
 
-Begin by giving the user the IAM role of "Service Consumer".
+Begin by giving the user the IAM role of "Service Consumer". For this screen, we are logged into the Cloud Console with the service owner's identity.
 
 ![alt text](/screenshots/serviceusage-grant.png)
 
-The user can then look up your API in the Cloud Console.
+The user can then look up your API in the Cloud Console. Here we are logged in as the service consumer:
 
 ![alt text](/screenshots/serviceusage-granted.png)
 
@@ -553,7 +561,8 @@ The user can then enable your API and create API keys to use it.
 
 ![alt text](/screenshots/serviceusage-granted-detail.png)
 
-What just happened? We set the IAM policy on the service. We can view it with this `gcloud` command:
+What just happened? Just as we did in our Service Management discussion, we set the IAM policy on the service. Another way to do this is with `gcloud endpoints services` subcommands. First we'll view the policy:
+
 ```
 $ gcloud endpoints services get-iam-policy stores.endpoints.bobadojo.cloud.goog
 bindings:
@@ -565,12 +574,12 @@ version: 1
 
 ```
 
-We could do this from `gcloud` with
+Next we update the policy binding:
 ```
 gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
 ```
 
-Let's remove the binding:
+We can also remove the binding:
 
 ```
 $ gcloud endpoints services remove-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
@@ -579,8 +588,7 @@ etag: BwYmbUpFFGg=
 version: 1
 ```
 
-and now let's add it back:
-
+And if we change our minds, we can easily add it back:
 ```
 $ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
 Updated IAM policy for service [stores.endpoints.bobadojo.cloud.goog].
@@ -595,3 +603,6 @@ version: 1
 ## Summarizing
 
 Service Usage is the simplest API that we discussed, but in an important way, it's the bridge that connects services to Google Cloud users. With the Service Usage API, Google Cloud users can find services to use in their projects, enable them, and also importantly, disable services that they don't need. This can held reduce security risks and accidental charges. If you want to share a service that you make with Google Cloud users, they'll need to know to use the Service Usage API to enable your service so that they can then generate API keys to use it.
+
+---
+#### Continue with [the Extensible Service Proxies](/docs/proxies).

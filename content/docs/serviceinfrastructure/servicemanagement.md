@@ -38,11 +38,11 @@ The full names of these methods begin with `google.api.servicemanagement.v1.Serv
 | [GenerateConfigReport](#generateconfigreport) | Generates and returns a report of errors, warnings and changes from existing configurations |
 
 The ServiceManager methods can be divided into three groups:
-1. Managing Services. These methods handle the creation and deletion of registered services.
+1. Managing Managed Services. These methods handle the creation and deletion of registered services.
 2. Managing Service Configurations. These methods handle Service Configurations and allow multiple revisions of configurations to be tracked for each service.
 3. Managing Service Rollouts. These methods control how service configurations are deployed. New configurations can be rolled out all at once or fractionally.
 
-To get to know them better, we'll call them with [q](/the-q-tool) for the example that we set up in the [quickstart](/docs/quickstart/demo).
+To get to know them better, we'll call each of these methods with [q](/the-q-tool) using the example that we set up in the [quickstart](/docs/quickstart/demo).
 
 ### **Managed Services**
 
@@ -232,7 +232,7 @@ Of course, if we want to use this domain, we would add appropriate records with 
 
 The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
 
-To see this, let's first call the API that we set up in the [quickstart](/docs/quickstart/demo). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
+To see this, let's first call the stores API that we set up in the [quickstart](/docs/quickstart/demo). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
 ```
 $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 {
@@ -268,7 +268,7 @@ Flags:
   -p, --project string   producer project
 ```
 
-Now if we try to call it, the requests will fail.
+Now if we try to call our stores API, the requests will fail.
 ```
 $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 {
@@ -285,7 +285,7 @@ $ q service-management undelete-service $SERVICE
 operations/services.stores.endpoints.bobadojo.cloud.goog-27
 ```
 
-Our service quickly becomes available again.
+Our stores API service quickly becomes available again.
 ```
 $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 {
@@ -312,7 +312,7 @@ The Managed Service records that we saw in the previous section don't contain mu
 Separating `Service` from `ManagedService` has benefits:
 - We can keep several revisions of `Service`; in fact, the Service Management API keeps the entire revision history.
 - We can deploy multiple configurations of a service at once. The next group of methods manages rollouts, and rollouts can divide services between multiple configurations.
-- We can (and do) have tighter access controls on `Service` configuration. We can list `ManagedService` resources outside of our control, but we can only see the `Service` resources that we own or have been explicitly granted access.
+- We can (and do) have tighter access controls on `Service` configuration. We can list `ManagedService` resources outside of our control, but we can only see the `Service` resources that we own or have been explicitly granted the ability to access.
 
 ### ListServiceConfigs
 
@@ -712,6 +712,8 @@ $ q service-management test-iam-permissions services/stores.endpoints.bobadojo.c
 {"permissions":["servicemanagement.services.bind"]}
 ```
 
+We got it, so we can see that our call to `SetIamPolicy` worked.
+
 ## The Operations service
 
 The [Operations](https://github.com/googleapis/googleapis/blob/master/google/longrunning/operations.proto#L55) service ([Google Documentation](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning)) is defined in [operations.proto](https://github.com/googleapis/googleapis/blob/master/google/longrunning/operations.proto). It allows us to check the status of operations that complete asynchronously after their initiating request completes.
@@ -879,4 +881,5 @@ There's a lot in this section, but that's because we went over everything in gre
 4. If you need to make changes, upload a new service config and roll it out.
 5. To make your managed service visible to other Google Cloud users, set an IAM Policy on the service.
 
-Now on to Service Control!
+---
+#### Continue with [the Service Control API](/docs/serviceinfrastructure/servicecontrol).

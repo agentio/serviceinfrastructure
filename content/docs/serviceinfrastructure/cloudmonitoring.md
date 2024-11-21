@@ -353,3 +353,6 @@ Naming conventions and other help for using custom-defined metrics can be found 
 ## Summarizing
 
 Like Cloud Logging, Cloud Monitoring is a powerful API that is built for observing services running at scale. Service Control uses it to store metrics for our managed services, and if we take some time to understand the data structures (see the examples above) and the [query language](https://cloud.google.com/stackdriver/docs/deprecations/mql), we can build our own powerful queries that help us understand how our services are running and being used.
+
+---
+#### Continue with [the Service Usage API](/docs/serviceinfrastructure/serviceusage).

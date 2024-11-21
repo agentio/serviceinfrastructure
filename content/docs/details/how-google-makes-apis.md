@@ -144,5 +144,5 @@ To see the value of AIPs, consider pagination, as described in [AIP-158](https:/
 
 For more on "the Google school" of API design, see [API Design Patterns](https://www.manning.com/books/api-design-patterns) by JJ Geewax.
 
-
-
+---
+#### Go back to [Going Deeper](/docs/details).

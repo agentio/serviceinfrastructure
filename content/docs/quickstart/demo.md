@@ -320,3 +320,6 @@ For the screenshot above, we've selected to display only the Requests graph so t
 Click on the '>' on the left of one of the log entries to expand it. If you expand all the subsections, you'll find a lot of detail! You'll also notice that if you are looking at the log of a call that used an API key, the key is included in the log! It's blacked out in the screenshot below. You'll want to be careful what you do with these logs (we'll work on this problem later).
 
 ![alt text](/screenshots/endpoints-log-getstore-detail.png)
+
+---
+#### Continue with [Service Infrastructure](/docs/serviceinfrastructure).

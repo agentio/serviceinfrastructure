@@ -50,7 +50,7 @@ The full names of theses methods begin with `google.api.servicecontrol.v1.QuotaC
 
 ### Mocking calls to Service Control
 
-Instead of calling these APIs individually, we'll set up a subcommand of `q` that pretends to be an API proxy and makes the Service Infrastructure calls for a sample API call. Our subcommand is called `q service-control mock`. Its key arguments are a service name, an operation name, and an API key that is being used to make our mock request.
+Instead of calling these APIs individually, we've set up a subcommand of `q` that pretends to be an API proxy and makes the Service Infrastructure calls for a sample API call. Our subcommand is called `q service-control mock`. Its key arguments are a service name, an operation name, and an API key that is being used to make our mock request.
 
 We call it like this:
 ```
@@ -78,10 +78,11 @@ See the source code for [q service-control mock](https://github.com/agentio/q/bl
 
 ### Service Control v2
 
-In this section, we've been describing the Service Control v1 API, the API used by the [Extensible Service Proxies](/docs/proxies).
-
-[Getting Started with the Service Control API](https://cloud.google.com/service-infrastructure/docs/service-control/getting-started) describes a new version of Service Control that is currently in Private Preview and [only available for approved services](https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.api/servicecontrol.v2).
+In this section, we've been describing the Service Control v1 API, the API used by the [Extensible Service Proxies](/docs/proxies). [Getting Started with the Service Control API](https://cloud.google.com/service-infrastructure/docs/service-control/getting-started) describes a new version of Service Control that is currently in Private Preview and [only available for approved services](https://cloud.google.com/service-infrastructure/docs/service-control/reference/rpc/google.api/servicecontrol.v2). It's unclear if or when this will be made available for general use, and since the proxies use the v1 API, we can expect that to continue to be available. The two versions are very similar, so if we ever do need to update, we expect that will be easy.
 
 ## Summarizing
 
 Here we've seen how it works, but for a typical Service Infrastructure user, the Service Control API is a behind-the-scenes helper, taking requests from the [Extensible Service Proxy](/docs/proxies), checking them with the [API Keys API](/docs/serviceinfrastructure/apikeys), logging them with the [Cloud Logging API](/docs/serviceinfrastructure/cloudlogging), and collecting metrics on them with the [Cloud Monitoring API](/docs/serviceinfrastructure/cloudmonitoring). We'll look at these three APIs next to see how we can get the most out of our Service Infrastructure usage.
+
+---
+#### Continue with [the API Keys API](/docs/serviceinfrastructure/apikeys).

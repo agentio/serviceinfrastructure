@@ -8,7 +8,7 @@ From the experiences we described in the [proxies](/doc/proxies) section, it app
 
 Superficially, we also notice that the proxies are in two separate GitHub organizations. ESP is in [cloudendpoints/esp](https://github.com/cloudendpoints/esp) and ESPv2 is in [googlecloudplatform/esp-v2](https://github.com/googlecloudplatform/esp-v2).
 
-Google publishes builds for them, but what if we need an update sooner? We can use GitHub actions, but there are some significant problems:
+Google publishes builds for these proxies, but what if we need an update sooner? We can use GitHub actions to build them, but there are some significant problems:
 - The ESP builds use archaic build environments and tools.
 - The ESPv2 builds are fragile and extremely slow.
 
@@ -18,7 +18,7 @@ The ESPv2 builds are slow because ESPv2 is a custom build of Envoy. This might h
 - [ext_authz](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter) makes unary gRPC requests to a helper process to authorize requests
 - [ext_proc](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter) makes streaming gRPC requests to a helper to monitor and control request handling
 
-Envoy continues to provide a useful collection of filters that ESPv2 uses and that can be used without a cusom build:
+Envoy continues to provide a useful collection of filters that ESPv2 uses and that can be used without a custom build:
 - [jwt_authn](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/jwt_authn_filter)
 - [grpc_json_transcoder](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_json_transcoder_filter)
 - [grpc_web](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_web_filter)

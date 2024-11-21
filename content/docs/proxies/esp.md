@@ -19,9 +19,7 @@ ESP startup options are documented [here](https://cloud.google.com/endpoints/doc
 
 [github.com/agentio/esp](https://github.com/agentio/esp) is a fork that includes a [Dockerfile](https://github.com/agentio/esp/blob/master/Dockerfile) and configuration to use GitHub actions to build alternate container images that are published at [github.com/agentio/esp/pkgs/container/esp](https://github.com/agentio/esp/pkgs/container/esp).
 
-Note that ESP is lightly maintained, with just [a few recent commits](https://github.com/cloudendpoints/esp/commits/master/). 
-
-We can see that a [recent commit](https://github.com/cloudendpoints/esp/commit/73ae1115ae1a47f6d74269e0219497f44a278f6c#diff-288b593fcb4342d79d4a324f301eb1ea8e4b84d4fed01288c3facd07fee84abdR134) addressed the problem that we noticed of API keys appearing in the service logs. [This later commit](https://github.com/cloudendpoints/esp/commit/4b377082d3f50ad1be94d1b27b41976064c12ed9) made it the default. We still saw them because we were using ESPv2.
+Note that ESP is lightly maintained, with just [a few recent commits](https://github.com/cloudendpoints/esp/commits/master/). We can see that a [recent commit](https://github.com/cloudendpoints/esp/commit/73ae1115ae1a47f6d74269e0219497f44a278f6c#diff-288b593fcb4342d79d4a324f301eb1ea8e4b84d4fed01288c3facd07fee84abdR134) addressed the problem that we noticed of API keys appearing in the service logs. [This later commit](https://github.com/cloudendpoints/esp/commit/4b377082d3f50ad1be94d1b27b41976064c12ed9) made it the default. We still saw the API keys because we were using ESPv2.
 
 You'll also see that the Dockerfile builds ESP on Ubuntu 16.04. This follows the [build instructions in the main repo](https://github.com/cloudendpoints/esp/blob/master/doc/build-esp-on-ubuntu-16-04.md). It also uses a very old version of Bazel (0.21.0) (Bazel is now [past 9.0.0](https://bazel.build/release/rolling)). This makes building and debugging ESP challenging.
 
@@ -145,10 +143,11 @@ $ diff original.config working.config
 <                 "type": "stores.bobadojo.com/Store"
 ```
 
-These options are in the `types` section of the service config and aren't used by either proxy. They were introduced by AIPs long after the creation of ESP and typically don't appear in APIs managed by Endpoints.
+These options are in the `types` section of the service config and aren't used by either proxy. They were introduced by one of Google's API design standards, [AIP-122](https://google.aip.dev/122), long after the creation of ESP and typically don't appear in APIs managed by Endpoints.
 
 Arguably, they should be omitted from the service config by service compilation, but the proto parser in ESP should also be less brittle.
 
-If we decide to work seriously with ESP, we will eventually want to address this.
+If we decide to work seriously with ESP, we will eventually want to address this. One way to do so would be just remove these options from our original source protos, but in case someone want's to fix this in ESP, we've filed [this issue on the ESP repo](https://github.com/cloudendpoints/esp/issues/876).
 
-https://github.com/cloudendpoints/esp/issues/876
+---
+#### Continue with [ESPv2](/docs/proxies/espv2).

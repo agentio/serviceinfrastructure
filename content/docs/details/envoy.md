@@ -16,7 +16,5 @@ Envoy includes many useful configurable features.
 
 Envoy supports extension mechanisms that allow it to be used to solve many API management problems.
 
-
-
-
-
+---
+#### Go back to [Going Deeper](/docs/details).

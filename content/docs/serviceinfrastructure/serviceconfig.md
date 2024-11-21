@@ -8,15 +8,15 @@ Service Configuration is the central format of Service Management. It arose from
 
 ## An Example Service Configuration
 
-Here is an example service configuration for a service managed with Endpoints:
+Here is an example service configuration for a service like the one we deployed in the demo:
 
 [stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json](/examples/stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json)
 
-If you clicked through, you saw that, clearly, this is not something that a developer would want to manually create! In practice, the service config is an intermediate internal format used by Cloud Endpoints. Developers instead provide fragments, like the one in [api_config.yaml](/docs/quickstart/files#api_configyaml), which contain only the parts of service config that can't be automatically derived from other known things.
+If you clicked through, you saw that, clearly, this is not something that a developer would want to manually create! In practice, the service config is an internal descriptive format used by Cloud Endpoints. Instead of writing the full service config, developers usually instead provide fragments, like the one in [api_config.yaml](/docs/quickstart/files#api_configyaml), which contain only the parts of service config that can't be automatically derived from other known things.
 
 ## What's in the Service Configuration
 
-This section goes into great detail about Service Configuration. Its goal is to explain everything -- so feel free to skim over this or jump to the next section. But when you need it, it's here.
+Here we go into great detail about Service Configuration. The goal is to explain everything -- so feel free to skim over this or jump to the next section. But when you need it, it's here.
 
 For each item, we show the documentation from the Service proto followed by the corresponding section from our example (if one exists) and add comments as needed.
 
@@ -1118,3 +1118,6 @@ _Obsolete. Do not use. This field has no semantic meaning. The service config co
 ```
 
 At the very end of our list of `Service` message fields, we have this unused field, which we find set to its expected value.
+
+---
+#### Continue with [the Service Management API](/docs/serviceinfrastructure/servicemanagement).
