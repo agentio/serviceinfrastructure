@@ -30,6 +30,70 @@ If you're curious, here's a quick way to list all of the API-version pairs.
 $ curl https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[] | "\(.name) \(.version)"' -r
 ```
 
+### How many APIs are being managed with Service Infrastructure?
+
+Outside of Google, there's no way to know how many APIs are managed with Service Infrastructure (since the majority of them are private), but we can look at the number of public APIs that are listed. We can get this by listing the managed services with no project specified. Here we'll get them, filter out their names, put them in a file, and count them:
+```
+$ q service-management list-services "" | jq .[].serviceName -r > SERVICES
+
+$ wc -l SERVICES
+6308 SERVICES
+```
+
+If we count the number of APIs with each domain name, we get the following:
+```
+3737 cloud.goog
+2010 cloudpartnerservices.goog
+476 googleapis.com
+32 appspot.com
+4 mongodb.com
+2 shpconn.com
+2 run.app
+2 netapp.com
+2 floreysoft.net
+1 zype.com
+1 zdatainc.com
+1 zazmic.io
+1 xmatters.com
+1 wowza.com
+1 vogsy.io
+1 ucraft-gcloud.com
+1 trifacta.com
+1 tackle.io
+1 superquery.io
+1 resiot.io
+1 redisenterprise.com
+1 qubole.com
+1 plugon.us
+1 perimeterx.com
+1 omnixlabs.com
+1 neuton.ai
+1 neo4j.io
+1 miclient.in
+1 mavatar.com
+1 managedkube.com
+1 kafkaesque.io
+1 itopia.com
+1 inventurist.com
+1 informaticacloud.com
+1 hycu.com
+1 humanapi.co
+1 headspin.io
+1 harness.io
+1 gwapps.com
+1 gpcloudtest.com
+1 gliacloud.com
+1 fivetran.com
+1 elastic.co
+1 datastax.com
+1 confluent.cloud
+1 buzzboard.com
+1 blueantoinette.com
+1 bkper.com
+1 bizstats.ai
+1 appranix.com
+```
+
 ## Philosophy
 
 ### Make APIs managable by controlling their design
