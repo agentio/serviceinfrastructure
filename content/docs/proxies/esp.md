@@ -147,7 +147,7 @@ These options are in the `types` section of the service config and aren't used b
 
 Arguably, they should be omitted from the service config by service compilation, but the proto parser in ESP should also be less brittle.
 
-If we decide to work seriously with ESP, we will eventually want to address this. One way to do so would be just remove these options from our original source protos, but in case someone want's to fix this in ESP, we've filed [this issue on the ESP repo](https://github.com/cloudendpoints/esp/issues/876).
+If we decide to work seriously with ESP, we will eventually want to address this. One way to do so would be just remove these options from our original source protos, but in case someone wants to fix this in ESP, we've filed [this issue on the ESP repo](https://github.com/cloudendpoints/esp/issues/876).
 
 ---
 #### Continue with [ESPv2](/docs/proxies/espv2).
