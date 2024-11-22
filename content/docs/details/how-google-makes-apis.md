@@ -8,19 +8,7 @@ Looking at things that can be observed externally, we can learn a lot about how 
 
 As I wrote in [I got a golden ticket: what I learned about APIs in my first year at Google](https://medium.com/apis-and-digital-transformation/i-got-a-golden-ticket-what-i-learned-about-apis-in-my-first-year-at-google-556e1f02f9ab), Google makes a lot of APIs and Google APIs get called a lot. These two dimensions of scale, in development and operations, have had a big influence on API practice at Google and led to things that might not be obvious to someone using an online tutorial to code their first API (which is a great first step!)
 
-## Philosophy
-
-### Make APIs managable by controlling their design
-
-Google APIs are governed by a strict review and approval process. Reviewers are trained in expectations and best practices and are granted "API readability", which allows them to approve new APIs and API design changes.
-
-This is possible because Google APIs are published through a central infrastructure, giving that team the opportunity to establish and enforce requirements on APIs.
-
-### Consistent APIs allow simpler, more powerful tools
-
-Instead of buying a powerful API management system from a vendor (and since these systems were in their infancy), Google engineers built a series of API management systems that grew in capacity while pursuing simplicity.Over the years, hundreds of engineers were involved, and the system described here is a credit to their creativity and collaboration.
-
-It is fair to say that the consistency of Google APIs had as important a part in the development of Google’s API management strategy as any of the code that was written.
+## Scale
 
 ### How many APIs does Google have?
 
@@ -29,64 +17,55 @@ To get an idea of how many APIs Google produces, we could start by just asking G
 ```
 $ curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | wc -l
 463
+```
 
+This is a list of API versions. If we pare the list down to unique APIs, we get a smaller list, but still it's large!
+```
 $ curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | sort | uniq | wc -l
 286
+```
 
+If you're curious, here's a quick way to list all of the API-version pairs.
+```
 $ curl https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[] | "\(.name) \(.version)"' -r
-
 ```
 
-## What's in googleapis?
+## Philosophy
 
-Google also publishes a directory of API descriptions at [github.com/googleapis/googleapis](https://github.com/googleapis/googleapis). These are all public Google APIs, and the descriptions are in the Protocol Buffers format. They can be used with Protocol Buffer and gRPC support tools to generate clients, documentation, and any other materials needed to work with Google's public APIs.
+### Make APIs managable by controlling their design
 
-The googleapis repo includes an automatically-generated index of Google APIs in [api-index-v1.json](https://github.com/googleapis/googleapis/blob/master/api-index-v1.json).
+Google APIs are governed by a strict review and approval process. Reviewers are trained in expectations and best practices and are granted "API readability", which allows them to approve new APIs and API design changes.
 
-```
-$ curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/master/api-index-v1.json | jq .apis.[].id -r | wc -l
-383
-```
+This degree of governance is hard to enforce in any company, and particularly a large one. At Google it was possible because Google APIs are published through a central infrastructure, giving that central team the opportunity to establish and enforce requirements on APIs.
 
-Generally, each API in the `googleapis` repo is in a directory in a path ending with a version identifier. For example, the description of the [Cloud Translation API](https://cloud.google.com/translate) is in [google/cloud/translate/v3](https://github.com/googleapis/googleapis/tree/master/google/cloud/translate/v3). The main Protocol Buffer description is in [translation_service.proto](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translation_service.proto) and the service configuration is in [translate_v3.yaml](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_v3.yaml).
+### Consistent APIs allow simpler, more powerful tools
 
+Instead of buying a powerful API management system from a vendor (and since these systems were in their infancy), Google engineers built a series of API management systems that grew in capacity while pursuing simplicity. Over the years, hundreds of engineers were involved, and the system described here is a credit to their creativity and collaboration.
+
+It is fair to say that the consistency of Google APIs had as important a part in the development of Google’s API management strategy as any of the code that was written.
+
+## Methodology
+
+A methodology is a set of tools and best practices that an organization uses to address a particular class of problems. Here we focus on the problem of developing and operating APIs.
 
 ### Protocol Buffers
 
-The message serialization mechanism.
-The language for describing APIs.
-The methodology for implementing and using APIs.
+The most obvious feature of Google's API methodology is Protocol Buffers. Emerging and maturing over many years, we can think of Protocol Buffers as three distinct and complimentary things:
 
-Our sample API is described with Protocol Buffers. Here are the files that describe it:
-```
-bobadojo/stores/v1/stores.proto
-```
-
-### Service Configuration
-
-Protocol Buffers files describe the API surface, but don't contain much about the deployment and operation of APIs. This is in a structure called Service Configuration, which is described by a Protocol Buffer description of the [service message](https://github.com/googleapis/googleapis/blob/master/google/api/service.proto#L80). The `googleapis` repo contains service configuration for each API. Another way to count Google APIs would be to count the service config files in the googleapis repo. These are yaml files that start with the line `type: google.api.Service`.
-
-https://github.com/search?q=repo%3Agoogleapis%2Fgoogleapis%20allow_without_credential&type=code
-
-### gRPC Service Configuration
-
-Another file that you'll find for each API in the `googleapis` repo is what the gRPC team unfortunately also calls "Service Config". This is used to specify timeouts and retry behavior in gRPC clients that call the associated API.
-
-https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translate_grpc_service_config.json
-
-## Pieces of the Methodology Puzzle
-
-### A Language for describing APIs
+- A message serialization mechanism. Protocol Buffer encoding puts messages in a concise binary format that is relatively fast to serialize and deserialize, especially compared to its predecessor (XML) and it's most common current alternative (JSON).
+- A language for describing APIs. Protocol Buffer descriptions of APIs are written in a dedicated language that is independent of the programming languages used to implement API servers and clients. This makes Protocol Buffers programming language-neutral, which has surely helped stabilize the description language, and the relative simplicity of this language has allowed Google and others to build many Protocol Buffer-based analysis and development tools.
+- A methodology for implementing and using APIs. At least one of the tools that Google developed (`protoc`) is used by nearly every Protocol Buffer-based API design, and tools exist in many languages that generate support code for API servers and clients in those languages. Often those generators are written in the same programming languages that they generate, which allows language experts to easily improve the quality of the generated code. Many other tools exist for Protocol Buffer-based APIs, including documentation generators and API management systems, the subject of this website.
 
 ### A Protos Repo
 
-The googleapis repository contains public protos for Google APIs. It's effectively a monorepo of API descriptions.
+It's well known that Google keeps all of its source code in a single repository. This means that all of its API descriptions are also in the "monorepo". This makes it easy for teams to find and learn about APIs, and it has created some patterns that other Protocol Buffer users would be wise to follow.
+
+One aspect of having proto files in a monorepo is having them in a well-defined directory hierarchy. The [googleapis](/docs/details/googleapis) repo partially mirrors that, and is effectively a monorepo of Google API descriptions.
 
 We can make some important observations:
 - Proto files are best defined in a directory hierarchy because they are rarely used in isolation. Proto files often include other proto files, and the compiler needs to know where to find them.
 - API version names are the last segment of the proto path.
-
-See [github.com/bobadojo/apis](https://github.com/bobadojo/apis) for an example of how an organization outside Google might organize their protos.
+- Third-party (non-Google) APIs should be organized in similar hierarchies that sit alongside the `google` directory. Don't put anything in `google`, or in other directories that are outside the scope of your organization. For example, we put the Boba Dojo APIs under `bobadojo` in  [github.com/bobadojo/apis](https://github.com/bobadojo/apis). This allows us to put standard commonly-included protos alongside our API in a local copy of the `google` directory (the common protos in the `google` directory very rarely change).
 
 ### Generated Code
 
@@ -98,15 +77,13 @@ See [github.com/bobadojo/go](https://github.com/bobadojo/go) for an example repo
 
 An RPC framework for HTTP/2 (and beyond) that works great with protocol buffers and Google APIs.
 
-support code is generated
-
-why does Google prefer gRPC?
+Why does Google prefer gRPC?
 - performance
 - client-side influence (retry)
 
 ### Transcoding
 
-Transcoding is a standard mechanism for making gRPC APIs available using HTTP+JSON.
+Transcoding is a standard mechanism for making gRPC APIs available using HTTP/JSON.
 
 https://cloud.google.com/endpoints/docs/grpc/transcoding
 
