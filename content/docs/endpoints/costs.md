@@ -29,5 +29,10 @@ What about the other APIs? There is no charge for the API Keys API or for the Se
 - https://cloud.google.com/endpoints/pricing
 - https://cloud.google.com/service-infrastructure/pricing
 
+## Comparisons
+- https://azure.microsoft.com/en-us/pricing/details/api-management/
+- https://aws.amazon.com/api-gateway/pricing/
+- https://cloud.google.com/apigee/pricing
+
 ---
 #### Continue with [Going Deeper](/docs/details).
