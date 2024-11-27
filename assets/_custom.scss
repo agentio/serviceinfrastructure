@@ -22,8 +22,10 @@ body {
 }
 
 .book-toc-content {
-    background-color: $beige;
+    //background-color: $tan;
     color: #000;
+    //scrollbar-color: $sage $tan;
+    scrollbar-width: none;
 }
 
 .book-toc-content a {
@@ -35,9 +37,10 @@ body {
 }
 
 .book-menu .book-menu-content {
-    background-color: $beige;
-    scrollbar-color: $tan $beige;
+    background-color: $tan;
     color: $beige;
+    scrollbar-color: $sage $tan;
+    scrollbar-width: none;
 }
 
 .book-menu a.active {
@@ -90,4 +93,16 @@ a:visited {
 
 .markdown table th {
     background: $sage;
+}
+
+div.goat {
+    background-color: $tan;
+}
+
+svg circle[fill="#fff"] {
+     fill:$tan; 
+}
+
+.book-search input {
+    background-color: $beige;
 }
