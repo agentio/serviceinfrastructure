@@ -20,7 +20,7 @@ $ curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/mas
 383
 ```
 
-### Service Configuration
+## Service Configuration
 
 We often think of Protocol Buffers as the way that Google describes its APIs, but the definition of a Google API starts in Service Config, which includes a list of the services in an API (each defined in a `.proto` file) and other properties of APIs that aren't in the `.proto` files.
 
@@ -28,13 +28,13 @@ For our Cloud Translation example, the service configuration is in [translate_v3
 
 To get a broader sense of these files, we've copied all of them into this generated list of [googleapis Service Configurations](/docs/details/services).
 
-### Protocol Buffers
+## Protocol Buffers
 
 The methods and messages of Google APIs are described with Protocol Buffers. Generally, the Protocol Buffer descriptions for an API are alongside the service config file for the API, and these often are split among multiple files.
 
 The main Protocol Buffer description is in [translation_service.proto](https://github.com/googleapis/googleapis/blob/master/google/cloud/translate/v3/translation_service.proto).
 
-### gRPC Service Configuration
+## gRPC Service Configuration
 
 Another file that you'll find for APIs in the `googleapis` repo is what the gRPC project unfortunately also calls [Service Config](https://grpc.io/docs/guides/service-config/). This is used to specify timeouts and retry behavior in gRPC clients that call the associated API.
 
