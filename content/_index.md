@@ -4,9 +4,7 @@ type: docs
 bookToC: false
 ---
 
-# Managing APIs with Service Infrastructure
-
-**The Service Infrastructure "Book"**
+# The Service Infrastructure Book
 
 This website describes a way to manage APIs that is inexpensive, high-performing, and surprisingly easy to use.
 

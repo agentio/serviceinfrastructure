@@ -17,7 +17,7 @@ The Service Control API is defined in the [googleapis](/docs/details/googleapis)
 
 The [ServiceController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto#L39) service is defined in [service_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/service_controller.proto) and provides two methods that are used by proxies to check and report on requests to a managed service.
 
-The full names of theses methods begin with `google.api.servicecontrol.v1.ServiceController.`
+The full names of these methods begin with `google.api.servicecontrol.v1.ServiceController.`
 
 | Method | Description |
 | ------ | ----------- |
@@ -36,7 +36,7 @@ The `Check` method should be called by proxies after an operation is received an
 
 The [QuotaController](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto#L37) service is defined in [quota_controller.proto](https://github.com/googleapis/googleapis/blob/master/google/api/servicecontrol/v1/quota_controller.proto) and provides a single method that is used by proxies to implement quotas on managed services.
 
-The full names of theses methods begin with `google.api.servicecontrol.v1.QuotaController.`
+The full names of these methods begin with `google.api.servicecontrol.v1.QuotaController.`
 
 | Method | Description |
 | ------ | ----------- |

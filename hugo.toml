@@ -4,7 +4,7 @@ languageCode = 'en-us'
 title = 'Managing APIs with Service Infrastructure'
 
 [params]
-BookLogo = 'yin.png'
+#BookLogo = 'yin.png'
 
 [[module.mounts]]
 source = 'static'

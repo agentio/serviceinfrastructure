@@ -1,0 +1,93 @@
+// https://colorhunt.co/palette/faf6e3d8dbbdb59f782a3663
+
+$teal: #257180;
+$beige: #F2E5BF;
+$orange: #FD8B51;
+$brick: #CB6040;
+
+$beige: #FAF6E3;
+$sage: #d5dab9;
+$tan: #ece8d4;
+$brown: #6e4e16;
+$navy: #2A3663;
+
+body {
+    background-color: $beige;    
+}
+
+.markdown pre {
+    background-color: $tan;
+    scrollbar-color: $sage $tan;
+    color: #000;
+}
+
+.book-toc-content {
+    background-color: $beige;
+    color: #000;
+}
+
+.book-toc-content a {
+    color: #000;
+}
+
+.book-toc-content a:visited {
+    color: #000;
+}
+
+.book-menu .book-menu-content {
+    background-color: $beige;
+    scrollbar-color: $tan $beige;
+    color: $beige;
+}
+
+.book-menu a.active {
+    color: $navy;
+}
+
+.book-menu a:visited.active {
+    color: $navy;
+}
+
+.book-menu a {
+    color: #000;
+}
+
+.book-menu a:visited {
+    color: #222;
+}
+
+div.goat {
+    background-color: #FFF;
+}
+
+.markdown a:visited {
+    color: $brown;
+}
+
+.markdown a {
+    color: $brown;
+}
+
+a {
+    color: $brown;
+}
+
+a:visited {
+    color: $brown;
+}
+
+.markdown code {
+    background: $tan;
+}
+
+.markdown table tr:nth-child(2n) {
+    background: $sage;
+}
+
+.markdown table tr:nth-child(2n+1) {
+    background: $tan;
+}
+
+.markdown table th {
+    background: $sage;
+}
