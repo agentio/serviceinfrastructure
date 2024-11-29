@@ -12,13 +12,13 @@ Here is an example service configuration for a service like the one we deployed 
 
 [stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json](/examples/stores.endpoints.bobadojo.cloud.goog.2024-10-18r0.json)
 
-If you clicked through, you saw that, clearly, this is not something that a developer would want to manually create! In practice, the service config is an internal descriptive format used by Cloud Endpoints. Instead of writing the full service config, developers usually instead provide fragments, like the one in [api_config.yaml](/docs/quickstart/files#api_configyaml), which contain only the parts of service config that can't be automatically derived from other known things.
+If you clicked through, you saw that this is not something that a developer would want to manually create! In practice, the full service config is an internal format used by Service Infrastructure and Cloud Endpoints. Instead of writing the full service config, developers instead provide fragments, like the one in [api_config.yaml](/docs/quickstart/files#api_configyaml), containing only the parts of service config that can't be automatically derived from other known things.
 
 ## What's in the Service Configuration
 
 Here we go into great detail about Service Configuration. The goal is to explain everything -- so feel free to skim over this or jump to the next section. But when you need it, it's here.
 
-For each item, we show the documentation from the Service proto followed by the corresponding section from our example (if one exists) and add comments as needed.
+For each item, we quote the documentation from the Service proto followed by the corresponding section from our example (if one exists) and add comments as needed.
 
 ### name
 
@@ -64,8 +64,8 @@ Each time a new service config is uploaded, it is given a unique id (if one isn'
 
 _A list of API interfaces exported by this service. Only the `name` field of the [google.protobuf.Api][google.protobuf.Api] needs to be provided by the configuration author, as the remaining fields will be derived from the IDL during the normalization process. It is an error to specify an API interface here which cannot be resolved against the associated IDL files._
 
-```
-  "apis": [
+{{< details "example apis field" >}}
+<pre><code>  "apis": [
     {
       "name": "bobadojo.stores.v1.Stores",
       "methods": [
@@ -125,22 +125,17 @@ _A list of API interfaces exported by this service. Only the `name` field of the
       },
       "syntax": "SYNTAX_PROTO3"
     }
-  ],
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [Api](https://github.com/protocolbuffers/protobuf/blob/24de58860f3150ea77e088d0e538d60ab1f85b9d/src/google/protobuf/api.proto#L54) message. As noted in the comment above, it is usually only necessary to specify the API names; the rest will be filled-in automatically.
 
 ### types
 
-_A list of all proto message types included in this API service. Types referenced directly or indirectly by the `apis` are automatically included.  Messages which are not referenced but shall be included, such as types used by the `google.protobuf.Any` type, should be listed here by name by the configuration author Example:_
+_A list of all proto message types included in this API service. Types referenced directly or indirectly by the `apis` are automatically included.  Messages which are not referenced but shall be included, such as types used by the `google.protobuf.Any` type, should be listed here by name by the configuration author._
 
-```
-types:
-  - name: google.protobuf.Int32
-```
-
-```
-  "types": [
+{{< details "example types field" >}}
+<pre><code>  "types": [
     {
       "name": "bobadojo.stores.v1.Store",
       "fields": [
@@ -516,13 +511,16 @@ types:
       "syntax": "SYNTAX_PROTO3"
     }
   ],
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [Type](https://github.com/protocolbuffers/protobuf/blob/24de58860f3150ea77e088d0e538d60ab1f85b9d/src/google/protobuf/type.proto#L47) message. It describes all of the message types used by the APIs of the managed service. It is usually automatically generated.
 
 ### enums
 
-_A list of all enum types included in this API service. Enums referenced directly or indirectly by the `apis` are automatically included. Enums which are not referenced but shall be included should be listed here by name by the configuration author. Example:_
+_A list of all enum types included in this API service. Enums referenced directly or indirectly by the `apis` are automatically included. Enums which are not referenced but shall be included should be listed here by name by the configuration author._
+
+_Example:_
 ```
 enums:
   - name: google.someapi.v1.SomeEnum
@@ -534,8 +532,8 @@ This is a repeated instance of the [Enum](https://github.com/protocolbuffers/pro
 
 _Additional API documentation._
 
-```
-  "documentation": {
+{{< details "example documentation field" >}}
+<pre><code>  "documentation": {
     "rules": [
       {
         "selector": "bobadojo.stores.v1.Store",
@@ -691,7 +689,8 @@ _Additional API documentation._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Documentation](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/documentation.proto#L80) message. Reviewing the proto, we can see that this can hold much more elaborate documentation than what we see here, which was automatically generated by Google's internal service compiler.
 
@@ -699,8 +698,8 @@ This is an instance of the [Documentation](https://github.com/googleapis/googlea
 
 _API backend configuration._
 
-```
-  "backend": {
+{{< details "example backend field" >}}
+<pre><code>  "backend": {
     "rules": [
       {
         "selector": "bobadojo.stores.v1.Stores.ListStores"
@@ -713,7 +712,8 @@ _API backend configuration._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Backend](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/backend.proto#L26) message. While not used in this sample configuration, the backend configuration can allow API methods to be assigned to different backends. This is respected by the Endpoints proxies.
 
@@ -721,8 +721,8 @@ This is an instance of the [Backend](https://github.com/googleapis/googleapis/bl
 
 _HTTP configuration._
 
-```
-  "http": {
+{{< details "example http field" >}}
+<pre><code>  "http": {
     "rules": [
       {
         "selector": "bobadojo.stores.v1.Stores.ListStores",
@@ -738,9 +738,10 @@ _HTTP configuration._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
-This is an instance of the [HTTP](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/http.proto#L29) message. It contains HTTP rules that control HTTP/JSON transcoding and in the example above, is extracted from the proto annotations in the original API description.
+This is an instance of the [HTTP](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/http.proto#L29) message. It contains HTTP rules that control HTTP/JSON transcoding and in the example it is extracted from the proto annotations in the original API description.
 
 ### quota
 
@@ -764,8 +765,8 @@ This is an instance of the [Context](https://github.com/googleapis/googleapis/bl
 
 _Configuration controlling usage of this service._
 
-```
-  "usage": {
+{{< details "example usage field" >}}
+<pre><code>  "usage": {
     "rules": [
       {
         "selector": "bobadojo.stores.v1.Stores.ListStores",
@@ -779,7 +780,8 @@ _Configuration controlling usage of this service._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Usage](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/usage.proto#L26) message. It specifies which requests are accepted by an API and can be configured to allow unknown requests and requests without authentication to be accepted and forwarded to backends.
 
@@ -787,14 +789,15 @@ This is an instance of the [Usage](https://github.com/googleapis/googleapis/blob
 
 _Configuration for network endpoints.  If this is empty, then an endpoint with the same name as the service is automatically generated to service all defined APIs._
 
-```
-  "endpoints": [
+{{< details "example endpoints field" >}}
+<pre><code>  "endpoints": [
     {
       "name": "stores.endpoints.bobadojo.cloud.goog",
       "target": "WWW.XXX.YYY.ZZZ"
     }
   ],
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [Endpoints](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/endpoint.proto#L46) message.
 
@@ -802,11 +805,12 @@ This is a repeated instance of the [Endpoints](https://github.com/googleapis/goo
 
 _Configuration for the service control plane._
 
-```
-  "control": {
+{{< details "example control field" >}}
+<pre><code>  "control": {
     "environment": "servicecontrol.googleapis.com"
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Control](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/control.proto#L33) message. All Endpoints configurations should include this setting with this exact value. 
 
@@ -816,13 +820,14 @@ The Control proto also includes a repeated [MethodPolicy](https://github.com/goo
 
 _Defines the logs used by this service._
 
-```
-  "logs": [
+{{< details "example logs field" >}}
+<pre><code>  "logs": [
     {
       "name": "endpoints_log"
     }
   ]
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [LogDescriptor](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/log.proto#L35) message. It specifies the name of the Cloud Logging Log Bucket that receives logs from Service Control. It is usually set automatically, and usage of other values is undocumented. The value shown is the default for services managed with Cloud Endpoints.
 
@@ -830,8 +835,8 @@ This is a repeated instance of the [LogDescriptor](https://github.com/googleapis
 
 _Defines the metrics used by this service._
 
-```
-  "metrics": [
+{{< details "example metrics field" >}}
+<pre><code>  "metrics": [
     {
       "name": "serviceruntime.googleapis.com/api/consumer/request_count",
       "type": "serviceruntime.googleapis.com/api/consumer/request_count",
@@ -953,7 +958,8 @@ _Defines the metrics used by this service._
       "valueType": "DISTRIBUTION"
     }
   ],
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [MetricDescriptor](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/metric.proto#L33) message. It describes metrics and their types. The value shown is the default for services managed with Cloud Endpoints.
 
@@ -961,8 +967,8 @@ This is a repeated instance of the [MetricDescriptor](https://github.com/googlea
 
 _Defines the monitored resources used by this service. This is required by the [Service.monitoring][google.api.Service.monitoring] and [Service.logging][google.api.Service.logging] configurations._
 
-```
-  "monitoredResources": [
+{{< details "example monitoredResources field" >}}
+<pre><code>  "monitoredResources": [
     {
       "type": "api",
       "labels": [
@@ -990,7 +996,8 @@ _Defines the monitored resources used by this service. This is required by the [
       ]
     }
   ],
-```
+</code></pre>
+{{< /details >}}
 
 This is a repeated instance of the [MonitoredResourceDescriptor](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/monitored_resource.proto#L41) message. The value shown is the default for services managed with Cloud Endpoints.
 
@@ -1004,8 +1011,8 @@ This is an instance of the [Billing](https://github.com/googleapis/googleapis/bl
 
 _Logging configuration._
 
-```
-  "logging": {
+{{< details "example logging field" >}}
+<pre><code>  "logging": {
     "producerDestinations": [
       {
         "monitoredResource": "api",
@@ -1015,7 +1022,8 @@ _Logging configuration._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Logging](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/logging.proto#L54) message. It configures where logs should be sent for consumer and producer projects. The value shown is the default for services managed with Cloud Endpoints.
 
@@ -1023,8 +1031,8 @@ This is an instance of the [Logging](https://github.com/googleapis/googleapis/bl
 
 _Monitoring configuration._
 
-```
-  "monitoring": {
+{{< details "example monitoring field" >}}
+<pre><code>  "monitoring": {
     "producerDestinations": [
       {
         "monitoredResource": "api",
@@ -1051,7 +1059,8 @@ _Monitoring configuration._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
 
 This is an instance of the [Monitoring](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/monitoring.proto#L77) message. It configures where metrics should be collected for consumer and producer projects. The value shown is the default for services managed with Cloud Endpoints.
 
@@ -1069,8 +1078,8 @@ This is an instance of the [SystemParameters](https://github.com/googleapis/goog
 
 _Output only. The source information for this configuration if available._
 
-```
-  "sourceInfo": {
+{{< details "example sourceInfo field" >}}
+<pre><code>  "sourceInfo": {
     "sourceFiles": [
       {
         "@type": "type.googleapis.com/google.api.servicemanagement.v1.ConfigFile",
@@ -1086,7 +1095,9 @@ _Output only. The source information for this configuration if available._
       }
     ]
   },
-```
+</code></pre>
+{{< /details >}}
+
 This is an instance of the [SourceInfo](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/source_info.proto#L28) message. If source files are included in the creation of a service config, those files can be optionally returned in this field. These files are base64-encoded and can be quite large.
 
 ### publishing
@@ -1095,8 +1106,8 @@ _Settings for [Google Cloud Client libraries](https://cloud.google.com/apis/docs
 
 This is an instance of the [Publishing](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/client.proto#L174) message. Generally this is only used for Google Cloud client libraries. We can find examples of this in the `googleapis` repo, for example, [this is the publishing configuration](https://github.com/googleapis/googleapis/blob/e5a3787ec95a2d3ccb1207a6470beb5ee0df3afc/google/pubsub/v1/pubsub_v1.yaml#L95) for the Cloud PubSub API:
 
-```
-publishing:
+{{< details "example publishing field" >}}
+<pre><code>publishing:
   documentation_uri: https://cloud.google.com/pubsub/docs
   github_label: 'api: pubsub'
   organization: CLOUD
@@ -1107,7 +1118,8 @@ publishing:
         Subscriber: SubscriberServiceApi
         Publisher: PublisherServiceApi
   proto_reference_documentation_uri: https://cloud.google.com/pubsub/docs/reference/rpc
-```
+</code></pre>
+{{< /details >}}
 
 ### config_version
 

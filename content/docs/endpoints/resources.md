@@ -1,10 +1,10 @@
 ---
 weight: 1
-title: Endpoints Resources
+title: DEndpoints Resources
 ---
-## Endpoints Resources
+## Cloud Endpoints Resources
 
-## Endpoints Documentation
+## Cloud Endpoints Documentation
 
 Here's the [Official Google Documentation for Endpoints](https://cloud.google.com/endpoints/docs).
 
@@ -14,9 +14,9 @@ Other useful sections include:
 - [Endpoints Release Notes](https://cloud.google.com/endpoints/docs/endpoints-release-notes)
 - [Transcoding Support](https://cloud.google.com/endpoints/docs/grpc/transcoding)
 
-## Endpoints on YouTube
+## Cloud Endpoints on YouTube
 
-When Cloud Endpoints was released, it was presented at Google Cloud Next and the Google Cloud Platform Podcast.
+When Cloud Endpoints was released, it was presented at Google Cloud Next and on the Google Cloud Platform Podcast.
 
 ---
 

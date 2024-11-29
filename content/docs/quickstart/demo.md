@@ -14,8 +14,10 @@ After opening Google Cloud Shell, install `q` with `go install github.com/agenti
 
 When that finishes, run `q` with no arguments.
 
+```prompt
+q
 ```
-$ q
+```output
 Manage APIs with Service Infrastructure
 
 Usage:
@@ -45,8 +47,10 @@ Use "q [command] --help" for more information about a command.
 
 Now run `q doctor` to check your `gcloud` configuration. You should see something like this:
 
+```prompt
+q doctor
 ```
-$ q doctor
+```output
 Checking gcloud configuration...
 account = YOUR_EMAIL
 project = YOUR_PROJECT
@@ -55,15 +59,19 @@ Error: run/region required
 
 If you need to set a run region, do it with the following command. We use `us-west1` here, but you could use any of the [Cloud Run locations](https://cloud.google.com/run/docs/locations) that Google supports.
 
+```prompt
+gcloud config set run/region us-west1
 ```
-$ gcloud config set run/region us-west1
+```output
 Updated property [run/region].
 ```
 
 Now rerun `q doctor`.
 
+```prompt
+q doctor
 ```
-$ q doctor
+```output
 Checking gcloud configuration...
 account = YOUR_EMAIL
 project = YOUR_PROJECT
@@ -77,15 +85,18 @@ Everything looks good!
 
 Next run `q demo`. This generates a directory of files that you'll use to set up your service. They will be customized to the project and run region that you configured for `gcloud`, so you won't need to edit any of these files.
 
+```prompt
+q demo
 ```
-$ q demo
+```
 To run the demo, see the SETUP.sh script in stores-demo
 ```
 
 Go inside the generated directory and look around.
+```prompt
+cd stores-demo; ls
 ```
-$ cd stores-demo
-$ ls
+```
 api_config.yaml  CHECK.sh  descriptor.pb  iam.yaml  service.yaml  SETUP.sh
 ```
 
@@ -98,8 +109,10 @@ You might recognize some of these files. Here's a description of everything:
 - [SETUP.sh](/docs/quickstart/files#setupsh) does everything to set up and run your demo service.
 
 Run the `SETUP.sh` script to configure your project and create your instance.
+```prompt
+sh SETUP.sh
 ```
-$ sh SETUP.sh 
+```
 Enabling the Service Control API.
 Enabling the Service Management API.
 Enabling the Cloud Run Admin API.
@@ -228,8 +241,11 @@ You'll get an error.
 
 This is because this method requires an API key. You can get one with `gcloud`, but note that you'll need to change the service name from `YOUR_PROJECT` to the name of your project.
 
+```prompt
+gcloud services api-keys create --key-id demo \
+  --api-target service=stores.endpoints.YOUR_PROJECT.cloud.goog 
 ```
-$ gcloud services api-keys create --key-id demo --api-target service=stores.endpoints.YOUR_PROJECT.cloud.goog 
+```output
 Operation [operations/akmf.p7-622059496897-0a3a0229-45c0-484d-b770-2f63879d63cb] complete. Result: {
     "@type":"type.googleapis.com/google.api.apikeys.v2.Key",
     "createTime":"2024-10-31T15:26:42.203902Z",
@@ -258,18 +274,22 @@ https://YOUR_HOST.us-west1.run.app/v1/stores/0?api_key=YOUR_KEY
 ## Call your demo API with `curl`
 
 You can also get the key to use at the command line with `gcloud` and `jq`:
-```
-$ KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
+```prompt
+KEY=$(gcloud services api-keys get-key-string \
+  projects/YOUR_PROJECT/locations/global/keys/demo --format json \
+  | jq .keyString -r)
 ```
 
 `gcloud` can also give you the hostname for your service:
-```
+```prompt
 HOST=$(gcloud run services describe stores --format json | jq .status.address.url -r)
 ```
 
 Now you can easily call your service with `curl`:
+```prompt
+curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
-$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -286,8 +306,10 @@ $ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
 Note that here we are passing the API key in a header (`X-Api-Key`). We could have also used the `api_key` query parameter:
 
+```prompt
+curl -s "$HOST/v1/stores/0?api_key=$KEY" | jq
 ```
-$ curl -s "$HOST/v1/stores/0?api_key=$KEY" | jq
+```
 {
   "name": "stores/0",
   "type": "office",
