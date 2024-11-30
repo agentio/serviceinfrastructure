@@ -89,7 +89,7 @@ Run this script to run the ESP v2 proxy. Note that it contains some things that 
 - You should set the backend address to the address of the machine running your `stores-server` container.
 - You should set the --service option to use the name of your own service.
 
-With this, you should be able to access your API on port 8081 of your local machine.
+With this, you should be able to access your API on port 8081 of your local machine. Also, be sure to check out port 19000, the [Envoy administration interface](https://www.envoyproxy.io/docs/envoy/latest/operations/admin).
 
 When you're finished, kill this container with CTRL-C.
 
