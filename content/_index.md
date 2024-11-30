@@ -6,11 +6,11 @@ bookToC: false
 
 This website describes a way to manage APIs that is inexpensive, high-performing, and surprisingly easy to use.
 
-It's also great for APIs that are built with gRPC and Protocol Buffers. It's the only API management system that starts with these powerful approaches, and if you are building APIs with them, you'll find it especially familiar.
+It's also great for APIs that are built with [gRPC](https://grpc.io) and [Protocol Buffers](https://protobuf.dev). It's the only API management system that starts with these powerful approaches, and if you are building APIs with them, you'll find it especially familiar.
 
 We start with a review of [API Management](/docs/intro) and discuss what's special about [gRPC API Management](/docs/intro/grpc). Then we look at Google's [Service Infrastructure](/docs/serviceinfrastructure) and the [Extensible Service Proxies](/docs/proxies). These are the key parts of our API management solution.
 
-We get hands-on experience using [q](/docs/quickstart/q), a command-line tool that helps us configure and demonstrate Service Infrastructure-based API management. `q` includes a [demo](/docs/quickstart/demo) that Google Cloud users can use to quickly get a sample managed service running on Cloud Run. Try it!
+We get hands-on experience using [q](/docs/quickstart/q), a command-line tool that helps us configure and demonstrate Service Infrastructure-based API management. `q` includes a [demo](/docs/quickstart/demo) that Google Cloud users can use to quickly get a sample managed service running on [Cloud Run](https://cloud.google.com/run). Try it!
 
 Thanks for reading, and please post any feedback to [our issues page](https://github.com/agentio/serviceinfrastructure/issues).
 
