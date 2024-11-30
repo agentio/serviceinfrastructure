@@ -1,6 +1,6 @@
 ---
 weight: 1
-title: Endpoints Resources
+title: Resources
 ---
 ## Cloud Endpoints Resources
 
