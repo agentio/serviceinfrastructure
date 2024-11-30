@@ -11,107 +11,111 @@ $tan: #ece8d4;
 $brown: #6e4e16;
 $navy: #2A3663;
 
-body {
-    background-color: $beige;    
-}
+$main-background-color: $beige;
+$main-text-color: #000;
+$main-link-color: $brown;
+$main-link-visited-color: #222;
 
-.markdown pre {
-    background-color: $tan;
-    scrollbar-color: $sage $tan;
-    color: #000;
+$callout-background-color: $tan;
+$callout-text-color: #000;
+$callout-link-color: #000;
+$callout-link-active-color: $navy;
+$callout-link-visited-color: #222;
+
+$highlight-color: $sage;
+
+
+body {
+    background-color: $main-background-color;
 }
 
 .book-toc-content {
-    //background-color: $tan;
-    color: #000;
-    //scrollbar-color: $sage $tan;
+    color: $callout-text-color;
     scrollbar-width: none;
 }
 
 .book-toc-content a {
-    color: #000;
+    color: $callout-link-color;
 }
 
 .book-toc-content a:visited {
-    color: #000;
-}
-
-.book-menu .book-menu-content {
-    background-color: $tan;
-    color: $beige;
-    scrollbar-color: $sage $tan;
-    scrollbar-width: none;
-}
-
-.book-menu a.active {
-    color: $navy;
-}
-
-.book-menu a:visited.active {
-    color: $navy;
-}
-
-.book-menu a {
-    color: #000;
-}
-
-.book-menu a:visited {
-    color: #222;
-}
-
-div.goat {
-    background-color: #FFF;
-}
-
-.markdown a:visited {
-    color: $brown;
-}
-
-.markdown a {
-    color: $brown;
-}
-
-a {
-    color: $brown;
-}
-
-a:visited {
-    color: $brown;
-}
-
-.markdown code {
-    background: $tan;
-}
-
-.markdown table tr:nth-child(2n) {
-    background: $sage;
-}
-
-.markdown table tr:nth-child(2n+1) {
-    background: $tan;
-}
-
-.markdown table th {
-    background: $sage;
-}
-
-div.goat {
-    background-color: $tan;
-}
-
-svg circle[fill="#fff"] {
-     fill:$tan; 
+    color: $callout-link-color;
 }
 
 .book-search input {
-    background-color: $beige;
+    background-color: $main-background-color;
+}
+
+.book-menu .book-menu-content {
+    background-color: $callout-background-color;
+    color: $main-background-color;
+    scrollbar-width: none;
+}
+
+.book-menu a {
+    color: $callout-link-color;
+}
+
+.book-menu a:visited {
+    color: $callout-link-visited-color;
+}
+
+.book-menu a.active {
+    color: $callout-link-active-color;
+}
+
+.book-menu a:visited.active {
+    color: $callout-link-active-color;
+}
+
+a {
+    color: $main-link-color;
+}
+
+a:visited {
+    color: $main-link-color;
+}
+
+.markdown a {
+    color: $main-link-color;
+}
+
+.markdown a:visited {
+    color: $main-link-color;
+}
+
+.markdown pre {
+    background-color: $callout-background-color;
+    scrollbar-color: $highlight-color $callout-background-color;
+    color: $callout-text-color;
+    margin: 0;
+    padding: 0.25em 0.5em;
+}
+
+.markdown code {
+    background: $callout-background-color;
 }
 
 .markdown code.language-prompt:before  {
     content: "% ";
 }
 
-.markdown pre  {
-    margin: 0;
-    padding: 0.25em 0.5em;
+.markdown table th {
+    background: $highlight-color;
+}
+
+.markdown table tr:nth-child(2n) {
+    background: $highlight-color;
+}
+
+.markdown table tr:nth-child(2n+1) {
+    background: $callout-background-color;
+}
+
+div.goat {
+    background-color: $callout-background-color;
+}
+
+div.goat svg circle[fill="#fff"] {
+     fill:$callout-background-color; 
 }
