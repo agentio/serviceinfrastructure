@@ -12,7 +12,7 @@ type: docs
 
 Networked APIs are APIs that operate across computer networks. Networked APIs communicate using HTTP and similar protocols, and are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
 
-## Common concerns
+## Common API Management Concerns
 
 For people making APIs, these concerns usually include:
 * controlling who uses an API
@@ -26,7 +26,7 @@ People using APIs have similar concerns from the other side:
 
 These are _common concerns_ because nearly all API producers and consumers have them. Developers often start by addressing these concerns in their service and client implementations, but soon they begin moving their solutions into libraries and frameworks, and eventually they turn to solutions outside of their code. Typically these external solutions run "out-of-process" and are part of the operating system or environment where the service or client runs.
 
-## API proxies and gateways
+## API Proxies and Gateways
 
 Most frequently, the out-of-process part of the solution is called an _API proxy_. It is a _proxy_ because it represents someone else. When it represents someone who is calling an API, it is called a _forward proxy_. When it represents someone who is serving an API, it is called a _reverse proxy_. In other words, forward proxies help people make requests and reverse proxies help people serve requests.
 

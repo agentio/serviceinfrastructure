@@ -4,7 +4,7 @@ title: The q Tool
 ---
 ## The q Tool
 
-`q` is a command-line tool for calling the Service Infrastructure APIs that can be used alongside or in place of [gcloud](https://cloud.google.com/sdk/gcloud). In many ways, `q` replicates capabilities that you'll find in `gcloud`, but with a closer correspondence to the underlying APIs. For every method of Service Infrastructure that we discuss, there is a `q` subcommand that allows us to call it directly, and source code is available to show how it works. 
+`q` is a command-line tool for calling the Service Infrastructure APIs that can be used alongside or in place of [gcloud](https://cloud.google.com/sdk/gcloud). In many ways, `q` replicates capabilities that you'll find in `gcloud`, but with a closer correspondence to the underlying APIs. For every API method of Service Infrastructure that we discuss, there is a `q` subcommand that allows us to call it directly, and source code is available to show how that's done. 
 
 `q` is written in Go, and its code is on GitHub at [github.com/agentio/q](https://github.com/agentio/q). A container that contains both `q` and `gcloud` is available at [ghcr.io/agentio/q:nightly](https://github.com/agentio/q/pkgs/container/q).
 

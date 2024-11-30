@@ -6,6 +6,7 @@ bookHidden: true
 
 # Transcript: Cloud Endpoints with Dan Ciruli and Sepehr Ebrahimzadeh: GCPPodcast 44
 
+{{< youtube jYh0e1i_16M >}}
 
 == Transcript from the Google Cloud Podcast
 

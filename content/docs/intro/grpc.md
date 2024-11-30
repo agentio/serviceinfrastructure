@@ -4,13 +4,13 @@ title: "Managing gRPC APIs"
 ---
 ## Managing gRPC APIs
 
-[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). gRPC makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to follow a certain style that allows API clients and servers to use highly-optimized tooling.
+[gRPC](https://grpc.io) is an open source API framework that was [created at Google](https://grpc.io/blog/principles/) and [released in 2016](https://grpc.io/blog/ga-announcement/). gRPC makes it easier to produce and use high-performing APIs at scale, largely by constraining API designs to conform to a style that allows API clients and servers to use highly-optimized tooling.
 
 ## What's different about gRPC?
 
 ### API Description
 
-gRPC APIs are usually described with the [Protocol Buffers](https://protobuf.dev/) language, and request and response messages use the Protocol Buffer binary encoding. API designs are often expected to conform to style guides like Google's [API Improvement Proposals](https://google.aip.dev/), which increases their consistency and ability to be supported by tools and automation.
+gRPC APIs are usually described with the [Protocol Buffers](https://protobuf.dev/) language, and request and response messages use the [Protocol Buffer binary encoding](https://protobuf.dev/programming-guides/encoding/). API designs are often expected to conform to style guides like Google's [API Improvement Proposals](https://google.aip.dev/), which increases their consistency and ability to be supported by tools and automation.
 
 ### API Implementation
 
@@ -26,7 +26,7 @@ gRPC APIs use Protocol Buffer encoding, so they are generally observable, allowi
 
 ### Metadata
 
-Protocol Buffer encoding isn't self-describing, so API management systems can make it easier to use gRPC APIs by providing standard metadata services like [gRPC Reflection](https://grpc.io/docs/guides/reflection/), which makes it easier for clients to serialize and deserialize API messages.
+Protocol Buffer encoding isn't self-describing, meaning that messages can't be understood without knowing their definitions. API management systems can make it easier to use gRPC APIs by providing standard metadata services like [gRPC Reflection](https://grpc.io/docs/guides/reflection/), which makes it easier for clients to serialize and deserialize API messages.
 
 ### Documentation
 

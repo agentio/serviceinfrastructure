@@ -40,17 +40,13 @@ func (h *InterceptingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *InterceptingHandler) handle(w http.ResponseWriter, r *http.Request) bool {
-	p := r.URL.Path
-	if strings.HasSuffix(p, ".js") ||
-		strings.HasSuffix(p, ".png") ||
-		strings.HasSuffix(p, ".ico") ||
-		strings.HasSuffix(p, ".css") ||
-		strings.HasSuffix(p, ".svg") {
-		return false
+	// aggressively block bad user agents
+	userAgents := r.Header["User-Agent"]
+	if len(userAgents) == 0 {
+		http.Error(w, "", http.StatusForbidden)
+		return true
 	}
-
 	if r.URL.Path != "/robots.txt" {
-		userAgents := r.Header["User-Agent"]
 		for _, userAgent := range userAgents {
 			for _, bot := range bots {
 				if strings.Contains(userAgent, bot) {
@@ -59,6 +55,15 @@ func (h *InterceptingHandler) handle(w http.ResponseWriter, r *http.Request) boo
 				}
 			}
 		}
+	}
+
+	p := r.URL.Path
+	if strings.HasSuffix(p, ".js") ||
+		strings.HasSuffix(p, ".png") ||
+		strings.HasSuffix(p, ".ico") ||
+		strings.HasSuffix(p, ".css") ||
+		strings.HasSuffix(p, ".svg") {
+		return false
 	}
 
 	filename := "public" + p

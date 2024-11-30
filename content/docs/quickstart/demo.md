@@ -10,7 +10,61 @@ This quickstart assumes that you have a Google Cloud account with a project crea
 
 ## Install and get set up with q
 
-After opening Google Cloud Shell, install `q` with `go install github.com/agentio/q@latest`
+After opening Google Cloud Shell, install `q` with `go install github.com/agentio/q@latest`. This might take a minute or two while Go downloads and builds `q` and its dependencies, but it should complete without errors.
+
+{{< details "Here's sample output of 'go install' in a new Cloud Shell instance." >}}
+<pre><code>Welcome to Cloud Shell! Type "help" to get started.
+Your Cloud Platform project in this session is set to bobadojo.
+Use “gcloud config set project [PROJECT_ID]” to change to a different project.
+tim@cloudshell:~ (bobadojo)$ go install github.com/agentio/q@latest
+go: downloading github.com/agentio/q v0.0.0-20241116235648-56e1ca548974
+go: downloading github.com/spf13/cobra v1.8.1
+go: downloading cloud.google.com/go/apikeys v1.1.10
+go: downloading cloud.google.com/go/longrunning v0.6.0
+go: downloading google.golang.org/protobuf v1.34.2
+go: downloading cloud.google.com/go v0.115.1
+go: downloading github.com/go-jose/go-jose/v4 v4.0.4
+go: downloading golang.org/x/oauth2 v0.22.0
+go: downloading cloud.google.com/go/logging v1.11.0
+go: downloading google.golang.org/genproto v0.0.0-20240903143218-8af14fe29dc1
+go: downloading cloud.google.com/go/monitoring v1.21.0
+go: downloading google.golang.org/api v0.196.0
+go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20240903143218-8af14fe29dc1
+go: downloading cloud.google.com/go/servicecontrol v1.14.1
+go: downloading github.com/google/uuid v1.6.0
+go: downloading google.golang.org/grpc v1.66.0
+go: downloading cloud.google.com/go/iam v1.2.0
+go: downloading cloud.google.com/go/servicemanagement v1.9.11
+go: downloading cloud.google.com/go/translate v1.12.0
+go: downloading cloud.google.com/go/serviceusage v1.8.9
+go: downloading github.com/spf13/pflag v1.0.5
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading google.golang.org/genproto/googleapis/rpc v0.0.0-20240903143218-8af14fe29dc1
+go: downloading golang.org/x/crypto v0.26.0
+go: downloading cloud.google.com/go/compute/metadata v0.5.0
+go: downloading github.com/googleapis/gax-go/v2 v2.13.0
+go: downloading cloud.google.com/go/auth v0.9.3
+go: downloading cloud.google.com/go/auth/oauth2adapt v0.2.4
+go: downloading go.opencensus.io v0.24.0
+go: downloading go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.54.0
+go: downloading golang.org/x/time v0.6.0
+go: downloading golang.org/x/net v0.28.0
+go: downloading github.com/google/s2a-go v0.1.8
+go: downloading go.opentelemetry.io/otel v1.29.0
+go: downloading go.opentelemetry.io/otel/metric v1.29.0
+go: downloading go.opentelemetry.io/otel/trace v1.29.0
+go: downloading go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.54.0
+go: downloading golang.org/x/sys v0.24.0
+go: downloading github.com/googleapis/enterprise-certificate-proxy v0.3.3
+go: downloading github.com/go-logr/logr v1.4.2
+go: downloading github.com/felixge/httpsnoop v1.0.4
+go: downloading github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da
+go: downloading github.com/go-logr/stdr v1.2.2
+go: downloading golang.org/x/sync v0.8.0
+go: downloading golang.org/x/text v0.17.0
+tim@cloudshell:~ (bobadojo)$ 
+</code></pre>
+{{< /details >}}
 
 When that finishes, run `q` with no arguments.
 
@@ -227,7 +281,7 @@ Near the center, you'll see a highighted URL for your service. Click on that to 
 
 That's good, because it's true. The root path is not defined by your API. To call your API, add `/v1/stores` to the path.
 
-You'll get JSON like this:
+After you've done that, you'll get JSON like this:
 ```
 {"stores":[{"name":"stores/0","type":"office","title":"Columbus, NM 88029","location":{"latitude":31.8301201,"longitude":-107.638199},"address":{"street":"South Main Street","regionCode":"us"}},{"name":"stores/1","type":"office","title":"United States Post Office - Gateway Station","location":{"latitude":37.7949409,"longitude":-122.399437},"address":{"zipCode":94111,"regionCode":"us"}},{"name":"stores/2","type":"office","title":"Belington Post Office","location":{"latitude":39.0219955,"longitude":-79.9369202},"address":{"regionCode":"us"}},{"name":"stores/3","type":"office","title":"Denali National Park Post Office","location":{"latitude":63.7302589,"longitude":-148.892105},"address":{"regionCode":"us"}},{"name":"stores/4","type":"office","title":"Noti Post Office","location":{"latitude":44.057888,"longitude":-123.448227},"address":{"street":"Highway 126","city":"Noti","state":"OR","regionCode":"us"}},{"name":"stores/5","type":"office","title":"Piedra Post Office","location":{"latitude":36.8229141,"longitude":-119.364891},"address":{"regionCode":"us"}},{"name":"stores/6","type":"office","title":"Lafayette Post Office","location":{"latitude":45.2435799,"longitude":-123.113495},"address":{"regionCode":"us"}},{"name":"stores/7","type":"office","title":"Forest Lake Post Office","location":{"latitude":45.2722473,"longitude":-92.9854126},"address":{"regionCode":"us"}},{"name":"stores/8","type":"office","title":"Williamsfield;Williamsfield Post Office","location":{"latitude":41.5333862,"longitude":-80.5706253},"address":{"regionCode":"us"}},{"name":"stores/9","type":"office","title":"Brooklandville Post Office","location":{"latitude":39.4215546,"longitude":-76.6702347},"address":{"street":"Falls Road","city":"Brooklandville","state":"MD","zipCode":21093,"regionCode":"us"}},{"name":"stores/10","type":"office","title":"Germansville","location":{"latitude":40.7014847,"longitude":-75.7068558},"address":{"regionCode":"us"}},{"name":"stores/11","type":"office","title":"Mechanicsburg Post Office","location":{"latitude":40.2151642,"longitude":-76.9935},"address":{"street":"Simpson Ferry Road","city":"Mechanicsburg","state":"PA","zipCode":17055,"regionCode":"us"}},{"name":"stores/12","type":"office","title":"Pocahontas Trl & Heritage Mobile Village","location":{"latitude":37.2133636,"longitude":-76.6189804},"address":{"regionCode":"us"}},{"name":"stores/13","type":"office","title":"Pocahontas Trl & Carters Grove","location":{"latitude":37.2163506,"longitude":-76.621254},"address":{"regionCode":"us"}},{"name":"stores/14","type":"office","title":"Pocahontas Trl & WATA IB","location":{"latitude":37.2573624,"longitude":-76.6698685},"address":{"regionCode":"us"}},{"name":"stores/15","type":"office","title":"Pocahontas Trl & Creative Kids Daycare OB","location":{"latitude":37.2255135,"longitude":-76.626236},"address":{"regionCode":"us"}},{"name":"stores/16","type":"office","title":"MArengo Post Office","location":{"latitude":41.7998581,"longitude":-92.0712128},"address":{"regionCode":"us"}},{"name":"stores/17","type":"office","title":"Galleria Post Office","location":{"latitude":38.2518387,"longitude":-85.755928},"address":{"regionCode":"us"}},{"name":"stores/18","type":"office","title":"Fridley Post Office","location":{"latitude":45.1038361,"longitude":-93.2648544},"address":{"regionCode":"us"}},{"name":"stores/19","type":"office","title":"United States Post Office","location":{"latitude":27.9473724,"longitude":-82.4595413},"address":{"street":"North Ashley Drive","city":"Tampa","state":"FL","zipCode":33602,"regionCode":"us"}},{"name":"stores/20","type":"office","title":"Ybor City Post Office","location":{"latitude":27.9641132,"longitude":-82.4375763},"address":{"regionCode":"us"}},{"name":"stores/21","type":"office","title":"Lincoln Park Postal Store","location":{"latitude":41.9256668,"longitude":-87.6534271},"address":{"street":"North Sheffield Avenue","city":"Chicago","state":"IL","zipCode":60614,"regionCode":"us"}},{"name":"stores/22","type":"office","title":"Downtown Urbana Post Office","location":{"latitude":40.1113586,"longitude":-88.2071304},"address":{"street":"East Elm Street","city":"Urbana","state":"IL","zipCode":61801,"regionCode":"us"}},{"name":"stores/23","type":"office","title":"Vinton Post Office","location":{"latitude":37.280304,"longitude":-79.8977203},"address":{"street":"South Pollard Street","city":"Vinton","state":"VA","regionCode":"us"}},{"name":"stores/24","type":"office","title":"East Texas Post Office","location":{"latitude":40.5481148,"longitude":-75.5608597},"address":{"regionCode":"us"}},{"name":"stores/25","type":"office","title":"United States Post Office","location":{"latitude":25.9319134,"longitude":-97.4989243},"address":{"regionCode":"us"}},{"name":"stores/26","type":"office","title":"Oak View Post Office","location":{"latitude":34.3926315,"longitude":-119.300934},"address":{"regionCode":"us"}},{"name":"stores/27","type":"office","title":"Post Office","location":{"latitude":36.0843697,"longitude":-115.263725},"address":{"regionCode":"us"}},{"name":"stores/28","type":"office","title":"Main Post Office","location":{"latitude":36.0709801,"longitude":-115.139572},"address":{"regionCode":"us"}},{"name":"stores/29","type":"office","title":"Park Central Station","location":{"latitude":37.762989,"longitude":-122.242813},"address":{"regionCode":"us"}},{"name":"stores/30","type":"office","title":"US Post Office Brigantine, 08203","location":{"latitude":39.3918381,"longitude":-74.3969498},"address":{"regionCode":"us"}},{"name":"stores/31","type":"office","title":"San Juan Bautista Post Office","location":{"latitude":36.8416672,"longitude":-121.534714},"address":{"regionCode":"us"}},{"name":"stores/32","type":"office","title":"Metamora Post Office","location":{"latitude":40.7916832,"longitude":-89.3620453},"address":{"street":"East Partridge Street","city":"Metamora","state":"IL","zipCode":61548,"regionCode":"us"}},{"name":"stores/33","type":"office","title":"The Postal Store","location":{"latitude":41.5811234,"longitude":-71.5004501},"address":{"regionCode":"us"}},{"name":"stores/34","type":"office","title":"The UPS Store","location":{"latitude":42.3445663,"longitude":-71.0763855},"address":{"street":"Columbus Avenue","city":"Boston","state":"MA","zipCode":2116,"regionCode":"us"}},{"name":"stores/35","type":"office","title":"United States Post Office","location":{"latitude":39.946022,"longitude":-75.1219559},"address":{"street":"Market Street","city":"Camden","state":"NJ","zipCode":8102,"regionCode":"us"}},{"name":"stores/36","type":"office","title":"The UPS Store","location":{"latitude":34.6904373,"longitude":-82.8106232},"address":{"regionCode":"us"}},{"name":"stores/37","type":"office","title":"Canton Center Post Office","location":{"latitude":41.854126,"longitude":-72.9172897},"address":{"regionCode":"us"}},{"name":"stores/38","type":"office","title":"The UPS Store Loveland","location":{"latitude":39.2543221,"longitude":-84.2963943},"address":{"street":"Loveland Madeira Road","city":"Loveland","state":"OH","zipCode":45140,"regionCode":"us"}},{"name":"stores/39","type":"office","title":"Janesville Post Office","location":{"latitude":42.682148,"longitude":-89.0223541},"address":{"city":"Janesville","state":"WI","regionCode":"us"}},{"name":"stores/40","type":"office","title":"River Falls Post Office","location":{"latitude":44.8596268,"longitude":-92.6234512},"address":{"regionCode":"us"}},{"name":"stores/41","type":"office","title":"East Ellsworth Post Office","location":{"latitude":44.7341,"longitude":-92.4663467},"address":{"regionCode":"us"}},{"name":"stores/42","type":"office","title":"Ellsworth Post Office","location":{"latitude":44.7319107,"longitude":-92.4824142},"address":{"regionCode":"us"}},{"name":"stores/43","type":"office","title":"United States Post Office","location":{"latitude":45.9155083,"longitude":-89.2476349},"address":{"city":"Eagle River","state":"WI","zipCode":54521,"regionCode":"us"}},{"name":"stores/44","type":"office","title":"United States Post Office","location":{"latitude":45.994503,"longitude":-89.5278549},"address":{"city":"Sayner","state":"WI","zipCode":54560,"regionCode":"us"}},{"name":"stores/45","type":"office","title":"Hayward Post Office","location":{"latitude":46.0156555,"longitude":-91.4864349},"address":{"regionCode":"us"}},{"name":"stores/46","type":"office","title":"Beloit Post Office","location":{"latitude":42.4989052,"longitude":-89.0381622},"address":{"street":"Mill Street","city":"Beloit","state":"WI","zipCode":53511,"regionCode":"us"}},{"name":"stores/47","type":"office","title":"New Lisbon Post Office","location":{"latitude":43.8794136,"longitude":-90.1662369},"address":{"regionCode":"us"}},{"name":"stores/48","type":"office","title":"Plymouth Post Office","location":{"latitude":43.7488823,"longitude":-87.9770355},"address":{"regionCode":"us"}},{"name":"stores/49","type":"office","title":"Sheboygan Falls Post Office","location":{"latitude":43.7295609,"longitude":-87.8121719},"address":{"street":"Maple Street","city":"Sheboygan Falls","state":"WI","zipCode":53085,"regionCode":"us"}}],"nextPageToken":"NTA"}
 ```
@@ -331,11 +385,11 @@ Now find the Endpoints link in the Cloud Console sidebar (on the left) and selec
 
 ![alt text](/screenshots/endpoints-services.png)
 
-Select your service by clicking on either the service title or the service name. You'll open a detail screen that is something like this:
+Select your service by clicking on either the service title or the service name. You'll open a detail screen that looks something like this:
 
 ![alt text](/screenshots/endpoints-service-detail.png)
 
-For the screenshot above, we've selected to display only the Requests graph so that we can see the log of operations on the bottom. The graph and logs above show a lot more traffic than you should expect (for this instance, a cron job is making a batch of API calls every five minutes). But if you select "View logs" on a row corresponding to one of the methods you've called, you'll find logs of your requests in the Logs Explorer view.
+For the screenshot above, we've selected to display only the Requests graph so that the screenshot will include the log of operations at the bottom. The graph and logs above show a lot more traffic than you should expect (for this instance, a cron job is making a batch of API calls every five minutes). But if you select "View logs" on a row corresponding to one of the methods you've called, you'll find logs of your requests in the Logs Explorer view.
 
 ![alt text](/screenshots/endpoints-log-getstore.png)
 

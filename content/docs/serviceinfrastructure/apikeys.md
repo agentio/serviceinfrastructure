@@ -4,7 +4,7 @@ title: The API Keys API
 ---
 ## The API Keys API
 
-The API Keys API creates and manages API keys that consumers use to call APIs. Anyone can use these API keys to call an API. There is no need that they be a Google customer or even have an identity known to Google. If you're a service owner, the API Keys API is an easy way for you to give individually-accountable access to your users.
+The API Keys API creates and manages API keys that consumers use to call APIs. Anyone can use these API keys to call an API. There is no need that they be a Google customer or even have an identity known to Google. If you're a service owner, the API Keys API is an easy way for you to give individually-trackable access to your users.
 
 The API Keys API is defined in the [googleapis](/docs/details/googleapis) repo in [apikeys_v2.yaml](https://github.com/googleapis/googleapis/blob/master/google/api/apikeys/v2/apikeys_v2.yaml). It includes two services.
 

@@ -31,7 +31,6 @@ body {
     color: $callout-link-color;
 }
 
-
 .book-search input {
     background-color: $main-background-color;
 }
@@ -87,7 +86,7 @@ a:visited {
 }
 
 .markdown code.language-prompt:before  {
-    content: "% ";
+    content: "$ ";
 }
 
 .markdown table th {

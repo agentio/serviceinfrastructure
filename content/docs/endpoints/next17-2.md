@@ -6,6 +6,8 @@ bookHidden: true
 
 # Transcript: Authenticating service-to-service calls with Google Cloud Endpoints (Google Cloud Next '17)
 
+{{< youtube 4PgX3yBJEyw >}}
+
 #### Transcript from Google Cloud Next '17
 
 [MUSIC PLAYING] 

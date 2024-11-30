@@ -39,7 +39,7 @@ Capabilities provided by Service Infrastructure include:
 * rate limiting
 * logging, monitoring, analytics, and auditing
 
-Virtually all of Google's APIs are built on Service Infrastructure, and Service Infrastructure can also be used for non-Google "third party" APIs. These APIs might be implemented using Google Cloud, but that's not necessary. Service Infrastructure can be used anywhere within reach of a Google data center, and the Service Infrastructure APIs are simple enough that they can be reimplemented and run anywhere.
+Virtually all of Google's APIs are built on Service Infrastructure, and Service Infrastructure can also be used for non-Google "third party" APIs. These APIs might be implemented using Google Cloud, but that's not necessary. Service Infrastructure can be used anywhere within reach of a Google data center, and the Service Infrastructure APIs are simple enough that if Google ever stopped providing them, they could be reimplemented and run anywhere.
 
 Service Infrastructure is built on a central data format, called [Service Configuration](/docs/serviceinfrastructure/serviceconfig), and a small group of public Google APIs.
 

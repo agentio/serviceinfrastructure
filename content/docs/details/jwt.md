@@ -4,9 +4,13 @@ title: Authenticating Users with JWTs
 ---
 ## Authenticating Users with JSON Web Tokens
 
-While this is not used by any known Google APIs, the Cloud Endpoints product includes support for user authentication with JSON Web Tokens. This uses standard mechanisms, and ESPv2 uses the JWT Envoy filter, making this a fairly straightforward addition to the proxy that is configurable using Service Config. For more details, see the Cloud Endpoints documentation.
+While this is not used by any known Google APIs, the Cloud Endpoints product includes support for user authentication with [JSON Web Tokens](https://en.wikipedia.org/wiki/JSON_Web_Token). This uses standard mechanisms and ESPv2 uses the JWT Envoy filter, making this a fairly straightforward addition to the proxy that is configured with the [AuthProvider](https://github.com/googleapis/googleapis/blob/master/google/api/auth.proto#L107) message of Service Config.
 
-https://github.com/googleapis/googleapis/blob/master/google/api/auth.proto#L107
+For more details, see 
+[Authentication between services (gRPC)](https://cloud.google.com/endpoints/docs/grpc/service-account-authentication)
+and
+[Authentication between services (OpenAPI)](https://cloud.google.com/endpoints/docs/grpc/service-account-authentication)
+in the Cloud Endpoints documentation.
 
 ---
 #### Go back to [Going Deeper](/docs/details).

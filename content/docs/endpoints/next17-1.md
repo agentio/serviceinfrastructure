@@ -6,6 +6,8 @@ bookHidden: true
 
 # Transcript: Google Cloud Endpoints: serving your API to the world (Google Cloud Next '17)
 
+{{< youtube bR9hEyZ9774 >}}
+
 [MUSIC PLAYING] 
 
 FRANCESC CAMPOY: Hello, everybody. I'm Francesc Campoy, and today I'm going to be talking about Cloud Endpoints. The whole point of the talk is to give you an idea of what Google Cloud Endpoints is able to do today and to also give you a-- let you imagine what we will be adding later on. A little bit about myself, I'm a Developer Advocate at Google.
