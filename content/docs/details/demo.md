@@ -1,9 +1,7 @@
 ---
 weight: 1
-title: Further with the Quickstart
+title: The Demo in Depth
 ---
-## Going Further with the Quickstart
-
 ## The Boba Dojo Stores API
 
 The Boba Dojo Stores API is a sample that demonstrates the creation and management of a Protocol Buffer-based API.
