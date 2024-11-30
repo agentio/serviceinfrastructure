@@ -1,28 +1,17 @@
-// https://colorhunt.co/palette/faf6e3d8dbbdb59f782a3663
+$blue: #007bff;
 
-$teal: #257180;
-$beige: #F2E5BF;
-$orange: #FD8B51;
-$brick: #CB6040;
+$main-background-color: white;
+$main-text-color: black;
+$main-link-color: $blue;
+$main-link-visited-color: $blue;
 
-$beige: #FAF6E3;
-$sage: #d5dab9;
-$tan: #ece8d4;
-$brown: #6e4e16;
-$navy: #2A3663;
+$callout-background-color: #ddd;
+$callout-text-color: black;
+$callout-link-color: black;
+$callout-link-visited-color: black;
+$callout-link-active-color: #c00000;
 
-$main-background-color: $beige;
-$main-text-color: #000;
-$main-link-color: $brown;
-$main-link-visited-color: #222;
-
-$callout-background-color: $tan;
-$callout-text-color: #000;
-$callout-link-color: #000;
-$callout-link-active-color: $navy;
-$callout-link-visited-color: #222;
-
-$highlight-color: $sage;
+$highlight-background-color: #eee;
 
 
 body {
@@ -42,13 +31,14 @@ body {
     color: $callout-link-color;
 }
 
+
 .book-search input {
     background-color: $main-background-color;
 }
 
 .book-menu .book-menu-content {
     background-color: $callout-background-color;
-    color: $main-background-color;
+    color: $callout-text-color;
     scrollbar-width: none;
 }
 
@@ -85,15 +75,15 @@ a:visited {
 }
 
 .markdown pre {
-    background-color: $callout-background-color;
-    scrollbar-color: $highlight-color $callout-background-color;
+    background-color: $highlight-background-color;
+    scrollbar-color: $callout-background-color $highlight-background-color;
     color: $callout-text-color;
     margin: 0;
     padding: 0.25em 0.5em;
 }
 
 .markdown code {
-    background: $callout-background-color;
+    background: $highlight-background-color;
 }
 
 .markdown code.language-prompt:before  {
@@ -101,11 +91,11 @@ a:visited {
 }
 
 .markdown table th {
-    background: $highlight-color;
+    background: $highlight-background-color;
 }
 
 .markdown table tr:nth-child(2n) {
-    background: $highlight-color;
+    background: $highlight-background-color;
 }
 
 .markdown table tr:nth-child(2n+1) {
@@ -113,9 +103,9 @@ a:visited {
 }
 
 div.goat {
-    background-color: $callout-background-color;
+    background-color: $highlight-background-color;
 }
 
 div.goat svg circle[fill="#fff"] {
-     fill:$callout-background-color; 
+     fill:$highlight-background-color; 
 }
