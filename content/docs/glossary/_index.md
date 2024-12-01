@@ -78,7 +78,7 @@ Google's ["foundational platform for creating, managing, securing, and consuming
 
 ## Service Owner
 
-A person or organization that owns a [service](#service). The service owner is responsible for creating the service, keeping it operational, and may be held legally responsible for the operations of the server.
+A person or organization that owns a [service](#service). The service owner is responsible for creating the service and keeping it running. The service owner often also can be held legally responsible for the operations of the server.
 
 ## Service User
 
