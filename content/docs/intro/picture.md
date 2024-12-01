@@ -1,10 +1,8 @@
 ---
 weight: 3
-title: "Get the Picture?"
+title: "The Picture"
 ---
-## Get the Picture!
-
-Here's a picture that puts everything in context.
+## The Picture
 
 ```goat
 
