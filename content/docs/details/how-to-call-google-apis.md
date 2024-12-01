@@ -18,8 +18,10 @@ If you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll
 
 `gcloud` has a nice built-in way to learn about Google APIs. Just add the `--log-http` flag to any `gcloud` command, and it will print all of the API calls that it makes along with their responses. Here's an example:
 
+```prompt
+gcloud endpoints services describe stores.endpoints.bobadojo.cloud.goog --log-http
 ```
-$ gcloud endpoints services describe stores.endpoints.bobadojo.cloud.goog --log-http
+```
 =======================
 ==== request start ====
 uri: https://servicemanagement.googleapis.com/v1/services/stores.endpoints.bobadojo.cloud.goog?alt=json
@@ -141,8 +143,8 @@ Now let's call this API with `curl`. Expand your API Explorer view by clicking o
 ![alt text](/screenshots/translate-curl.png)
 
 That text is meant to be an example, but it has a few problems. First, we don't need the key query parameter, because [the translation v3 API doesn't accept API keys](https://cloud.google.com/translate/docs/authentication#api-keys). Next, we need to fill in a value for `[YOUR_ACCESS_TOKEN]`. Conveniently, we can get this from `gcloud`. We'll just take the output of `gcloud auth print-access-token` and use it in our call. We do that below using shell substitution, and note that we switched to using double quotes around the string where we make the substitution call (this is a shell trick needed to make the substitution work).
-```
-$ curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
+```prompt
+curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
   -d '{"contents":["hello"], "targetLanguageCode":"es"}' \
   -H "Content-Type: application/json"
@@ -172,12 +174,14 @@ We're almost there, but when we run the above command, we see another problem in
 
 What is this quota project? Read [the documentation](https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds) if you are interested, but to keep going, just add the `x-goog-user-project` header to your requests like below, and be sure to replace "bobadojo" with your own project id. With that, your `curl` command should succeed.
 
-```
-$ curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
+```prompt
+curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
   -d '{"contents":["hello"], "targetLanguageCode":"es"}' \
   -H "Content-Type: application/json" \
   -H "x-goog-user-project: bobadojo"
+```
+```
 {
   "translations": [
     {
@@ -202,23 +206,29 @@ Now let's move to calling this API with gRPC. We'll start by using the [grpcurl]
 
 Why are these files public? Downstream tools use them, and Google has a long established practice of publishing API descriptions. Before there was OpenAPI or Swagger, Google had the API Discovery Service, which described Google's APIs with a custom JSON format that was created by a team at Google. That was used to drive code generators that Google wrote, and over the years, outside developers wrote their own code generators that created client libraries and other tools for Google APIs.
 
+```prompt
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 ```
-$ go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+```
 go: downloading github.com/cespare/xxhash/v2 v2.2.0
 go: downloading github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe
 go: downloading google.golang.org/genproto/googleapis/api v0.0.0-20231106174013-bbf56f31fb17
 go: downloading golang.org/x/oauth2 v0.14.0
 go: downloading cloud.google.com/go/compute v1.23.3
-
-$ git clone https://github.com/googleapis/googleapis
-
-$ cd googleapis
-
-$ protoc google/cloud/translate/v3/translation_service.proto \
+```
+```prompt
+git clone https://github.com/googleapis/googleapis
+```
+```prompt
+cd googleapis
+```
+```prompt
+protoc google/cloud/translate/v3/translation_service.proto \
   --proto_path . \
   --include_imports \
   -o descriptor.pb
-
+```
+```prompt
 grpcurl -protoset descriptor.pb \
     -d @ \
     -H "Authorization: Bearer `gcloud auth print-access-token`" \
@@ -235,6 +245,8 @@ grpcurl -protoset descriptor.pb \
   ]
 }
 EOM
+```
+```
 {
   "translations": [
     {

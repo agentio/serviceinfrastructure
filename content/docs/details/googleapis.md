@@ -15,8 +15,10 @@ Generally, each API description is in a directory in a path ending with a versio
 The googleapis repo includes an automatically-generated index of Google APIs in [api-index-v1.json](https://github.com/googleapis/googleapis/blob/master/api-index-v1.json).
 
 Here we use `curl` and `jq` to count the number of APIs in this index. Note that strictly speaking, this is a list of API versions. The index currently contains two versions of the Cloud Translation API: `v3` and `v3beta1`.
+```prompt
+curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/master/api-index-v1.json | jq .apis.[].id -r | wc -l
 ```
-$ curl -s https://raw.githubusercontent.com/googleapis/googleapis/refs/heads/master/api-index-v1.json | jq .apis.[].id -r | wc -l
+```
 383
 ```
 

@@ -75,13 +75,16 @@ Some of its fields are worth describing:
 ### CreateKey
 
 Let's use `q` to create an API key using the `CreateKey` method. We'll create a second key like the one that we created in the [quickstart](/demo/quickstart/demo). Recall that there we used this `gcloud` command:
-```
-$ KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
+```prompt
+KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
 ```
 
 Now let's do the same thing with `q`:
-```
+```prompt
 q api-keys create-key --parent projects/bobadojo/locations/global --keyid demo2 --service stores.endpoints.bobadojo.cloud.goog | jq
+```
+
+```
 {
   "name": "operations/akmf.p7-1046800315646-a778a84e-6829-4426-b26c-7bd71525cc8c"
 }
@@ -93,8 +96,11 @@ This returned an id of a longrunning operation that, when complete, results in a
 
 We can list the keys in a project with `ListKeys`, and now when we do, we'll see the new key that we created along with the one we made in the [quickstart](/docs/quickstart/demo).
 
+```prompt
+q api-keys list-keys bobadojo | jq
 ```
-$ q api-keys list-keys bobadojo | jq
+
+```
 {
   "keys": [
     {
@@ -133,8 +139,11 @@ $ q api-keys list-keys bobadojo | jq
 
 We can also use `GetKey` to directly get a key by specifying its name. Note that we can use either the string or numeric versions of the project id in this name (both work). Also note that the key string is not returned.
 
+```prompt
+q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ```
-$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+
+```
 {
   "name": "projects/1046800315646/locations/global/keys/demo2",
   "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
@@ -156,8 +165,11 @@ $ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 
 We can get the key string with `GetKeyString`. This is a separate method to reduce opportunities for accidental exposure of keys.
 
+```prompt
+q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq
 ```
-$ q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq
+
+```
 {
   "keyString": "REDACTED"
 }
@@ -171,8 +183,11 @@ KEY=$(q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | 
 
 Now we can call our API with this new key. We'll also use the `HOST` variable that we set in the [quickstart](/demo/quickstart/demo).
 
+```prompt
+curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
-$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -191,8 +206,8 @@ $ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ### UpdateKey
 
 `UpdateKey` lets us modify properties of a key. We can use it to modify the display name and the restrictions on a key. Let's use `q` to add a display name to our new key. First let's get a JSON representation of the key:
-```
-$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 > demo2.json
+```prompt
+q api-keys get-key projects/bobadojo/locations/global/keys/demo2 > demo2.json
 ```
 
 Now edit `demo2.json` to add the `displayName` line below:
@@ -215,14 +230,20 @@ Now edit `demo2.json` to add the `displayName` line below:
 ```
 
 Finally, use `q` to update the key.
+```prompt
+q api-keys update-key demo2.json | jq 
 ```
-$ q api-keys update-key demo2.json | jq 
+
+```
 {"name":"operations/akmf.p10-1046800315646-274fe790-2c2f-409f-8b58-e2494a489259"}
 ```
 
 This returns a quick-to-complete operation that updates the key. We can verify the change with `q`:
+```prompt
+q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ```
-$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+
+```
 {
   "name": "projects/1046800315646/locations/global/keys/demo2",
   "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
@@ -243,14 +264,20 @@ $ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ### DeleteKey
 
 `DeleteKey` lets us delete keys. Let's try it.
+```prompt
+q api-keys delete-key projects/bobadojo/locations/global/keys/demo2 
 ```
-$ q api-keys delete-key projects/bobadojo/locations/global/keys/demo2 
+
+```
 {"name":"operations/akmf.p12-1046800315646-3934e2bb-5b66-4e68-b640-753b5fbf60a1"}
 ```
 
 Now when we get our key, we find that it still exists, but now it has a value for `deleteTime` that shows that it has been deleted.
+```prompt
+q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ```
-$ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+
+```
 {
   "name": "projects/1046800315646/locations/global/keys/demo2",
   "uid": "2bd9e341-1e78-42a0-ab13-2c667632f83f",
@@ -270,8 +297,11 @@ $ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 ```
 
 We can try to use our deleted key, and we'll find that for a while, it still works:
+```prompt
+curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
-$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -288,8 +318,11 @@ $ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
 
 It still works because our proxy is caching the key. Wait a while (seriously, a few minutes... go make a fresh pot of coffee) and then try it again.
+```prompt
+curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
-$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "code": 400,
   "message": "INVALID_ARGUMENT: API key expired. Please renew the API key."
@@ -300,14 +333,20 @@ $ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 
 Deleted keys are retained so that we can use `UndeleteKey` if we decide to restore them. Let's try it:
 
+```prompt
+q api-keys undelete-key projects/bobadojo/locations/global/keys/demo2 
 ```
-$ q api-keys undelete-key projects/bobadojo/locations/global/keys/demo2 
+
+```
 {"name":"operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b"}
 ```
 
 This operation completes quickly, and we can quickly see its effects by using the undeleted key:
+```prompt
+curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 ```
-$ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -328,8 +367,11 @@ $ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 
 The last method of the API is `LookupKey`, and with it, we can see how service implementations might verify an API key string.
 
+```prompt
+q api-keys lookup-key $KEY | jq
 ```
-$ q api-keys lookup-key $KEY | jq
+
+```
 {
   "parent": "projects/1046800315646/locations/global",
   "name": "projects/1046800315646/locations/global/keys/demo2"
@@ -343,8 +385,11 @@ Here we've passed our key string and received the name of the key that correspon
 This is the same service that we discussed for the Service Management API, so we won't discuss it in detail here. But just as we did for Service Management, if we want to check the status of operations, we can call `GetOperation`, but this time, the target of our API call should be the API Keys service.
 
 Here is a quick example that uses `curl` to check on the status of the `UndeleteKey` request that we made earlier:
+```prompt
+curl https://apikeys.googleapis.com/v1/operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b -H "Authorization: Bearer $(gcloud auth print-access-token)"
 ```
- curl https://apikeys.googleapis.com/v1/operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b -H "Authorization: Bearer $(gcloud auth print-access-token)"
+
+```
 {
   "name": "operations/akmf.p13-1046800315646-d95498f7-4a62-400d-b12e-2e31291e910b",
   "done": true,
@@ -369,8 +414,11 @@ Here is a quick example that uses `curl` to check on the status of the `Undelete
 ```
 
 As another point of interest, if we try calling `ListOperations`, we can see that it is not implemented for the API Keys API.
+```prompt
+curl https://apikeys.googleapis.com/v1/operations -H "Authorization: Bearer $(gcloud auth print-access-token)"
 ```
-$ curl https://apikeys.googleapis.com/v1/operations -H "Authorization: Bearer $(gcloud auth print-access-token)"
+
+```
 {
   "error": {
     "code": 404,
@@ -388,8 +436,11 @@ We know that keys are associated with projects and that keys can only be used fo
 
 What happens when someone tries to use a key associated with some other project to call our API? We can explore this by creating an API key with another Google Cloud account and using that key to call our API.
 
+```prompt
+curl "$HOST/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI"  -i
 ```
-$ curl "$HOST/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI"  -i
+
+```
 HTTP/2 403 
 content-type: application/json
 x-envoy-decorator-operation: ingress GetStore
@@ -406,8 +457,11 @@ The message is accurate and helpful -- and when this user searches for this serv
 ![alt text](/screenshots/service-not-found.png)
 
 If that key is deleted and used again, the caller will get this response:
+```prompt
+!curl
 ```
-$ !curl
+
+```
 curl "$HOST/v1/stores/0?api_key=AIzaSyBPgB7_IGKATETdWcrYvolr4-LuECEL6uI"  -i
 HTTP/2 400 
 content-type: application/json

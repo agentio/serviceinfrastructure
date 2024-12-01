@@ -58,8 +58,10 @@ For testing and experimentation, it's useful to run the proxies locally. Unfortu
 Let's try it for our demo API.
 
 First we'll run our `stores-server` container locally with Docker:
+```prompt
+docker run -p 8080:8080 ghcr.io/bobadojo/stores-server
 ```
-$ docker run -p 8080:8080 ghcr.io/bobadojo/stores-server
+```
 2024/11/19 03:04:20 listening on port 8080
 ```
 
@@ -113,8 +115,10 @@ docker run \
 
 But when you run it, something interesting and surprising might happen. The proxy might exit.
 
+```prompt
+sh local-espv1.sh
 ```
-$ sh local-espv1.sh 
+``` 
 INFO:Constructing an access token with scope https://www.googleapis.com/auth/service.management.readonly
 INFO:Service account email: stores@bobadojo.iam.gserviceaccount.com
 INFO:Refreshing access_token

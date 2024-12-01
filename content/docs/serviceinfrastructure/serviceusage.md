@@ -48,8 +48,10 @@ The `ListServices` method lets us list services available to our current project
 
 We can also filter services based on their state (enabled or disabled), and we've implemented our `q` subcommand to default to listing only enabled services. Let's try it:
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 | jq | more
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 | jq | more
+```
 [
   {
     "name": "projects/327402113844/services/analyticshub.googleapis.com",
@@ -78,8 +80,10 @@ $ q service-usage list-services projects/nodal-time-442104-f1 | jq | more
 That's a lot of detail! We're getting a list of service configurations that have been filtered to only contain information appropriate for service consumers.
 To get a better overview, let's filter the result with `jq` to look at just the service names:
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+```
 projects/327402113844/services/analyticshub.googleapis.com
 projects/327402113844/services/bigquery.googleapis.com
 projects/327402113844/services/bigqueryconnection.googleapis.com
@@ -111,8 +115,10 @@ Our list corresponds to this view in the Google Cloud Console:
 
 To see the services that we might enable, let's rerun with a different filter.
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r
+```
 projects/327402113844/services/a10-thunder-adc-601b150-byol.endpoints.a10networks-public-396315.cloud.goog
 projects/327402113844/services/a10-vthunder-adc-100mbps.endpoints.a10networks-public-396315.cloud.goog
 projects/327402113844/services/a10-vthunder-adc-10gbps.endpoints.a10networks-public-396315.cloud.goog
@@ -137,16 +143,21 @@ Wow this is a huge list! It's usually not displayed in the Cloud Console, which 
 
 Let's put our list in a file so we can easily count the number of services.
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r > DISABLED
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 --filter state:DISABLED | jq .[].name -r > DISABLED
-
-$ wc -l DISABLED
+```prompt
+wc -l DISABLED
+```
+```
 6216 DISABLED
 ```
 
 Scanning the output, we can see that it includes our shared service:
+```prompt
+grep bobadojo DISABLED
 ```
-$ grep bobadojo DISABLED
+```
 projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
 ```
 
@@ -154,8 +165,10 @@ projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
 
 `GetService` allows us to get the service configuration and state for a service. Let's use it to look at our shared service.
 
+```prompt
+q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq
 ```
-$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq
+```
 {
   "name": "projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog",
   "parent": "projects/327402113844",
@@ -240,14 +253,18 @@ Here we see that the state is "DISABLED". Let's use the API to make it available
 ### EnableService
 
 The `EnableService` method can be used to enable a service. Let's use it for our Stores service:
+```prompt
+q service-usage enable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
 ```
-$ q service-usage enable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
+```
 {}
 ```
 
 Now we can get our service again and see that it is enabled.
+```prompt
+q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq 
 ```
-$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq 
+```
 {
   "name": "projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog",
   "parent": "projects/327402113844",
@@ -327,14 +344,18 @@ $ q service-usage get-service projects/327402113844/services/stores.endpoints.bo
 }
 ```
 
+```prompt
+q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
 ```
-$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
+```
 ENABLED
 ```
 
 It also shows up now in our list of enabled services.
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+```
 projects/327402113844/services/analyticshub.googleapis.com
 projects/327402113844/services/bigquery.googleapis.com
 projects/327402113844/services/bigqueryconnection.googleapis.com
@@ -363,13 +384,17 @@ projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
 
 If we change our mind, we can use `DisableService` to disable a service within our project. Quoting the doc strings in the proto: "This prevents unintended usage that may cause unexpected billing charges or security leaks."
 
+```prompt
+q service-usage disable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
 ```
-$ q service-usage disable-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog 
+```
 {}
 ```
 
+```prompt
+q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
 ```
-$ q service-usage get-service projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog | jq .state -r
+```
 DISABLED
 ```
 
@@ -395,8 +420,8 @@ Since disabling unneeded APIs seems to be a recommended practice, let's use the 
 
 We'll start by putting all of our enabled services in a file. We call this file `DISABLE.sh` because we're going to edit it to be a script that disables these services.
 
-```
-$ q service-usage list-services projects/nodal-time-442104-f1  | jq .[].name -r > DISABLE.sh
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1  | jq .[].name -r > DISABLE.sh
 ```
 
 Next we edit the file, putting `q service-usage disable-service ` at the start of each line:
@@ -431,27 +456,35 @@ q service-usage disable-service projects/327402113844/services/storage.googleapi
 
 Note that we've deleted the line containing the stores service that we shared with this user. We've also commented out the call that disables the Service Usage API so that we can explore that case separately. 
 
+```prompt
+sh DISABLE.sh 
 ```
-$ sh DISABLE.sh 
+```
 {}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}
 ```
 
 Now when we list our services, we see that we have just two services:
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 | jq .[].name -r
+```
 projects/327402113844/services/serviceusage.googleapis.com
 projects/327402113844/services/stores.endpoints.bobadojo.cloud.goog
 ```
 
 Now let's disable the Service Usage API.
-```
+```prompt
 q service-usage disable-service projects/327402113844/services/serviceusage.googleapis.com
+```
+```
 {}
 ```
 
+```prompt
+q service-usage list-services projects/nodal-time-442104-f1 
 ```
-$ q service-usage list-services projects/nodal-time-442104-f1 
+```
 [Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
 error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
 error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
@@ -466,8 +499,10 @@ Flags:
 
 Oops! Now that we've disabled Service Usage, we can no longer list our services. That's not a big surprise.
 
+```prompt
+q service-usage enable-service projects/327402113844/services/serviceusage.googleapis.com
 ```
-$ q service-usage enable-service projects/327402113844/services/serviceusage.googleapis.com
+```
 Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
 error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
 error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
@@ -481,11 +516,16 @@ Flags:
 
 We also can't reenable it. It seems that we've locked ourselves out of this project. But let's try again with `gcloud`:
 
+```prompt
+gcloud services enable serviceusage.googleapis.com
 ```
-$ gcloud services enable serviceusage.googleapis.com
+```
 Operation "operations/acat.p2-327402113844-d45c9e7a-440a-4bd0-8df5-b13840f681e9" finished successfully.
-
-$ gcloud config list
+```
+```prompt
+gcloud config list
+```
+```
 [core]
 account = tim@mitra.so
 disable_usage_reporting = False
@@ -495,8 +535,11 @@ project = nodal-time-442104-f1
 region = us-west1
 
 Your active configuration is: [default]
-
-$ gcloud services list
+```
+```prompt
+gcloud services list
+```
+```
 NAME                                  TITLE
 serviceusage.googleapis.com           Service Usage API
 stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
@@ -506,30 +549,46 @@ Wow, somehow `gcloud` was able to do this when `q` couldn't. We suspect that som
 
 We can use gcloud to manage service usage for a project, even when we've disabled the Service Usage API in that project.
 
+```prompt
+gcloud services list
 ```
-$ gcloud services list
+```
 NAME                                  TITLE
 serviceusage.googleapis.com           Service Usage API
 stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
-
-$ gcloud services disable serviceusage.googleapis.com
+```
+```prompt
+gcloud services disable serviceusage.googleapis.com
+```
+```
 Operation "operations/acat.p17-327402113844-6e586555-42d3-4432-8e29-b4975d17e5f4" finished successfully.
-
-$ gcloud services list
+```
+```prompt
+gcloud services list
+```
+```
 NAME                                  TITLE
 stores.endpoints.bobadojo.cloud.goog  Boba Dojo Stores API
-
-$ gcloud services enable serviceusage.googleapis.com
+```
+```prompt
+gcloud services enable serviceusage.googleapis.com
+```
+```
 Operation "operations/acat.p2-327402113844-cf2ba8b5-4865-497e-a5cd-ea1b2aaea6d9" finished successfully.
-
-$ gcloud services disable serviceusage.googleapis.com
+```
+```prompt
+gcloud services disable serviceusage.googleapis.com
+```
+```
 Operation "operations/acat.p17-327402113844-e6e66b99-79d0-4e27-a711-762f9e498d62" finished successfully.
 ```
 
 And this works even though `q`, which uses Application Default Credentials associated with the managed project, is unable to make Service Usage calls.
 
+```prompt
+q service-usage enable-service projects/nodal-time-442104-f1/services/serviceusage.googleapis.com
 ```
-$ q service-usage enable-service projects/nodal-time-442104-f1/services/serviceusage.googleapis.com
+```
 Error: rpc error: code = PermissionDenied desc = Service Usage API has not been used in project nodal-time-442104-f1 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
 error details: name = ErrorInfo reason = SERVICE_DISABLED domain = googleapis.com metadata = map[consumer:projects/nodal-time-442104-f1 service:serviceusage.googleapis.com]
 error details: name = Help desc = Google developers console API activation url = https://console.developers.google.com/apis/api/serviceusage.googleapis.com/overview?project=nodal-time-442104-f1
@@ -563,8 +622,10 @@ The user can then enable your API and create API keys to use it.
 
 What just happened? Just as we did in our Service Management discussion, we set the IAM policy on the service. Another way to do this is with `gcloud endpoints services` subcommands. First we'll view the policy:
 
+```prompt
+gcloud endpoints services get-iam-policy stores.endpoints.bobadojo.cloud.goog
 ```
-$ gcloud endpoints services get-iam-policy stores.endpoints.bobadojo.cloud.goog
+```
 bindings:
 - members:
   - user:tim@mitra.so
@@ -575,22 +636,29 @@ version: 1
 ```
 
 Next we update the policy binding:
+```prompt
+gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.
 ```
-gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+```
+serviceConsumer
 ```
 
 We can also remove the binding:
 
+```prompt
+gcloud endpoints services remove-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
 ```
-$ gcloud endpoints services remove-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+```
 Updated IAM policy for service [stores.endpoints.bobadojo.cloud.goog].
 etag: BwYmbUpFFGg=
 version: 1
 ```
 
 And if we change our minds, we can easily add it back:
+```prompt
+gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
 ```
-$ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=user:tim@mitra.so --role=roles/servicemanagement.serviceConsumer
+```
 Updated IAM policy for service [stores.endpoints.bobadojo.cloud.goog].
 bindings:
 - members:

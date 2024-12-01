@@ -51,8 +51,10 @@ bool Config::LoadService(ApiManagerEnvInterface *env,
 ```
 
 After building a container locally with `docker build` and modifying our script to use this local container, we see that the proxy is getting the service config that we expect:
+```prompt
+sh LOCAL-espv1.sh
 ```
-$ sh LOCAL-espv1.sh 
+``` 
 INFO:Constructing an access token with scope https://www.googleapis.com/auth/service.management.readonly
 INFO:Service account email: stores@bobadojo.iam.gserviceaccount.com
 INFO:Refreshing access_token
@@ -116,8 +118,10 @@ The `ReadConfigFromString` function appears to be failing to parse this service 
 
 We can get the service config with `q service-management get-service-config`, and we can experiment by deleting selective parts of it and uploading them with `q service-management create-service-config`. Each time we upload a new config, we need to roll it out (`q service-management create-service-rollout` will do that). After some trial-and-error and bisection, we find that the failed parsing is due to the presence of two options:
 
+```prompt
+diff original.config working.config 
 ```
-$ diff original.config working.config 
+```
 125,138d123
 <       "options": [
 <         {

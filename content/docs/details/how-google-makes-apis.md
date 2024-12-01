@@ -14,29 +14,36 @@ As I wrote in [I got a golden ticket: what I learned about APIs in my first year
 
 To get an idea of how many APIs Google produces, we could start by just asking Google directly by calling the [API Discovery Service](https://developers.google.com/discovery/v1/reference/apis/list)
 
+```prompt
+curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | wc -l
 ```
-$ curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | wc -l
+```
 463
 ```
 
 This is a list of API versions. If we pare the list down to unique APIs, we get a smaller list, but still it's large!
+```prompt
+curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | sort | uniq | wc -l
 ```
-$ curl -s https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[].name' -r | sort | uniq | wc -l
+```
 286
 ```
 
 If you're curious, here's a quick way to list all of the API-version pairs.
-```
-$ curl https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[] | "\(.name) \(.version)"' -r
+```prompt
+curl https://discovery.googleapis.com/discovery/v1/apis | jq '.items.[] | "\(.name) \(.version)"' -r
 ```
 
 ### How many APIs are being managed with Service Infrastructure?
 
 Outside of Google, there's no way to know how many APIs are managed with Service Infrastructure (since the majority of them are private), but we can look at the number of public APIs that are listed. We can get this by listing the managed services with no project specified. Here we'll get them, filter out their names, put them in a file, and count them:
+```prompt
+q service-management list-services "" | jq .[].serviceName -r > SERVICES
 ```
-$ q service-management list-services "" | jq .[].serviceName -r > SERVICES
-
-$ wc -l SERVICES
+```
+wc -l SERVICES
+```
+```
 6308 SERVICES
 ```
 

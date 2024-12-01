@@ -54,8 +54,11 @@ This first group of APIs operates on [ManagedService](https://github.com/googlea
 
 Let's try it. Like most methods, `ListServices` returns JSON, so we'll use `jq` to format the results.
 
+```prompt
+q service-management list-services bobadojo | jq
 ```
-$ q service-management list-services bobadojo | jq
+
+```
 [
   {
     "serviceName": "stores.endpoints.bobadojo.cloud.goog",
@@ -66,9 +69,15 @@ $ q service-management list-services bobadojo | jq
 
 `jq` is pretty handy and worth getting to know (start [here](https://jqlang.github.io/jq/)). We can use `jq` to pull specific values from a JSON response. Here we'll use `jq` to get the name of the first service and set it to a variable.
 
+```prompt
+SERVICE=$(q service-management list-services bobadojo  | jq .[0].serviceName -r)
 ```
-$ SERVICE=$(q service-management list-services bobadojo  | jq .[0].serviceName -r)
-$ echo $SERVICE
+
+```prompt
+echo $SERVICE
+```
+
+```
 stores.endpoints.bobadojo.cloud.goog
 ```
 
@@ -76,9 +85,11 @@ stores.endpoints.bobadojo.cloud.goog
 
 `GetService` gets details of a service. It returns a `ManagedService`, which doesn't tell us anything that we don't already know from calling `ListServices`, but let's try it to see it in action.
 
+```prompt
+q service-management get-service $SERVICE | jq
 ```
-$ q service-management get-service $SERVICE | jq
-{
+
+```{
   "serviceName": "stores.endpoints.bobadojo.cloud.goog",
   "producerProjectId": "bobadojo"
 }
@@ -88,8 +99,11 @@ $ q service-management get-service $SERVICE | jq
 
 We can create a new service with `CreateService`. This just takes a `ManagedService` as an argument, so we don't need to specify much, just a project id and a service id: 
 
+```prompt
+q service-management create-service --help
 ```
-$ q service-management create-service --help
+
+```
 Create service
 
 Usage:
@@ -102,8 +116,11 @@ Flags:
 
 But we have to be careful with our choice of service name. Let's try using "sample" as the service name to see what we get:
 
+```prompt
+q service-management create-service bobadojo sample
 ```
-$ q service-management create-service bobadojo sample
+
+```
 Error: rpc error: code = PermissionDenied desc = Ownership for domain name 'sample' on project 'bobadojo' cannot be verified.
 Usage:
   q service-management create-service PROJECTID SERVICE [flags]
@@ -119,11 +136,19 @@ What names are we allowed to use? We've already seen that we can use names of th
 
 We demonstrate this in the examples below by creating services that are subdomains of `.cloud.goog` and `.appspot.com`.
 
+```prompt
+q service-management create-service sample.endpoints.bobadojo.cloud.goog bobadojo
 ```
-$ q service-management create-service sample.endpoints.bobadojo.cloud.goog bobadojo
-service=Response { metadata: MetadataMap { headers: {"content-disposition": "attachment", "content-type": "application/grpc", "x-debug-tracking-id": "7176991653359097728;o=0", "date": "Sat, 13 Jul 2024 03:40:06 GMT", "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000", "grpc-status": "0"} }, message: Operation { name: "operations/services.sample.endpoints.bobadojo.cloud.goog-0", metadata: Some(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata", value: [10, 42, 115, 101, 114, 118, 105, 99, 101, 115, 47, 102, 111, 111, 46, 101, 110, 100, 112, 111, 105, 110, 116, 115, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 99, 108, 111, 117, 100, 46, 103, 111, 111, 103, 34, 11, 8, 150, 238, 199, 180, 6, 16, 248, 207, 151, 118] }), done: false, result: Some(Response(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.ManagedService", value: [18, 33, 102, 111, 111, 46, 101, 110, 100, 112, 111, 105, 110, 116, 115, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 99, 108, 111, 117, 100, 46, 103, 111, 111, 103, 26, 8, 98, 111, 98, 97, 100, 111, 106, 111] })) }, extensions: Extensions }
 
-$ q service-management create-service sample.bobadojo.appspot.com bobadojo
+```
+service=Response { metadata: MetadataMap { headers: {"content-disposition": "attachment", "content-type": "application/grpc", "x-debug-tracking-id": "7176991653359097728;o=0", "date": "Sat, 13 Jul 2024 03:40:06 GMT", "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000", "grpc-status": "0"} }, message: Operation { name: "operations/services.sample.endpoints.bobadojo.cloud.goog-0", metadata: Some(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata", value: [10, 42, 115, 101, 114, 118, 105, 99, 101, 115, 47, 102, 111, 111, 46, 101, 110, 100, 112, 111, 105, 110, 116, 115, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 99, 108, 111, 117, 100, 46, 103, 111, 111, 103, 34, 11, 8, 150, 238, 199, 180, 6, 16, 248, 207, 151, 118] }), done: false, result: Some(Response(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.ManagedService", value: [18, 33, 102, 111, 111, 46, 101, 110, 100, 112, 111, 105, 110, 116, 115, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 99, 108, 111, 117, 100, 46, 103, 111, 111, 103, 26, 8, 98, 111, 98, 97, 100, 111, 106, 111] })) }, extensions: Extensions }
+```
+
+```prompt
+q service-management create-service sample.bobadojo.appspot.com bobadojo
+```
+
+```
 service=Response { metadata: MetadataMap { headers: {"content-disposition": "attachment", "content-type": "application/grpc", "x-debug-tracking-id": "9253787921377858843;o=0", "date": "Sat, 13 Jul 2024 03:40:22 GMT", "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000", "grpc-status": "0"} }, message: Operation { name: "operations/services.sample.bobadojo.appspot.com-0", metadata: Some(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.OperationMetadata", value: [10, 33, 115, 101, 114, 118, 105, 99, 101, 115, 47, 102, 111, 111, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 97, 112, 112, 115, 112, 111, 116, 46, 99, 111, 109, 34, 11, 8, 166, 238, 199, 180, 6, 16, 136, 218, 150, 112] }), done: false, result: Some(Response(Any { type_url: "type.googleapis.com/google.api.servicemanagement.v1.ManagedService", value: [18, 24, 102, 111, 111, 46, 98, 111, 98, 97, 100, 111, 106, 111, 46, 97, 112, 112, 115, 112, 111, 116, 46, 99, 111, 109, 26, 8, 98, 111, 98, 97, 100, 111, 106, 111] })) }, extensions: Extensions }
 ```
 
@@ -140,12 +165,19 @@ But how does Google know what address to use for these names? The answer is that
   ],
 ```
 Now with this, Google serves DNS records that point to our server.
+```prompt
+host stores.endpoints.bobadojo.cloud.goog
 ```
-$ host stores.endpoints.bobadojo.cloud.goog
+
+```
 stores.endpoints.bobadojo.cloud.goog has address WWW.XXX.YYY.ZZZ
+```
 
-$ dig stores.endpoints.bobadojo.cloud.goog
+```prompt
+dig stores.endpoints.bobadojo.cloud.goog
+```
 
+```
 ; <<>> DiG 9.20.0-2ubuntu3-Ubuntu <<>> stores.endpoints.bobadojo.cloud.goog
 ;; global options: +cmd
 ;; Got answer:
@@ -172,16 +204,22 @@ Before we continue, let's explore one more way to name our services. In the orig
 
 The answer to that is yes, and we'll verify that here with an example. By following [these instructions](https://cloud.google.com/endpoints/docs/grpc/verify-domain-name), the `bobadojo` project was verified to own the `bobadojo.io` domain. As a test, we'll attempt to create a service named `sample.bobadojo.io`.
 
+```prompt
+q service-management create-service bobadojo sample.bobadojo.io
 ```
-$ q service-management create-service bobadojo sample.bobadojo.io
+
+```
 operations/services.sample.bobadojo.io-0
 ```
 
 That looks good. It returned an operation ID, and when the operation completes, we should have our new service.
 
 If we check too soon, we'll get an error:
+```prompt
+q service-management get-service sample.bobadojo.io
 ```
-$ q service-management get-service sample.bobadojo.io
+
+```
 Error: rpc error: code = PermissionDenied desc = Service 'sample.bobadojo.io' not found or permission denied.
 Usage:
   q service-management get-service SERVICE [flags]
@@ -193,19 +231,29 @@ Flags:
 ```
 
 But after a minute or so, our new service is registered:
+```prompt
+q service-management get-service sample.bobadojo.io 
 ```
-$ q service-management get-service sample.bobadojo.io 
+
+```
 {"serviceName":"sample.bobadojo.io","producerProjectId":"bobadojo"}
 ```
 
 But do we get DNS for this? No, because `bobadojo.io` is controlled by another registrar.
 
+```prompt
+host sample.bobadojo.com
 ```
-$ host sample.bobadojo.com
+
+```
 Host sample.bobadojo.com not found: 3(NXDOMAIN)
+```
 
-$ dig sample.bobadojo.com
+```prompt
+dig sample.bobadojo.com
+```
 
+```
 ; <<>> DiG 9.20.0-2ubuntu3-Ubuntu <<>> sample.bobadojo.com
 ;; global options: +cmd
 ;; Got answer:
@@ -233,8 +281,11 @@ Of course, if we want to use this domain, we would add appropriate records with 
 The last thing that we might want to do with a service is delete it... or undelete it if we change our minds! The Service Management API keeps deleted services in a "soft deleted" state for 30 days so that they can be undeleted.
 
 To see this, let's first call the stores API that we set up in the [quickstart](/docs/quickstart/demo). Here `HOST` is set to the URL of the server that we saw in the Cloud Run console.
+```prompt
+curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 ```
-$ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -251,13 +302,19 @@ $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 ```
 
 Now let's delete our service.
+```prompt
+q service-management delete-service $SERVICE
 ```
-$ q service-management delete-service $SERVICE
+
+```
 operations/services.stores.endpoints.bobadojo.cloud.goog-26
 ```
 That returned an operation. We have to wait for it to complete, but when it does, our service will be deleted.
+```prompt
+q service-management get-service $SERVICE
 ```
-$ q service-management get-service $SERVICE
+
+```
 Error: rpc error: code = PermissionDenied desc = Service 'stores.endpoints.bobadojo.cloud.goog' not found or permission denied.
 Usage:
   q service-management get-service SERVICE [flags]
@@ -269,8 +326,11 @@ Flags:
 ```
 
 Now if we try to call our stores API, the requests will fail.
+```prompt
+curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 ```
-$ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "code": 500,
   "message": "INTERNAL: Calling Google Service Control API failed with: 403 and body: \b\u0007\u0012_Permission 'servicemanagement.services.check' denied on service '<redacted_3rd_party_service>'."
@@ -280,14 +340,20 @@ $ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 ### UndeleteService
 
 Now let's change our minds and restore our deleted service.
+```prompt
+q service-management undelete-service $SERVICE
 ```
-$ q service-management undelete-service $SERVICE
+
+```
 operations/services.stores.endpoints.bobadojo.cloud.goog-27
 ```
 
 Our stores API service quickly becomes available again.
+```prompt
+curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
 ```
-$ curl $HOST/v1/stores/0 -s -H "X-Api-Key: $KEY" | jq
+
+```
 {
   "name": "stores/0",
   "type": "office",
@@ -319,13 +385,16 @@ Separating `Service` from `ManagedService` has benefits:
 `ListServiceConfigs` lists the service configurations associated with an service.
 
 Try it.
-```
-$ q service-management list-service-configs $SERVICE
+```prompt
+q service-management list-service-configs $SERVICE
 ```
 
 Yikes! This generates a lot of output. Let's use `jq` to just get one field out of the response, the ids of each service config:
+```prompt
+q service-management list-service-configs $SERVICE | jq .[].id -r
 ```
-$ q service-management list-service-configs $SERVICE | jq .[].id -r
+
+```
 2024-10-18r0
 2024-10-17r0
 2024-10-15r1
@@ -348,7 +417,7 @@ $ q service-management list-service-configs $SERVICE | jq .[].id -r
 ```
 
 This is still a lot of output, but when you run it on your own service, it will probably only be one or two lines. This is showing the ids of every revision of service configuration that has been uploaded for this service. Let's set `CONFIG_ID` to the first one, which is also the most recent.
-```
+```prompt
 CONFIG_ID=$(q service-management list-service-configs $SERVICE | jq .[0].id -r)
 ```
 
@@ -356,12 +425,16 @@ CONFIG_ID=$(q service-management list-service-configs $SERVICE | jq .[0].id -r)
 
 `GetServiceConfig` gets an individual service configuration. We got a subset of the service config from the list call. This method will return everything, and if we set the `view` field to `FULL` in the [GetServiceConfigRequest](https://github.com/googleapis/googleapis/blob/d54f4e947e77b86ea2e0e243c92a174032098a54/google/api/servicemanagement/v1/servicemanager.proto#L336) message, responses also include any source files that were uploaded when the configuration was created. We can do that with a command-line flag to `q`.
 
+```prompt
+q service-management get-service-config $SERVICE $CONFIG_ID --full | jq
 ```
-$ q service-management get-service-config $SERVICE $CONFIG_ID --full | jq
-```
+
 This returns a lot of output, and if you run it, you'll see that the source files are included as base64 strings. In this case, one of them is binary (`descriptor.pb`) but the other (`api_config.yaml`) is text and we can get it with `jq` and the `base64` command-line tool.
+```prompt
+q service-management get-service-config $SERVICE $CONFIG_ID --full | jq .sourceInfo.sourceFiles.[0].fileContents -r | base64 -d
 ```
-$ q service-management get-service-config $SERVICE $CONFIG_ID --full | jq .sourceInfo.sourceFiles.[0].fileContents -r | base64 -d
+
+```
 type: google.api.Service
 config_version: 3
 
@@ -401,8 +474,8 @@ endpoints:
 
 If we've saved the output of `GetServiceConfig` in `stores.json`, we can modify that file and directly update the service with the following:
 
-```
-$ q service-management create-service-config stores.endpoints.bobadojo.cloud.goog stores.config 
+```prompt
+q service-management create-service-config stores.endpoints.bobadojo.cloud.goog stores.config 
 ```
 
 But note that if we don't remove the `id` field or set it to an unused value, this will return an error:
@@ -424,15 +497,21 @@ Also, although we've uploaded a new config, it won't be available until we roll 
 
 The second way to create a service configuration is using `SubmitConfigSource` is to upload source files that include partial service config, protocol buffer file descriptor sets, and OpenAPI descriptions. Google will then compile these into the full service config.
 
+```prompt
+q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog api_config.yaml descriptor.pb
 ```
-$ q service-management submit-config-source stores.endpoints.bobadojo.cloud.goog api_config.yaml descriptor.pb 
+
+```
 operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9
 ```
 
 This returns an operation. Using [GetOperation](#getoperation) to check the result, we can see that a new service config has been uploaded with id `2024-11-21r0`.
 
+```prompt
+q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9 | jq
 ```
- q service-management get-operation operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9 | jq
+
+```
 {
   "name": "operations/serviceConfigs.stores.endpoints.bobadojo.cloud.goog:ec513f79-8e79-4969-a18a-0207eea2adc9",
   "metadata": {
@@ -456,7 +535,7 @@ This returns an operation. Using [GetOperation](#getoperation) to check the resu
 
 This same function is called by `gcloud endpoints services deploy`, but that also rolls out the service. Try running it with [--log-http](/docs/details/how-to-call-google-apis#seeing-inside-gcloud-with---log-http) and see! Use the files from your demo service:
 
-```
+```prompt
 gcloud endpoints services deploy descriptor.pb api_config.yaml --log-http
 ```
 
@@ -468,13 +547,16 @@ If you only call `SubmitConfigSource` or `CreateServiceConfig`, you'll need to c
 
 The `ServiceManager` service includes a function that we can use to compare two service configurations. By default it compares a configuration with its predecessor.
 
-```
+```prompt
 q service-management generate-config-report services/$SERVICE/configs/$CONFIG
 ```
 
 Here's the report for a change that temporarily removed the API key requirement from the `FindStores` and `GetStore` API methods.
-```
+```prompt
 q service-management generate-config-report services/$SERVICE/configs/2024-10-14r0 | jq
+```
+
+```
 {
   "serviceName": "stores.endpoints.bobadojo.cloud.goog",
   "id": "2024-10-14r0",
@@ -505,8 +587,11 @@ The last few methods in the `ServiceManager` service handle rollouts. [Rollout](
 
 First let's list rollouts with `ListServiceRollouts`. The results below are truncated, because when this command is run, it returns the full history of rollouts for a service.
 
+```prompt
+q service-management list-service-rollouts $SERVICE | jq
 ```
-$ q service-management list-service-rollouts $SERVICE | jq
+
+```
 [
   {
     "rolloutId": "2024-11-04r1",
@@ -547,8 +632,11 @@ $ q service-management list-service-rollouts $SERVICE | jq
 
 We can use `GetServiceRollout` to get an individual rollout by its id. This doesn't return anything that we didn't get from listing them, but when we look inside, we see that the `trafficPercentStrategy` refers to service config ids. For Cloud Endpoints, the percentages are always 100.
 
+```prompt
+q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
 ```
-$ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
+
+```
 {
   "rolloutId": "2024-11-04r1",
   "createTime": "2024-11-04T19:27:46.453Z",
@@ -567,8 +655,11 @@ $ q service-management get-service-rollout $SERVICE 2024-11-04r1 | jq
 
 We can create a new rollout with `CreateServiceRollout`. We just need to specify the service id and the id of the service config to be rolled out.
 
+```prompt
+q service-management create-service-rollout $SERVICE 2024-10-18r0
 ```
-$ q service-management create-service-rollout $SERVICE 2024-10-18r0
+
+```
 operations/rollouts.stores.endpoints.bobadojo.cloud.goog:20355192-1186-4f42-a267-d76abb4dc35a
 ```
 
@@ -598,8 +689,11 @@ The specific role that we grant to share a service is `servicemanagement.service
 
 `GetIamPolicy` returns the policy associated with a service, which can be empty if nothing has been specified yet.
 
+```prompt
+q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
 ```
-$ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
+
+```
 {
   "etag":"ACAB"
 }
@@ -607,8 +701,11 @@ $ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.g
 
 After we've added a few users, our policy might look like this:
 
+```prompt
+q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
 ```
-$ q service-management get-iam-policy services/stores.endpoints.bobadojo.cloud.goog | jq 
+
+```
 {
   "version": 1,
   "bindings": [
@@ -647,8 +744,11 @@ To try it, place the following in a file named `policy.json`, ideally using a us
 
 Now use `q` to call `SetIamPolicy`:
 
+```prompt
+q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
 ```
-$ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
+
+```
 {
   "version": 1,
   "bindings": [
@@ -665,8 +765,11 @@ $ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.g
 
 We can also add Google groups as members:
 
-```
+```prompt
 q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goog policy.json | jq
+```
+
+```
 {
   "version": 1,
   "bindings": [
@@ -684,8 +787,11 @@ q service-management set-iam-policy services/stores.endpoints.bobadojo.cloud.goo
 
 But one thing that we can't do is add `allUsers` to make our API public. Here we try using `gcloud`, which makes the same calls that we've been making with `q`.
 
+```prompt
+gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=allUsers --role=roles/servicemanagement.serviceConsumer
 ```
-$ gcloud endpoints services add-iam-policy-binding stores.endpoints.bobadojo.cloud.goog --member=allUsers --role=roles/servicemanagement.serviceConsumer 
+
+```
 ERROR: Policy modification failed. For a binding with condition, run "gcloud alpha iam policies lint-condition" to identify issues in condition.
 ERROR: (gcloud.endpoints.services.add-iam-policy-binding) INVALID_ARGUMENT: Member 'allUsers' is not allowed in role 'roles/servicemanagement.serviceConsumer'.
 ```
@@ -700,15 +806,21 @@ To make these calls, we temporarily change our account by logging in again with 
 
 First we check the `servicemanagement.services.check` permission. We expect this first request to confirm that this permission is not included in the `servicemanagement.serviceConsumer` role.
 
+```prompt
+q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.check
 ```
-$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.check
+
+```
 {}
 ```
 
 Next we check the `servicemanagement.services.bind` permission. We expect this first request to return `servicemanagement.services.bind` since this permission is included in the `servicemanagement.serviceConsumer` role.
 
+```prompt
+q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.bind
 ```
-$ q service-management test-iam-permissions services/stores.endpoints.bobadojo.cloud.goog servicemanagement.services.bind
+
+```
 {"permissions":["servicemanagement.services.bind"]}
 ```
 
@@ -736,8 +848,11 @@ Quoting [Google documentation](https://cloud.google.com/service-infrastructure/d
 
 To get a sample operation, we will call the `CreateService` method, which returns an operation.
 
+```prompt
+q service-management create-service bobadojo example.endpoints.bobadojo.cloud.goog
 ```
-$ q service-management create-service bobadojo example.endpoints.bobadojo.cloud.goog
+
+```
 operations/services.example.endpoints.bobadojo.cloud.goog-0
 ```
 
@@ -747,15 +862,21 @@ operations/services.example.endpoints.bobadojo.cloud.goog-0
 
 `ListOperations` lets us see the operations that are currently active.
 
+```prompt
+q service-management list-operations "" | jq
 ```
-$ q service-management list-operations "" | jq
+
+```
 Error: rpc error: code = InvalidArgument desc = Must specify a filter.
 ```
 
 That failed because this method requires a filter. We can learn more about that in the [ListOperationsRequest](https://cloud.google.com/service-infrastructure/docs/service-management/reference/rpc/google.longrunning#google.longrunning.ListOperationsRequest) documentation. Here we'll use a filter to select the service that we just attempted to create. The filter expression is `serviceName=example.endpoints.bobadojo.cloud.goog`.
 
+```prompt
+q service-management list-operations "serviceName=example.endpoints.bobadojo.cloud.goog" | jq
 ```
-$ q service-management list-operations "serviceName=example.endpoints.bobadojo.cloud.goog" | jq
+
+```
 [
   {
     "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
@@ -781,8 +902,11 @@ That worked, and we see that our operation is nearly (99%) complete.
 
 `GetOperation` lets us check on the status of a running operation. We can use it to directly check the operation that was returned above. We just provide the operation name that was returned from the original `CreateService` call.
 
-```
+```prompt
 q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
+```
+
+```
 {
   "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
   "metadata": {
@@ -805,8 +929,11 @@ Here again we see that our operation is 99% complete.
 
 If we check a few minutes later, we'll see that the operation is complete.
 
+```prompt
+q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
 ```
-$ q service-management get-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 | jq
+
+```
 {
   "name": "operations/services.example.endpoints.bobadojo.cloud.goog-0",
   "metadata": {
@@ -830,8 +957,11 @@ $ q service-management get-operation operations/services.example.endpoints.bobad
 
 `DeleteOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
+```prompt
+q service-management delete-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
 ```
-$ q service-management delete-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+
+```
 Error: rpc error: code = Unimplemented desc = Method not found.
 Usage:
   q service-management delete-operation OPERATION [flags]
@@ -839,15 +969,17 @@ Usage:
 Flags:
       --format string   output format (default "json")
   -h, --help            help for delete-operation
-
 ```
 
 ### CancelOperation
 
 `CancelOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
+```prompt
+q service-management cancel-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
 ```
-$ q service-management cancel-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+
+```
 Error: rpc error: code = Unimplemented desc = Method not found.
 Usage:
   q service-management cancel-operation OPERATION [flags]
@@ -861,8 +993,11 @@ Flags:
 
 `WaitOperation` is defined in the Operations interface but is unsupported by the ServiceManagement service.
 
+```prompt
+q service-management wait-operation operations/services.example.endpoints.bobadojo.cloud.goog-0
 ```
-$ q service-management wait-operation operations/services.example.endpoints.bobadojo.cloud.goog-0 
+
+```
 Error: rpc error: code = Unimplemented desc = WaitOperation is not supported now.
 Usage:
   q service-management wait-operation OPERATION [flags]

@@ -53,8 +53,11 @@ The full names of these methods begin with `google.api.servicecontrol.v1.QuotaCo
 Instead of calling these APIs individually, we've set up a subcommand of `q` that pretends to be an API proxy and makes the Service Infrastructure calls for a sample API call. Our subcommand is called `q service-control mock`. Its key arguments are a service name, an operation name, and an API key that is being used to make our mock request.
 
 We call it like this:
+```prompt
+q service-control mock --service stores.endpoints.bobadojo.cloud.goog --operation bobadojo.stores.v1.Stores.ListStores --apikey $KEY
 ```
-$ q service-control mock --service stores.endpoints.bobadojo.cloud.goog --operation bobadojo.stores.v1.Stores.ListStores --apikey $KEY
+
+```
 2024/11/04 15:37:06 calling check
 {"operationId":"5b8e82e2-b78e-4b5f-9b87-fe0a269330b3","serviceConfigId":"2024-10-18r0","serviceRolloutId":"2024-11-04r1","checkInfo":{"unusedArguments":["caller_ip","private_caller_ip"],"consumerInfo":{"projectNumber":"1046800315646","type":"PROJECT","consumerNumber":"1046800315646"}}}
 2024/11/04 15:37:07 calling allocate quota
