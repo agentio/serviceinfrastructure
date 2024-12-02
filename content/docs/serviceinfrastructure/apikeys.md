@@ -77,14 +77,14 @@ Some of its fields are worth describing:
 Let's use `q` to create an API key using the `CreateKey` method. We'll create a second key like the one that we created in the [quickstart](/demo/quickstart/demo). Recall that there we used this `gcloud` command:
 ```prompt
 KEY=$(gcloud services api-keys get-key-string \
-  projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
+  projects/$PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
 ```
 
 Now let's do the same thing with `q`:
 ```prompt
-q api-keys create-key --parent projects/bobadojo/locations/global \
+q api-keys create-key --parent projects/$PROJECT/locations/global \
     --keyid demo2 \
-    --service stores.endpoints.bobadojo.cloud.goog | jq
+    --service stores.endpoints.$PROJECT.cloud.goog | jq
 ```
 
 ```
@@ -100,7 +100,7 @@ This returned an id of a longrunning operation that, when complete, results in a
 We can list the keys in a project with `ListKeys`, and now when we do, we'll see the new key that we created along with the one we made in the [quickstart](/docs/quickstart/demo).
 
 ```prompt
-q api-keys list-keys bobadojo | jq
+q api-keys list-keys $PROJECT | jq
 ```
 
 ```
@@ -143,7 +143,7 @@ q api-keys list-keys bobadojo | jq
 We can also use `GetKey` to directly get a key by specifying its name. Note that we can use either the string or numeric versions of the project id in this name (both work). Also note that the key string is not returned.
 
 ```prompt
-q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+q api-keys get-key projects/$PROJECT/locations/global/keys/demo2 | jq
 ```
 
 ```
@@ -169,7 +169,7 @@ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 We can get the key string with `GetKeyString`. This is a separate method to reduce opportunities for accidental exposure of keys.
 
 ```prompt
-q api-keys get-key-string projects/bobadojo/locations/global/keys/demo2 | jq
+q api-keys get-key-string projects/$PROJECT/locations/global/keys/demo2 | jq
 ```
 
 ```
@@ -210,7 +210,7 @@ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 
 `UpdateKey` lets us modify properties of a key. We can use it to modify the display name and the restrictions on a key. Let's use `q` to add a display name to our new key. First let's get a JSON representation of the key:
 ```prompt
-q api-keys get-key projects/bobadojo/locations/global/keys/demo2 > demo2.json
+q api-keys get-key projects/$PROJECT/locations/global/keys/demo2 > demo2.json
 ```
 
 Now edit `demo2.json` to add the `displayName` line below:
@@ -243,7 +243,7 @@ q api-keys update-key demo2.json | jq
 
 This returns a quick-to-complete operation that updates the key. We can verify the change with `q`:
 ```prompt
-q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+q api-keys get-key projects/$PROJECT/locations/global/keys/demo2 | jq
 ```
 
 ```
@@ -268,7 +268,7 @@ q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
 
 `DeleteKey` lets us delete keys. Let's try it.
 ```prompt
-q api-keys delete-key projects/bobadojo/locations/global/keys/demo2 
+q api-keys delete-key projects/$PROJECT/locations/global/keys/demo2 
 ```
 
 ```
@@ -277,7 +277,7 @@ q api-keys delete-key projects/bobadojo/locations/global/keys/demo2
 
 Now when we get our key, we find that it still exists, but now it has a value for `deleteTime` that shows that it has been deleted.
 ```prompt
-q api-keys get-key projects/bobadojo/locations/global/keys/demo2 | jq
+q api-keys get-key projects/$PROJECT/locations/global/keys/demo2 | jq
 ```
 
 ```
@@ -337,7 +337,7 @@ curl -s $HOST/v1/stores/0 -H "X-Api-Key: $KEY" | jq
 Deleted keys are retained so that we can use `UndeleteKey` if we decide to restore them. Let's try it:
 
 ```prompt
-q api-keys undelete-key projects/bobadojo/locations/global/keys/demo2 
+q api-keys undelete-key projects/$PROJECT/locations/global/keys/demo2 
 ```
 
 ```

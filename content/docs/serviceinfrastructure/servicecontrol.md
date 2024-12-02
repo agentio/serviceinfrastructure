@@ -54,7 +54,10 @@ Instead of calling these APIs individually, we've set up a subcommand of `q` tha
 
 We call it like this:
 ```prompt
-q service-control mock --service stores.endpoints.bobadojo.cloud.goog --operation bobadojo.stores.v1.Stores.ListStores --apikey $KEY
+q service-control mock \
+    --service stores.endpoints.$PROJECT.cloud.goog \
+    --operation bobadojo.stores.v1.Stores.ListStores \
+    --apikey $KEY
 ```
 
 ```

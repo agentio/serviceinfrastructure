@@ -49,13 +49,15 @@ The full names of these methods begin with `google.monitoring.v3.MetricService.`
 This is also documented at [Monitored Resource Types](https://cloud.google.com/monitoring/api/resources).
 
 ```prompt
-q monitoring list-monitored-resource-descriptors projects/bobadojo | jq .[].name -r | wc -l
+q monitoring list-monitored-resource-descriptors \
+    projects/$PROJECT | jq .[].name -r | wc -l
 ```
 ```
 324
 ```
 ```prompt
-q monitoring list-monitored-resource-descriptors projects/bobadojo | jq .[].name -r | egrep "api$"
+q monitoring list-monitored-resource-descriptors \
+    projects/$PROJECT | jq .[].name -r | egrep "api$"
 ```
 ```
 projects/bobadojo/monitoredResourceDescriptors/api
@@ -72,7 +74,8 @@ projects/bobadojo/monitoredResourceDescriptors/produced_api
 `ListMetricDescriptors` lists metrics that are defined for Cloud Monitoring APIs. There are lots of them!
 
 ```prompt
-q monitoring list-metric-descriptors projects/bobadojo | jq .[].name -r | wc -l
+q monitoring list-metric-descriptors \
+    projects/$PROJECT | jq .[].name -r | wc -l
 ```
 ```
 6440
@@ -81,7 +84,8 @@ q monitoring list-metric-descriptors projects/bobadojo | jq .[].name -r | wc -l
 For Service Infrastructure, we care about the ones associated with `serviceruntime.googleapis.com`:
 
 ```prompt
-q monitoring list-metric-descriptors projects/bobadojo | jq .[].name -r | grep serviceruntime
+q monitoring list-metric-descriptors \
+    projects/$PROJECT | jq .[].name -r | grep serviceruntime
 ```
 ```
 projects/bobadojo/metricDescriptors/serviceruntime.googleapis.com/api/request_count
@@ -169,7 +173,8 @@ Similarly, we'll leave `DeleteMetricDescriptor` for future explorations.
 `ListTimeSeries` is what we're after -- this is the method that we can call to extract metrics from Cloud Monitoring. `ListTimeSeries` requires a filter expression to specify what we want (a metric type and other optional qualifiers), and we can also specify a time window, an "aggregation", and other parameters to control the response. Here we'll just try a simple query to get the request counts in the last hour (this time range is a default value for the `q` subcommand).
 
 ```prompt
-q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq
+q monitoring list-time-series $PROJECT \
+    serviceruntime.googleapis.com/api/request_count | jq
 ```
 ```
 [
@@ -224,7 +229,10 @@ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request
 The actual response includes many more points and request counts for other APIs. We can narrow the results by adding to the filter; filtering expressions are documented at [Monitoring filters](https://cloud.google.com/monitoring/api/v3/filters). Here we'll just ask for bobadojo APIs, and we'll use `jq` to just see which API methods are in our response:
 
 ```prompt
-q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' | jq .[].resource.labels.method
+q monitoring list-time-series $PROJECT \
+    serviceruntime.googleapis.com/api/request_count \
+    --filter ' AND resource.labels.method = starts_with("bobadojo.stores")' \
+    | jq .[].resource.labels.method
 ```
 ```
 "bobadojo.stores.v1.Stores.FindStores"
@@ -239,7 +247,9 @@ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request
 
 For comparison, without the filter, we got the following:
 ```prompt
-q monitoring list-time-series bobadojo serviceruntime.googleapis.com/api/request_count | jq .[].resource.labels.method -r
+q monitoring list-time-series $PROJECT \
+    serviceruntime.googleapis.com/api/request_count \
+    | jq .[].resource.labels.method -r
 ```
 ```
 bobadojo.stores.v1.Stores.FindStores
@@ -276,7 +286,8 @@ Notice that we're seeing calls to `servicemanagement` and `servicecontrol` along
 We can also look at other metrics. Here we can see that we've gone over quota during some recent experiments with the Service Management APIs:
 
 ```prompt
-q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/exceeded | jq | more
+q monitoring list-time-series $PROJECT \
+    serviceruntime.googleapis.com/quota/exceeded | jq | more
 ```
 ```
 [
@@ -318,19 +329,19 @@ q monitoring list-time-series bobadojo serviceruntime.googleapis.com/quota/excee
 It's a bit out of scope for our purposes, but it's also possible to write time series data using our own calls to `MetricService`. Here as an example, we write two values to a custom metric and then read the resulting time series.
 
 ```prompt
-q monitoring create-time-series bobadojo custom.googleapis.com/stores/orders 10
+q monitoring create-time-series $PROJECT custom.googleapis.com/stores/orders 10
 ```
 ```
 Done writing time series data.
 ```
 ```prompt
-q monitoring create-time-series bobadojo custom.googleapis.com/stores/orders 25
+q monitoring create-time-series $PROJECT custom.googleapis.com/stores/orders 25
 ```
 ```
 Done writing time series data.
 ```
 ```prompt
-q monitoring list-time-series bobadojo custom.googleapis.com/stores/orders | jq
+q monitoring list-time-series $PROJECT custom.googleapis.com/stores/orders | jq
 ```
 ```
 [

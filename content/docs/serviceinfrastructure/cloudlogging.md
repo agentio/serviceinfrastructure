@@ -43,7 +43,7 @@ The full names of these methods begin with `google.logging.v2.LoggingServiceV2.`
 We discuss `ListLogs` first, because it provides us with the list of logs in our project. You'll see from the list below that a variety of logs exist, and we see several that are created by Cloud Run (with `run.googleapis.com` in their name). The log for our service is named with the service name, followed by %2F (a url-encoded forward slash), and `endpoints_log`.
 
 ```prompt
-q logging list-logs projects/bobadojo
+q logging list-logs projects/$PROJECT
 ```
 
 ```
@@ -66,7 +66,8 @@ projects/bobadojo/logs/stores.endpoints.bobadojo.cloud.goog%2Fendpoints_log
 We can read the entries in a log with `ListLogEntries`. This can return many values, so here we display only the two most recent. You'll see below that the logs include API keys. We've replaced them with `REDACTED` in the text below, but in the original response these were raw (unencrypted) API key strings.
 
 ```prompt
-q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 2
+q logging list-log-entries $PROJECT \
+    stores.endpoints.$PROJECT.cloud.goog/endpoints_log --limit 2
 ```
 
 ```
@@ -177,7 +178,10 @@ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoin
 To illustrate a tighter filter, let's ask for the most recent call to `ListStores`.
 
 ```prompt
-q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1 --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/ListStores"'
+q logging list-log-entries $PROJECT \
+    stores.endpoints.$PROJECT.cloud.goog/endpoints_log \
+    --limit 1 \
+    --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/ListStores"'
 ```
 
 ```
@@ -238,7 +242,10 @@ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoin
 As one more example, let's ask for the most recent request that resulted in a non-OK (200) response code.
 
 ```prompt
-q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1 --filter ' AND httpRequest.status != 200'
+q logging list-log-entries $PROJECT \
+    stores.endpoints.$PROJECT.cloud.goog/endpoints_log \
+    --limit 1 \
+    --filter ' AND httpRequest.status != 200'
 ```
 
 ```
@@ -301,8 +308,11 @@ q logging list-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoin
 
 As an example, here's a `q` command that tails the log entries for our API, filtering to only show requests to `FindStores`:
 
-```
-q logging tail-log-entries bobadojo stores.endpoints.bobadojo.cloud.goog/endpoints_log --limit 1000 --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/FindStores"'
+```prompt
+q logging tail-log-entries $PROJECT \
+    stores.endpoints.$PROJECT.cloud.goog/endpoints_log \
+    --limit 1000 \
+    --filter ' AND httpRequest.request_url = "/bobadojo.stores.v1.Stores/FindStores"'
 ```
 
 ### DeleteLog
