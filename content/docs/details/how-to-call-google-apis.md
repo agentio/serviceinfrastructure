@@ -6,6 +6,13 @@ title: How to Call Google APIs
 
 Since the systems that we are using are provided as APIs, working with them will require us to call Google APIs. Here's a quick primer on how to do that.
 
+### A note on setup
+
+The examples that follow use the `PROJECT` environment variable. Here we set ours to `bobadojo`.
+```prompt
+PROJECT=bobadojo
+```
+
 ### Calling Google APIs with gcloud
 
 The [gcloud](https://cloud.google.com/cli) tool allows us to perform many GCP-related tasks, and these often include calling underlying APIs. This can't help us if we want to do something with an API that's not supported by `gcloud`, but that's actually pretty rare.
@@ -19,7 +26,7 @@ If you use the [Google Cloud Shell](https://cloud.google.com/shell/docs), you'll
 `gcloud` has a nice built-in way to learn about Google APIs. Just add the `--log-http` flag to any `gcloud` command, and it will print all of the API calls that it makes along with their responses. Here's an example:
 
 ```prompt
-gcloud endpoints services describe stores.endpoints.bobadojo.cloud.goog --log-http
+gcloud endpoints services describe stores.endpoints.$PROJECT.cloud.goog --log-http
 ```
 ```
 =======================
@@ -144,7 +151,7 @@ Now let's call this API with `curl`. Expand your API Explorer view by clicking o
 
 That text is meant to be an example, but it has a few problems. First, we don't need the key query parameter, because [the translation v3 API doesn't accept API keys](https://cloud.google.com/translate/docs/authentication#api-keys). Next, we need to fill in a value for `[YOUR_ACCESS_TOKEN]`. Conveniently, we can get this from `gcloud`. We'll just take the output of `gcloud auth print-access-token` and use it in our call. We do that below using shell substitution, and note that we switched to using double quotes around the string where we make the substitution call (this is a shell trick needed to make the substitution work).
 ```prompt
-curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
+curl "https://translate.googleapis.com/v3/projects/$PROJECT:translateText" \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
   -d '{"contents":["hello"], "targetLanguageCode":"es"}' \
   -H "Content-Type: application/json"
@@ -172,14 +179,14 @@ We're almost there, but when we run the above command, we see another problem in
 }
 ```
 
-What is this quota project? Read [the documentation](https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds) if you are interested, but to keep going, just add the `x-goog-user-project` header to your requests like below, and be sure to replace "bobadojo" with your own project id. With that, your `curl` command should succeed.
+What is this quota project? Read [the documentation](https://cloud.google.com/docs/authentication/adc-troubleshooting/user-creds) if you are interested, but to keep going, just add the `x-goog-user-project` header to your requests like below. With that, your `curl` command should succeed.
 
 ```prompt
-curl "https://translate.googleapis.com/v3/projects/bobadojo:translateText" \
+curl "https://translate.googleapis.com/v3/projects/$PROJECT:translateText" \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
   -d '{"contents":["hello"], "targetLanguageCode":"es"}' \
   -H "Content-Type: application/json" \
-  -H "x-goog-user-project: bobadojo"
+  -H "x-goog-user-project: $PROJECT"
 ```
 ```
 {
@@ -232,11 +239,11 @@ protoc google/cloud/translate/v3/translation_service.proto \
 grpcurl -protoset descriptor.pb \
     -d @ \
     -H "Authorization: Bearer `gcloud auth print-access-token`" \
-    -H "x-goog-user-project: bobadojo" \
+    -H "x-goog-user-project: $PROJECT" \
     translate.googleapis.com:443 \
     google.cloud.translation.v3.TranslationService/TranslateText <<EOM
 {
-  "parent": "projects/bobadojo",
+  "parent": "projects/$PROJECT",
   "source_language_code": "en",
   "target_language_code": "es",
   "mime_type": "text/plain",
