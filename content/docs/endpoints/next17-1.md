@@ -8,14 +8,13 @@ bookHidden: true
 
 {{< youtube bR9hEyZ9774 >}}
 
-_The following is a revision of the YouTube transcript linked above, edited for correctness and clarity._
+_The following is a revision of the YouTube transcript linked above, edited for clarity._
 
 [MUSIC PLAYING] 
 
-FRANCESC CAMPOY: Hello, everybody. I'm Francesc Campoy, and today I'm going to be talking about Cloud Endpoints. The whole point of the talk is to give you an idea of what Google Cloud Endpoints is able to do today and to also give you a-- let you imagine what we will be adding later on. A little bit about myself, I'm a Developer Advocate at Google.
-So my job is to advocate for developers and make them happy. I've been working with the Go Team for quite a while.
-And I care mostly about developer experience. That is basically my whole goal. To have developers that are happy
-means that their experience should be good. And that's why I'm so excited about Google Cloud Endpoints. Because it makes developer experience
+FRANCESC CAMPOY: Hello, everybody. I'm Francesc Campoy, and today I'm going to be talking about Cloud Endpoints. The whole point of the talk is to give you an idea of what Google Cloud Endpoints is able to do today and to also give you a-- let you imagine what we will be adding later on. A little bit about myself, I'm a Developer Advocate at Google. So my job is to advocate for developers and make them happy. I've been working with the Go Team for quite a while. And I care mostly about developer experience. That is basically my whole goal. To have developers that are happy means that their experience should be good.
+
+And that's why I'm so excited about Google Cloud Endpoints. Because it makes developer experience
 for many things actually nice, which is not something that-- it's not always the word that you
 can use when you're talking about Auth2 and stuff like that. So the agenda for today is going to be-- we're
 going to start talking first about what is actually an API, and specifically, a REST API, which is part of what
@@ -26,6 +25,7 @@ And then we're going to talk about Cloud Endpoints. We're going to talk about wh
 But also about how it's actually architectured behind it so you can understand exactly how it works and understand
 how you could extend it. And finally, we're going to do what the talk is about,
 serving your API to the world. And the world will be myself, in this case, but you know, it's something.
+
 So let's start with, what is an API?
 I'm sure that you all know what an API is. You've all used at least once an API.
 And API's an Application Programming Interface. And basically, the whole point is
@@ -35,7 +35,9 @@ We have a webpage serving some data from a data store.
 And you can either use the webpage-- you're a human being and you go in there click on buttons.
 But if you're a program, you don't want to go there clicking buttons, because then you need to scrape HTML. And if you've ever done that, it's not super fun
 and also not always allowed. So very often we allow this other way
-of using the program, same program, just a different way of using it. Cool, so what is a REST API?
+of using the program, same program, just a different way of using it. 
+
+Cool, so what is a REST API?
 I'm not going to try to remember what REST stands for, because there's no point and it really
 doesn't mean that much, at least in my opinion. But REST is about these three things.
 We have resources. And those resources are your things, the things that you care about on your business logic.
@@ -50,8 +52,9 @@ And finally we have the representation. And representation, in the case of rest 
 So for example, we can have here our /product that represents
 our resource, so all the products that we have. If we do a POST and send this JSON here, what we're doing
 is we're creating a new resource with that POST method,
-pretty simple. Now, this is REST, right? This is not REST.
-This is gRPC. But with gRPC you can actually do things that are very, very, very similar to REST.
+pretty simple. Now, this is REST, right?
+
+This is not REST. This is gRPC. But with gRPC you can actually do things that are very, very, very similar to REST.
 You can create REST, not RESTful, but RESTish-- I decided to call them-- RESTish APIs that basically allow you to do the same things
 with the same style but with a different way of naming the resources.
 Normally, in this case, it could be product service. You can create them calling it, create method.
@@ -62,7 +65,9 @@ we code them again somewhere else. That's pretty much what you do most of the ti
 they're encoded as binary format. Then coding and decoding is way faster and also more performance when you want to send it.
 At the same time, they are better for versioning. So if you have never used protocol buffers
 I think it's a good thing to do. But today we're going to be talking about REST APIs-- so JSON.
-Cool. So let's talk about the demo that we're going to be using today.
+Cool.
+
+So let's talk about the demo that we're going to be using today.
 We're going to be using one of the simplest demos, because the whole point of the demo is not to have a very complicated, very
 complicated domain. It's to show you all the things that Cloud Endpoints can do for you without having to add, basically, any code.
 OK. So let me see-- there you go.
@@ -82,13 +87,16 @@ There you go, Body. OK. So if I send--
 what is going on? Raw. There you go. OK. So I can send some JSON and say, my message is hello.
 And then I can send it. And I receive it back. That's it. That's everything this demo does.
 You send a message, and it receives this back, right? Right now there's no Cloud Endpoints going on. It's just some Containers running on Kubernetes, GKE,
-Google Container Engine. That's pretty much it. Now what we're going to do, of course, is to actually add Cloud Endpoints to this
+Google Container Engine. That's pretty much it.
+
+Now what we're going to do, of course, is to actually add Cloud Endpoints to this
 and see everything we can do. If I remember correctly-- there you
 go-- if you write something that doesn't correspond, it's not good JSON, it will fail. And also, if you try to send something
 to a URL that doesn't exist, you will get a 404. If you get a 404 that is kind of an ugly one,
 it's just some text. So if you're serving an API, this is probably not what you want to do. But we'll see how Endpoints actually fixes that directly
 without you having to do anything.
 Demoing with two computers at the same time is not easy. [CHUCKLES]
+
 OK. So we have that demo, right? And the next question is, well, I want to let people use it,
 to use it, right? How can they use it? What is the message they should send?
 What is the message they should receive? What are the paths that are accepted? What are the methods on those paths that are accepted?
@@ -162,6 +170,7 @@ which is a POST method, then you have this operation. OK? That operation, what y
 well, there's the description. This is the operationID. And we're going to see what this is useful for.
 OperationID is not compulsory, but it's very useful when you're generating code. And you'll again say what it's producing, application JSON.
 And then you have responses and parameters. And this is very interesting, because basically what you're saying is-- what do I get from the request?
+
 So what are the parameters that I'm receiving? And what do I send back?
 In our case, the responses we're going to say, well, there's two cases. One is 200, also known as the status code, OK.
 And in which case, we're sending the echo back. Our [AUDIO OUT] says. It just sends the message back.
@@ -212,7 +221,9 @@ There's documentation about that. I feel like every single person that has tried
 has discovered the options method. It's a method in HTTP that nobody
 uses except for this tool. So you need to support it.
 Cool. OK. So this brings a lot of value, right?
-But again, this is still not Cloud Endpoints. What is Cloud Endpoints? Well, Cloud Endpoints is something
+But again, this is still not Cloud Endpoints.
+
+What is Cloud Endpoints? Well, Cloud Endpoints is something
 that has been built to-- given just this specification--
 give you more value, give you a bunch of things that you need to do. If you want to expose your API to the world,
 there's things like monitoring authentication that you should be doing. But you do not need to write those.
@@ -225,6 +236,7 @@ Not anymore. That's the whole point of Cloud Endpoints is getting that idea that
 it accessible to everywhere-- no matter if you're running Java, Python, or Go, or PHP,
 or whatever language you want. And if you're running it on APP Engine, or in a Container, or somewhere in a machine that is hiding in your closet.
 We do not care about that. You are able to run it wherever.
+
 So what it is is an API gateway, and it's an API gateway
 that is distributed. We're going to see that later on the architecture diagrams. But the cool thing is that this is very integrated, right?
 So it is integrated with deployments for App Engine. If you're using App Engine flexible environment,
@@ -242,7 +254,9 @@ going to explain why this is fast and scales very well. You can run it anywhere.
 You can run the Endpoints thing, that API gateway, you can run it on App Engine.
 So if you run on App Engine, you can run on App Engine flexible for whatever you want to do, or App Engine standard with the frameworks for Java and Python.
 You can run it on Container Engine. You can run it on Compute Engine. Or really, you can run it anywhere where you are able to run a Container.
-If it runs on a Container, you can run it. So how does this actually work?
+If it runs on a Container, you can run it.
+
+So how does this actually work?
 Too much partying yesterday. My voice is destroyed.
 So first what you do is you deploy an API.
 What you do is you code with GCloud. You send the API specification, that openapi.yaml file that we saw before, and you send it to the Google Service
@@ -258,6 +272,7 @@ The container checks with the Google Service Control if this is allowed or not.
 If it is allowed, it sends it to your actual code.
 That, again, could be running anywhere. And finally it logs everything to Stackdriver for logs,
 and monitoring, and traces. That's it. This is the whole thing.
+
 Now, the important thing is that-- I don't know if you're able to see it. I'm not really able to see it--
 but there's a little blue box running both the Extensible Service Container and my code.
 That box is a node. And I'm calling it a node because it could be anything. It could be a path on kubernetes,
@@ -275,7 +290,9 @@ So you can imagine how this scales very well with kubernetes. You just create a 
 One container is your back-end code. The other container is the ESP as a sidecar we call it.
 So let's do that.
 OK. So the important thing here is my Go program will not change at all.
-It's going to be exactly the same code. So I then need to change it.
+It's going to be exactly the same code.
+
+So I then need to change it.
 I'm going to kill the server. What I'm going to do is, I'm going to go to my zero, one.
 I have my openapi.yaml. Openapi.yaml is exactly what I showed you before,
 expressing all the methods for every path, the definitions, et cetera.
@@ -304,7 +321,9 @@ the greatest. But it's already there. And then we have the container on top, whi
 And on ESP you can see that we have a couple parameters. One of the parameters is what port this is serving,
 8081, which means that a load balancer will be sending traffic to that port.
 It has the traffic where it should be sending these back. So where is your back-end, which is localhost 8080, which is where my echo server is running.
-And then we have the name and the version. So I'm going to change the version. I'm going to update that.
+And then we have the name and the version.
+
+So I'm going to change the version. I'm going to update that.
 I'm going to set the new one. And now everything I need to do is redeploy my server.
 So to do that, simply I do kubectl
 apply -f container-engine. So now what I did is I updated this version.
@@ -335,13 +354,16 @@ say, PHP. Why not? I can come here, open my PHP code, and the library, model.
 It created the echoMessage. And I'm going to show much code just to give you an idea that this was all to generate directly.
 So now you have the capacity of generating customer libraries for all the languages that Swagger supports,
 which is actually many of them. There's actually not that many languages that people really use in production that are not supported by Swagger by now.
-OK. So now if we go back to my console here--
+OK. 
+
+So now if we go back to my console here--
 that one is-- we have our Endpoints.
 So many of them now. I remember two years ago there was nothing there.
 And we have Cloud Next Endpoints-- this one here. So that one was added now because I deployed this, right?
 So if I send requests-- let's send a bunch of requests with this.
 A request that works maybe. So this is my load testing.
 [LAUGHTER] There you go. It's like Candy Crush but with HTTP.
+
 OK. So now you can see that I got to an amazing 0.05 requests per second, which is pretty sad.
 But you can see how the monitoring went up directly, right? I did not have to do anything.
 Now I have monitoring. I am able to see what's going on with that measure. I'm able to start to create alerts.
@@ -391,7 +413,9 @@ So if we go back here and try to send a message
 that should not work. That's it. Now it's-- we have API security, API keys that is exposed here.
 Method doesn't allow unregistered callers. Please use API key or the form of API consumer identity
 to call this API. Who wrote that? Not me. Yeah. This is super simple to use.
-And it's now secured. My Go code has not changed yet. So how do we make this work?
+And it's now secured. My Go code has not changed yet.
+
+So how do we make this work?
 I want to call that API. So the way it's going to work is I need to go to here.
 And I'm going to create an API manager.
 I'm going to go to credentials. We're going to create a new API key.
@@ -449,7 +473,7 @@ And then I'm going to enable it and call it with an API key that is generated fr
 OK. So first step, we're going to go here to our Endpoints
 right there. This is the one. We're going to click on share API.
 And I'm going to just-- OK, I'm going to remove it. I'm going to share it with myself.
-So I'm going to share it with campoy83@gmail.com. Now you know how old I am.
+So I'm going to share it with [REDACTED]. Now you know how old I am.
 And now I have shared that API. What's next? I'm going to log in with my personal account, which
 if I'm not completely mistaken is here. OK. That is my personal account.
 You can see it's a completely different picture. That's the proof. And now what I can see is I can go to API manager.

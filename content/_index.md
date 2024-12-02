@@ -4,7 +4,7 @@ type: docs
 bookToC: false
 ---
 
-![Seattle Infrastructure by Marsh Gardiner, 2018](/images/seattle-infrastructure.jpg)
+![Seattle Infrastructure by Marsh Gardiner, 2018](/images/seattle-abstract.jpg)
 
 This website describes a way to manage APIs that is inexpensive, high-performing, and surprisingly easy to use.
 

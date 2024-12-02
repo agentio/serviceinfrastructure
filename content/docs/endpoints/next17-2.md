@@ -8,7 +8,7 @@ bookHidden: true
 
 {{< youtube 4PgX3yBJEyw >}}
 
-_The following is a revision of the YouTube transcript linked above, edited for correctness and clarity._
+_The following is a revision of the YouTube transcript linked above, edited for clarity._
 
 [MUSIC PLAYING] 
 
