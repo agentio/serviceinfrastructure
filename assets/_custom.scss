@@ -38,13 +38,13 @@ $main-text-color: black;
 $main-link-color: $blue;
 $main-link-visited-color: $blue;
 
-$callout-background-color: #ddd;
+$callout-background-color: #d8d8d8;
 $callout-text-color: black;
 $callout-link-color: black;
 $callout-link-visited-color: black;
 $callout-link-active-color: $red;
 
-$highlight-background-color: #eee;
+$highlight-background-color: #e8e8e8;
 $highlight-text-color: $green;
 
 body {
@@ -71,7 +71,7 @@ body {
 .book-menu .book-menu-content {
     background-color: $callout-background-color;
     color: $callout-text-color;
-    scrollbar-width: none;
+    scrollbar-color: #AAA $callout-background-color;
 }
 
 .book-menu a {
