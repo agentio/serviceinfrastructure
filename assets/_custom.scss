@@ -112,6 +112,12 @@ a:visited {
     color: $callout-text-color;
     margin: 0;
     padding: 0.25em 0.5em;
+    border-radius: 0;
+    outline-style:none;
+}
+
+.markdown pre:active {
+    border: none;
 }
 
 .markdown code {
@@ -148,4 +154,24 @@ div.goat {
 
 div.goat svg circle[fill="#fff"] {
      fill:$highlight-background-color; 
+}
+
+.copy-code-button {
+    color: $highlight-text-color;
+    background-color: $highlight-background-color;
+    border: 1px dashed;
+    display: block; /* right-align */
+    margin: 4px 0 -2px auto;
+    padding: 3px 8px;
+    font-size: 0.8em;
+}
+
+.copy-code-button:hover {
+    cursor: pointer;
+    background-color: $callout-background-color;
+}
+
+.copy-code-button:focus {
+    background-color: $callout-background-color;
+    outline: 0;
 }

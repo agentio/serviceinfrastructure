@@ -76,12 +76,15 @@ Some of its fields are worth describing:
 
 Let's use `q` to create an API key using the `CreateKey` method. We'll create a second key like the one that we created in the [quickstart](/demo/quickstart/demo). Recall that there we used this `gcloud` command:
 ```prompt
-KEY=$(gcloud services api-keys get-key-string projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
+KEY=$(gcloud services api-keys get-key-string \
+  projects/YOUR_PROJECT/locations/global/keys/demo --format json | jq .keyString -r)
 ```
 
 Now let's do the same thing with `q`:
 ```prompt
-q api-keys create-key --parent projects/bobadojo/locations/global --keyid demo2 --service stores.endpoints.bobadojo.cloud.goog | jq
+q api-keys create-key --parent projects/bobadojo/locations/global \
+    --keyid demo2 \
+    --service stores.endpoints.bobadojo.cloud.goog | jq
 ```
 
 ```

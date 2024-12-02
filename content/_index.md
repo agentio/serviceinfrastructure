@@ -4,6 +4,8 @@ type: docs
 bookToC: false
 ---
 
+![Seattle Infrastructure by Marsh Gardiner, 2018](/images/seattle-infrastructure.jpg)
+
 This website describes a way to manage APIs that is inexpensive, high-performing, and surprisingly easy to use.
 
 It's also great for APIs that are built with [gRPC](https://grpc.io) and [Protocol Buffers](https://protobuf.dev). It's the only API management system that starts with these powerful approaches, and if you are building APIs with them, you'll find it especially familiar.

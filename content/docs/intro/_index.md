@@ -10,7 +10,7 @@ type: docs
 
 ## Networked APIs
 
-Networked APIs are APIs that operate across computer networks. Networked APIs communicate using HTTP and similar protocols, and are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
+Networked APIs are APIs that operate across computer networks. Networked APIs communicate using HTTP and similar protocols, and they are frequently produced by organizations that are different from the ones that consume them. This brings many technical and social concerns.
 
 ## Common API Management Concerns
 
