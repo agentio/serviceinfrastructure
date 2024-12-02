@@ -8,6 +8,8 @@ bookHidden: true
 
 {{< youtube bR9hEyZ9774 >}}
 
+_The following is a revision of the YouTube transcript linked above, edited for correctness and clarity._
+
 [MUSIC PLAYING] 
 
 FRANCESC CAMPOY: Hello, everybody. I'm Francesc Campoy, and today I'm going to be talking about Cloud Endpoints. The whole point of the talk is to give you an idea of what Google Cloud Endpoints is able to do today and to also give you a-- let you imagine what we will be adding later on. A little bit about myself, I'm a Developer Advocate at Google.
@@ -142,7 +144,7 @@ And it's definitely more readable for machines. That is the whole point. You're 
 So it feels like we should go with the one that has the better tradeoffs. So I'd go with the last one.
 Which one? Well, you could go with RAML. You could go with WSDL--
 I think it's pronounced. You can go with WADL, or WADL, depending on where you're from.
-Or you can go with OPEN API Initiative also previously known as Swagger.
+Or you can go with Open API Initiative also previously known as Swagger.
 How many of you have used Swagger? Cool. OK. So that is the one we're using.
 If you use Swagger, the whole point is that you're able to do many cool things. You specify mainly for components.
 So when you're doing a Swagger API, you have information about the API itself.
@@ -170,7 +172,7 @@ So we're saying it's an error message, which is also in definitions.
 What do we receive? Well, that you're going to have in parameters. And we're going to say that we're receiving a message.
 So the schema is again the echoMessage. But what is interesting is we are actually saying
 these will be in the body. Right? You could have many different places. You could have this as a parameter in the URL.
-You could have it as part of the path. There is many places where that information could be. And Swagger, Open API specification
+You could have it as part of the path. There is many places where that information could be. And Swagger, OpenAPI Specification
 allows you to specify exactly where this is coming from.
 What does the definition look like? Well, error message. We're saying, for instance, this is a type: object.
 So it has a bunch of fields. And the fields are both required, messaging code,
@@ -233,7 +235,7 @@ And it also integrates with Stackdriver logging and Stackdriver Trace. So whenev
 you're going to be able to see that in your logs and also in traces. So you're going to be able to track, to measure latency,
 and things like that, without having to carry it in your code. So the key features are authentication.
 So you're able to authenticate users and control who has access to what.
-All of this, just by adding things, security definitions to your open API specification.
+All of this, just by adding things, security definitions to your OpenAPI Specification.
 You're going to get also logging and monitoring. And this is really fast.
 It is incredibly fast. And it scales really well. And we're going to see why it's-- I'm not a marketing person, so I'm
 going to explain why this is fast and scales very well. You can run it anywhere.

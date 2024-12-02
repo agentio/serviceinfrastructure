@@ -8,7 +8,7 @@ bookHidden: true
 
 {{< youtube 4PgX3yBJEyw >}}
 
-#### Transcript from Google Cloud Next '17
+_The following is a revision of the YouTube transcript linked above, edited for correctness and clarity._
 
 [MUSIC PLAYING] 
 
@@ -52,7 +52,7 @@ You can place your calls from anywhere. Here, we show them from an Android app, 
 
 When calls go through they get forward to your backend, and if a call is rejected, say it's not authenticated, it never gets to your backend. About a year and a half ago when we really started saying, hey, we want to handle any language, it was clear to us that we needed an IDL that could describe these APIs. When we stepped away from the framework world, we need a way for you to tell us what your API is no matter what language you're writing it.
 
-And so we looked around at the different IDLs that existed at that time and we saw that Swagger really had a lot of traction, and we decided that we would adopt Swagger for this project. And just about that time that we started working with them, they announced that they were forming-- or they told us that they were forming the open API initiative. So we became one of the founding members of the open API initiative, along with a lot of other industry heavyweights, and are now brothers in arms apogee to join this initiative that owns the open API specification. So we're using the open API spec, not just to describe the surface of your API, but also the config for how you want us to manage it.
+And so we looked around at the different IDLs that existed at that time and we saw that Swagger really had a lot of traction, and we decided that we would adopt Swagger for this project. And just about that time that we started working with them, they announced that they were forming-- or they told us that they were forming the Open API Initiative. So we became one of the founding members of the Open API Initiative, along with a lot of other industry heavyweights, and are now brothers in arms Apigee to join this initiative that owns the OpenAPI Specification. So we're using the open API spec, not just to describe the surface of your API, but also the config for how you want us to manage it.
 
 So you use extensions in the open API spec to say, hey, these methods need auth, or use an API key here, and we really like that. We really think it's a powerful and kind of imperative way for you to describe the way you want us to manage your API.
 
@@ -84,7 +84,7 @@ DAN CIRULI: If I want to, can I serve this from a different URL?
 
 SEP EBRAHIMZADEH: You can, yes. This is not the DNS record that you'll be calling your API with. Because you might want to have your endpoints API be backed by basically backends deployed on different compute platforms at the same time. For the sake of this demo, I'll be deploying on App Engine Flex, but you might want to deploy on Google Compute Engine, or basic Kubernetes on other cloud providers, or even you on-prem data centers, and endpoint should work in all of those scenarios.
 
-So let's go out of this open API spec and run a gcloud command and gcloud, as I'm sure you're-- who's used gcloud before? Great. Now, gcloud, as I'm sure you're aware, is the CLI for almost all of Google Cloud products and I'll be running this gcloud command that uploads the open API specification to the control plane for endpoints. So I'm running gcloud service-management deploy and an openapi.yaml.
+So let's go out of this open API spec and run a gcloud command and gcloud, as I'm sure you're-- who's used gcloud before? Great. Now, gcloud, as I'm sure you're aware, is the CLI for almost all of Google Cloud products and I'll be running this gcloud command that uploads the OpenAPI Specification to the control plane for endpoints. So I'm running gcloud service-management deploy and an openapi.yaml.
 
 So what's happening right now is the open API is sent to the control plane. The control plane takes a look at it and validates it. So it looks for any mistakes in it, inconsistencies, it also compares it to a style guide that we have and we've published as the style guide for how to design your APIs so that they're hopefully future proof and they're consistent.
 
@@ -116,7 +116,7 @@ DAN CIRULI: So people who are using App Engine are used to getting request log, 
 
 So you can not just see, hey, the 98th percentile say for our API is high. You might see there's just one particular method that has a latency that's high or that's getting increased the error rates. So it's giving you a higher fidelity of metrics and a higher fidelity of logs because we know about your API.
 
-SEP EBRAHIMZADEH: Exactly that. So that's pretty cool. We just uploaded our open API specification, which we were going to write anyways in order to communicate the surface of our API to our clients, and we got monitoring and logging effortlessly.
+SEP EBRAHIMZADEH: Exactly that. So that's pretty cool. We just uploaded our OpenAPI Specification, which we were going to write anyways in order to communicate the surface of our API to our clients, and we got monitoring and logging effortlessly.
 
 But the focus of the talk is authentication. As you noticed, I made the curl command from my laptop, and this API is open on the public internet. Whoever has this URL can go call it now. So how do I secure it? I have multiple options for doing that. I could go and write a lot of Note.js code in order to expect authentication tokens and the requests that are coming in, and basically verify the signature of those authentication tokens, and do all the hard work myself.
 
@@ -126,7 +126,7 @@ The only thing I've changed is the name of the API, which is to say it's echo-ap
 
 Now, we will talk about other identity providers and identity provider hubs like Auth0, Firebase, and other third parties that we support, as well as custom JWT after this part of the demo. The second part, if you're familiar with open API, is simply saying that this google_id_token security definition should be required for all the methods in this API. Alternatively, I could have required just some of the methods to have authentication and keep the rest either open, or have multiple security definitions here and say these methods require that security definition, those other methods require another security definition. So we'll talk about why that might be useful. But let's exit this and do the same thing we did before, gcloud service-management.
 
-Deploy this open API specification to the endpoints control plane. At the end, so after a few seconds, once it finishes, it will give me a configuration ID and it has persisted this version of my open API spec. And what I'll do with that, I'll copy the configuration ID and I'll put it in the application.yaml file for App Engine, just like I did previously.
+Deploy this OpenAPI Specification to the endpoints control plane. At the end, so after a few seconds, once it finishes, it will give me a configuration ID and it has persisted this version of my open API spec. And what I'll do with that, I'll copy the configuration ID and I'll put it in the application.yaml file for App Engine, just like I did previously.
 
 You'll notice of warning message here. This is one of the validations that it's doing. It's saying that the echo method is not protected with API keys. It's asking if I'm sure that I want to put this up because then it would be publicly accessible and it doesn't know that I have security requirements on this method with security definitions, but that's the nice thing about having your open API spec validated.
 
@@ -175,7 +175,7 @@ So on Google, you don't have to worry about that when you're calling, when your 
 
 SEP EBRAHIMZADEH: Exactly. So let's go ahead and test this one out and sure enough, the same thing. If I don't give it any credentials, the call fails with an HTTP 401. If I give it this service account credentials file, it will create a signed_JWT, get an ID token, and call the API with that ID token. So that's pretty cool, but it shows the advantage and disadvantage of running your client side on the Compute Engine, or App Engine, or basically the other compute platform that we have on GCP. So, we can go back to the endpoints dashboard, and see the same graphs, and see the APIs running side by side.
 
-This is the endpoints API with authentication and I've been generating some traffic against it. So this one will also have metrics and it also shows the 400 requests that were rejected because they didn't have authentication. So with that, let's go back to the slides, please. So what did we just look at? First, we looked at some sample Node.js code, and the code might have easily been written in a different language or a different framework. We showed that it implemented a rest API and we showed how easy it was to write an open API specification that describes the methods, requests, responses, and documentation for that API.
+This is the endpoints API with authentication and I've been generating some traffic against it. So this one will also have metrics and it also shows the 400 requests that were rejected because they didn't have authentication. So with that, let's go back to the slides, please. So what did we just look at? First, we looked at some sample Node.js code, and the code might have easily been written in a different language or a different framework. We showed that it implemented a rest API and we showed how easy it was to write an OpenAPI Specification that describes the methods, requests, responses, and documentation for that API.
 
 And that if you have the open API spec, you basically have an endpoints API, and you can get metrics, logs, and authentication out of Endpoints for that. And of course, we saw that the calls we made before we added authentication succeeded. Once we added authentication, the unauthenticated calls with curl, or with the clients written in Python, failed.
 

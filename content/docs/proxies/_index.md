@@ -44,6 +44,8 @@ The Extensible Service Proxies run alongside API servers and are configured and 
 
 Often the ESP and API server are built into their own containers that are deployed together in a single Kubernetes or Cloud Run deployment. This isn't the only way to use an ESP; it could also be run elsewhere and handle requests for multiple backends. But because it is lightweight, and because we generally like to minimize the network delay between the ESP and the API server, we prefer this [sidecar deployment](/docs/glossary#sidecar-deployment).
 
+For more on the proxies including the answer to "why is the proxy called 'extensible'?" see this [transcript of the Google Cloud Platform Podcast](http://localhost:1313/docs/endpoints/endpoints-podcast/#why-is-the-proxy-called-extensible).
+
 There are two Google-supported versions of these proxies:
 1. [ESP](/docs/proxies/esp), a custom proxy based on nginx.
 2. [ESPv2](/docs/proxies/espv2), a custom proxy based on [Envoy](/docs/details/envoy).
