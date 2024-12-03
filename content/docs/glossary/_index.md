@@ -22,7 +22,7 @@ A [reverse proxy](#reverse-proxy) that provides sophisticated features that migh
 
 ## API Management
 
-Discussed in the [Introduction](/docs/intro), API management is the set of activities and interests that arise when APIs are used at scale.
+Discussed in the [Introduction](/docs/intro), API management is the set of activities and interests that arise when APIs are operated at scale.
 
 ## API Server
 

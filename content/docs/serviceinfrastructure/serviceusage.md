@@ -34,7 +34,7 @@ Here's what it looks like to create a new project in the cloud console:
 
 ![alt text](/screenshots/serviceusage-createproject.png)
 
-For the examples that follow, we set the `CLIENT` environment variable to the project ID of the new project and `PROJECT` for the id of the project that owns our service. For us, that's done below:
+For the examples that follow, we set the `CLIENT` environment variable to the project ID of the new project and `PROJECT` for the id of the project that owns our service. For us, that's done below. To use the examples that follow, do the same with your own values.
 
 ```prompt
 CLIENT=nodal-time-442104-f1
