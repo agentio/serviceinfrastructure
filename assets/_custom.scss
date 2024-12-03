@@ -38,7 +38,7 @@ $main-text-color: black;
 $main-link-color: $blue;
 $main-link-visited-color: $blue;
 
-$callout-background-color: #d8d8d8;
+$callout-background-color: #f4f4f4;
 $callout-text-color: black;
 $callout-link-color: black;
 $callout-link-visited-color: black;
@@ -76,7 +76,7 @@ body {
 .book-menu .book-menu-content {
     background-color: $callout-background-color;
     color: $callout-text-color;
-    scrollbar-color: #AAA $callout-background-color;
+    scrollbar-color: $callout-background-color;
 }
 
 .book-menu a {
