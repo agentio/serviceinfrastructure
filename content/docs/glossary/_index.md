@@ -1,10 +1,10 @@
 ---
 weight: 99
-title: Service Infrapedia
+title: Glossary
 bookFlatSection: true
 type: docs
 ---
-# Service Infrapedia
+# Glossary
 
 Here we run through a list of terms that are used in our discussion and provide definitions and extra detail that seems out of scope for the flow but worth mentioning.
 
@@ -30,7 +30,7 @@ Software that implements an API by accepting and responding to API requests. We 
 
 ## Cloud Endpoints
 
-A Google product that provides [API Gateways](#api-gateway) using [Service Infrastructure](#service-infrapedia) and [Extensible Service Proxies](#extensible-service-proxy).
+A Google product that provides [API Gateways](#api-gateway) using [Service Infrastructure](#service-infrastructure) and [Extensible Service Proxies](#extensible-service-proxy).
 
 ## Extensible Service Proxy
 

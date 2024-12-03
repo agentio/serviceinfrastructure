@@ -2,6 +2,7 @@
 weight: 1
 title: Managing APIs
 bookFlatSection: true
+bookCollapseSection: true
 type: docs
 ---
 # Managing APIs

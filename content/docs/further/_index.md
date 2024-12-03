@@ -2,6 +2,7 @@
 weight: 8
 title: Going Further
 bookFlatSection: true
+bookCollapseSection: true
 ---
 # Going Further
 

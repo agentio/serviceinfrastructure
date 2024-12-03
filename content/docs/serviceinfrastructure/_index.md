@@ -2,6 +2,7 @@
 weight: 3
 title: "Service Infrastructure"
 bookFlatSection: true
+bookCollapseSection: true
 ---
 # Service Infrastructure
 

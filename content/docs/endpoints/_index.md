@@ -1,6 +1,7 @@
 ---
 weight: 5
 bookFlatSection: true
+bookCollapseSection: true
 title: Cloud Endpoints
 ---
 # Cloud Endpoints

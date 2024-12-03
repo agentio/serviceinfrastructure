@@ -1,6 +1,7 @@
 ---
 weight: 4
 bookFlatSection: true
+bookCollapseSection: true
 title: "The Proxies"
 ---
 # The Extensible Service Proxies

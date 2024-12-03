@@ -10,7 +10,7 @@ This website describes a way to manage APIs that is inexpensive, high-performing
 
 It's also great for APIs that are built with [gRPC](https://grpc.io) and [Protocol Buffers](https://protobuf.dev). It's the only API management system that starts with these powerful approaches, and if you are building APIs with them, you'll find it especially familiar.
 
-It emerged from internal API management practices at Google, and as you might hope, it works great on Google Cloud, but it's not limited to that. We'll show you how it can be used with or without Kubernetes on any cloud platform and on systems that you manage yourself.
+It emerged from internal API management practices at Google, and as you might hope, it works great on Google Cloud, but it's not limited to that. We'll show you how it can be used with or without Kubernetes on any cloud platform and on systems that you run yourself.
 
 We start with a review of [API Management](/docs/intro) and discuss what's special about [gRPC API Management](/docs/intro/grpc). Then we look at Google's [Service Infrastructure](/docs/serviceinfrastructure) and the [Extensible Service Proxies](/docs/proxies). These are the key parts of our API management solution.
 
