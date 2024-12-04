@@ -1,7 +1,6 @@
 
 // https://www.dannyguo.com/blog/how-to-add-copy-to-clipboard-buttons-to-code-blocks-in-hugo/
 
-
 if (navigator && navigator.clipboard) {
     addCopyButtons(navigator.clipboard);
 } else {
@@ -16,8 +15,6 @@ if (navigator && navigator.clipboard) {
     document.body.appendChild(script);
 }
 
-
-
 function addCopyButtons(clipboard) {
     document.querySelectorAll('pre > code').forEach(function (codeBlock) {
         var pre = codeBlock.parentNode;
@@ -25,7 +22,7 @@ function addCopyButtons(clipboard) {
             var button = document.createElement('button');
             button.className = 'copy-code-button';
             button.type = 'button';
-            button.innerText = 'copy';
+            button.innerText = 'copy↯';
             button.addEventListener('click', function () {
                 clipboard.writeText(codeBlock.innerText).then(function () {
                     /* Chrome doesn't seem to blur automatically,
@@ -33,7 +30,7 @@ function addCopyButtons(clipboard) {
                     button.blur();
                     button.innerText = 'copied!';
                     setTimeout(function () {
-                        button.innerText = 'copy';
+                        button.innerText = 'copy↯';
                     }, 2000);
                 }, function (error) {
                     button.innerText = 'Error';
