@@ -45,4 +45,4 @@ Projects like [rejoiner](https://google.github.io/rejoiner/) show that gRPC APIs
 Is there something else that you would like to get from gRPC API management? Tell us on [our issues page](https://github.com/agentio/serviceinfrastructure/issues).
 
 ---
-#### Continue with [Get the Picture!](/docs/intro/picture).
+#### Continue with [The Picture](/docs/intro/picture).
