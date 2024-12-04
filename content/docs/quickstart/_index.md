@@ -1,7 +1,7 @@
 ---
 weight: 2
 title: A Quick Start
-bookFlatSection: true
+bookFlatSection: false
 bookCollapseSection: true
 ---
 # A Quick Start

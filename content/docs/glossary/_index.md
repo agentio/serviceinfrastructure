@@ -1,7 +1,7 @@
 ---
 weight: 99
 title: Glossary
-bookFlatSection: true
+bookFlatSection: false
 type: docs
 ---
 # Glossary

@@ -1,7 +1,7 @@
 ---
 weight: 7
 title: Going Deeper
-bookFlatSection: true
+bookFlatSection: false
 bookCollapseSection: true
 ---
 # Going Deeper
