@@ -7,13 +7,14 @@ bookSearchExclude: true
 
 weight: 80
 ---
-# Let's talk about IO
+# Let's talk about Agent IO
 
 Here we move through a series of perspectives that leads to an architecture for API management for entities that we call "agents".
 
 ## API Management
 
-In the [introduction](/docs/intro#api-proxies-and-gateways), we showed this general representation of API management.
+In the [introduction](/docs/intro#api-proxies-and-gateways), we showed this general representation of API management. There we said that forward proxies help people (API client developers) make requests and reverse proxies help people (API server developers) serve requests.
+
 ```goat
 .------------.     .---------------.                  .---------------.     .------------.
 |            |     |               |                  |               |     |            |
@@ -44,9 +45,33 @@ If we are writing an API client, we only need a forward proxy.
 .------------.     .---------------.
 ```
 
+## Agents
+
+But some applications need both kinds of proxies. Let's call these applications "agents". Agents accept requests from API clients and send their own (different) requests to API servers. Internally, they may be very complex and powerful, but at their boundaries, agents are just accepting and making requests. Without proxies, it looks like this:
+
+```goat
+.-------------.              .-----------.              .-------------.
+|             |              |           |              |             |
+| API clients +------------->|   Agent   +------------->| API servers |
+|             | API Requests |           | API Requests |             |  
+.-------------.              .-----------.              .-------------.
+```
+
+## Agents and Proxies
+
+Returning to our discussion of proxies, we can simplify agents by using forward and reverse proxies to manage their communications. Using proxies, an agent accepts requests that come through a reverse proxy and makes requests to other services using a forward proxy.
+
+```goat
+                  .---------------.     .-----------.     .---------------.
+                  |               |     |           |     |               |
+----------------->| reverse proxy +---->|   Agent   +---->| forward proxy +----------------->
+   API Requests   |               |     |           |     |               |   API Requests  
+                  .---------------.     .-----------.     .---------------.
+```                  
+
 ## Introducing IO
 
-But many applications need both. Let's call these applications "agents". Agents accept requests that come through a reverse proxy and make requests to other services using a forward proxy. Let's also suggest that there's a controller for an agent's proxies that we call `IO`. `IO`'s job is to coordinate all communication with the agent so that the agent only needs to do its unique job.
+This next picture suggests that there's a controller for an agent's proxies that we call `IO`. `IO`'s job is to configure and control the proxies, which now can be standard components that we use off-the-shelf, like Envoy. Together, IO and the proxies take over and handle all of the agent's communication so that the agent can focus on its unique purpose.
 
 ```goat
                   .---------------.     .-----------.     .---------------.
@@ -55,15 +80,14 @@ But many applications need both. Let's call these applications "agents". Agents 
    API Requests   |               |     |           |     |               |   API Requests  
                   .---------------.     .-----------.     .---------------.
                            ^                                      ^
-                  .--------+--------------------------------------+-------.
-                  +                          IO                           +
-                  .-------------------------------------------------------.
-
+                           |               .-----.                |
+                           +-------------->| IO  |<---------------+
+                                           .-----.
 ```
 
 ## IO with a remote controller
 
-It's likely that `IO` will need to communicate closely with the proxies. If it runs locally with them, it might call out to a centralized service for configuration and control.
+It's likely that `IO` will need to communicate closely with the proxies. If it runs locally with them, it might call out to a remote, centralized service for configuration and control.
 
 ```goat
                   .---------------.     .-----------.     .---------------.
@@ -79,7 +103,7 @@ It's likely that `IO` will need to communicate closely with the proxies. If it r
                                               |
                                               v
                                      .-----------------.
-                                     |  Agent Control  |
+                                     |   IO Control    |
                                      .-----------------.
 ```
 
@@ -93,7 +117,8 @@ Let's adjust the picture slightly to separate our agent from a "data plane" that
                            +----------->|   Agent   +-------------+
                            |            |           |             |
                            |            .-----------.             |
-                           |                                      |
+---------------------------+--------------------------------------+--------------------------
+                           |                                      |               Data Plane
                            |                                      v
                   .--------+------.                       .---------------.
                   |               |        .-----.        |               |
@@ -101,15 +126,17 @@ Let's adjust the picture slightly to separate our agent from a "data plane" that
    API Requests   |               |        .-----.        |               |  API Requests  
                   .---------------.           ^           .---------------.
                                               |
+----------------------------------------------+----------------------------------------------
+                                              |                                Control Plane
                                               v
                                      .-----------------.
-                                     |  Agent Control  |
+                                     |   IO Control    |
                                      .-----------------.
 ```
 
-## IO redrawn with Envoy
+## Using Envoy as our Proxy
 
-Now let's recognize that we can use Envoy for both proxies. Now our agent data plane has two layers: the Envoy proxy and its local `IO` controller.
+If we use Envoy as our configurable proxy, it can fill both roles: both forward and reverse proxy. Bringing those together into one component, our `IO` pops out and our data plane has two layers: the Envoy proxy and its local `IO` controller.
 
 ```goat
                                         .-----------.
@@ -117,7 +144,8 @@ Now let's recognize that we can use Envoy for both proxies. Now our agent data p
                            +----------->|   Agent   +-------------+
                            |            |           |             |
                            |            .-----------.             |
-                           |                                      |
+---------------------------+--------------------------------------+--------------------------
+                           |                                      |               Data Plane 
                            |                                      v
                   .--------+----------------------------------------------.
                   |                                                       |
@@ -132,13 +160,17 @@ Now let's recognize that we can use Envoy for both proxies. Now our agent data p
                                            .--+--+
                                               ^
                                               |
+----------------------------------------------+----------------------------------------------
+                                              |                                Control Plane  
                                               v
                                      .-----------------.
                                      |  Agent Control  |
                                      .-----------------.
 ```
 
-This is just the sidecar model that is widely used in service meshes. It only looks a bit different here because we're zooming in to focus on agents so that we can pay close attention to their specific needs. This also allows us to manage communications of an agent independently of how any other agent is managed.
+You might recognize this as the sidecar model that is widely used in service meshes. We've turned it on its side, putting the agent at the top, because we're zooming in pay close attention to the specific needs of agents. We're also going to pay less attention to the "mesh", focusing on managing the communications of an agent independently of how any other agent is managed.
+
+Also, uncommon in service meshes, we have a local controller for our Envoy. This is because we'll be proposing such a close integration of Envoy and IO that a remote controller is suboptimal, if not completely impractical. Also, by bringing IO closer to the agent, we bring it into the domain of the agent developer, who will have much to say about its configuration and capabilities.
 
 ## Agent IO Concerns
 
