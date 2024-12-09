@@ -12,7 +12,7 @@ weight: 20
 
 When we are setting up an IO, what do we care about?
 
-Here are some ideas that could be elements of an IO user interface.
+Here are some ideas that could be elements of an IO interactive user interface.
 
 ## The IO
 - what is its version?
@@ -24,6 +24,7 @@ Here are some ideas that could be elements of an IO user interface.
 - how do we start and stop it?
 - how do we update it?
 - what is the round trip time from IO to the proxy?
+- is it healthy? (number of threads or goroutines, memory usage, time of operation, etc)
 
 ## The Forward Interface, aka "Calling"
 - what is its configuration?
@@ -38,4 +39,4 @@ Here are some ideas that could be elements of an IO user interface.
 ## The Agent Controller
 - where is it?
 - how do we authenticate to it?
-- how do we register our identity with it?
+- how do we register our identity ("enroll our IO") with it?

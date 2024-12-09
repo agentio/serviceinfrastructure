@@ -13,3 +13,5 @@ Thoughts on a new approach to API management.
 
 - [Planning Agent IO](/docs/io/planning)
 - [Agent IO Concerns](/docs/io/concerns)
+
+![alt text](/screenshots/io-serving.png)
