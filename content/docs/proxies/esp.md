@@ -1,7 +1,6 @@
 ---
 weight: 1
 title: ESP
-bookToC: false
 ---
 ## ESP, The Extensible Service Proxy
 
@@ -9,13 +8,13 @@ ESP, the "Extensible Service Proxy", is the original proxy developed for [Cloud 
 
 ESP is a custom build of nginx with source available at [github.com/cloudendpoints/esp](https://github.com/cloudendpoints/esp).
 
-### Running ESP
+## Running ESP
 
 Official container images are available at `gcr.io/endpoints-release/endpoints-runtime:1`.
 
 ESP startup options are documented [here](https://cloud.google.com/endpoints/docs/grpc/specify-proxy-startup-options).
 
-### Building ESP
+## Building ESP
 
 [github.com/agentio/esp](https://github.com/agentio/esp) is a fork that includes a [Dockerfile](https://github.com/agentio/esp/blob/master/Dockerfile) and configuration to use GitHub actions to build alternate container images that are published at [github.com/agentio/esp/pkgs/container/esp](https://github.com/agentio/esp/pkgs/container/esp).
 
@@ -23,7 +22,7 @@ Note that ESP is lightly maintained, with just [a few recent commits](https://gi
 
 You'll also see that the Dockerfile builds ESP on Ubuntu 16.04. This follows the [build instructions in the main repo](https://github.com/cloudendpoints/esp/blob/master/doc/build-esp-on-ubuntu-16-04.md). It also uses a very old version of Bazel (0.21.0) (Bazel is now [past 9.0.0](https://bazel.build/release/rolling)). This makes building and debugging ESP challenging.
 
-### Debugging ESP
+## Debugging ESP
 
 Possibly the easiest way to modify ESP and debug it is to modify the source locally and use `docker build` to build a local container image. Noting the error message that we saw when we had problems running ESP with our demo API, we find that it occurs once in the source code [here](https://github.com/cloudendpoints/esp/blob/1a01fe7e15152e4fd35dbb56f6b3ca829fce229b/src/api_manager/config.cc#L431):
 
