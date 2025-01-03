@@ -6,6 +6,7 @@ build:
 	hugo --minify --theme hugo-book
 
 deploy: build
+	gcloud config set project serviceinfrabook
 	gcloud app deploy
 
 clean:
