@@ -1,5 +1,5 @@
 googleAnalytics = 'G-99FDL1RV10'
-baseURL = 'https://serviceinfra.dev/'
+baseURL = 'https://serviceio.dev/'
 languageCode = 'en-us'
 title = 'Managing APIs with Service Infrastructure'
 
