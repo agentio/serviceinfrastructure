@@ -35,7 +35,7 @@ type InterceptingHandler struct {
 const HOST = "serviceio.dev"
 
 func (h *InterceptingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if r.Host != HOST {
+	if r.Host != HOST && !strings.Contains(r.Host, "localhost") {
 		path := "https://" + HOST + r.URL.Path
 		http.Redirect(w, r, path, http.StatusSeeOther)
 		return
