@@ -23,9 +23,7 @@ Envoy continues to provide a useful collection of filters that ESPv2 uses and th
 - [grpc_json_transcoder](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_json_transcoder_filter)
 - [grpc_web](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/grpc_web_filter)
 
-We could also explore building proxies on other tools such as [caddy](https://caddyserver.com/) or even building a proxy from scratch.
-
-However, Envoy has 
+We could also explore building proxies on other tools such as [caddy](https://caddyserver.com/) or even building a proxy from scratch. However, Envoy has 
 [lots of usage](https://www.envoyproxy.io/),
 [a security-hardened data plane](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/securing),
 and [many features](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/http_filters) that could give us a significant headstart on the next generation of Service Infrastructure-based proxies.
