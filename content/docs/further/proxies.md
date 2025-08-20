@@ -4,7 +4,7 @@ title: Better Proxies
 ---
 # Better Proxies
 
-From the experiences we described in the [proxies](/doc/proxies) section, it appears that the condition of the two ESP proxies is the weakest link in the Service Infrastructure experience. They are fragile, difficult to build, and lightly maintained.
+From the experiences we described in the [proxies](/docs/proxies) section, it appears that the condition of the two ESP proxies is the weakest link in the Service Infrastructure experience. They are fragile, difficult to build, and lightly maintained.
 
 Superficially, we also notice that the proxies are in two separate GitHub organizations. ESP is in [cloudendpoints/esp](https://github.com/cloudendpoints/esp) and ESPv2 is in [googlecloudplatform/esp-v2](https://github.com/googlecloudplatform/esp-v2).
 
